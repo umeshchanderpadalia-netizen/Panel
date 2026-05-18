@@ -1,4 +1,18 @@
-import { createContext } from "react";
+import {
+  createContext,
+} from "react";
 
 export const AppContext =
-  createContext();
+  createContext({
+    trips: [],
+
+    setTrips: () => {},
+
+    drivers: [],
+
+    setDrivers: () => {},
+
+    notifications: [],
+
+    addNotification: () => {},
+  });

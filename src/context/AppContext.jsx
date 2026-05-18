@@ -90,7 +90,11 @@ export function AppProvider({
       }}
     >
 
-      {children}
+      <div className="relative z-10 animate-[fadeIn_0.45s_ease]">
+
+        {children}
+
+      </div>
 
     </AppContext.Provider>
   );

@@ -1,29 +1,66 @@
-export const fetchDashboardStats = () => {
-  return new Promise((resolve) => {
+export const fetchDashboardStats =
+  () => {
 
-    setTimeout(() => {
+    return new Promise(
+      (resolve) => {
 
-      resolve([
-        {
-          title: "Total Revenue",
-          value: "₹4.8L",
-          growth: "+12% this month",
-        },
+        setTimeout(() => {
 
-        {
-          title: "Active Drivers",
-          value: "324",
-          growth: "+8 new today",
-        },
+          resolve([
+            {
+              title:
+                "Total Revenue",
 
-        {
-          title: "Total Bookings",
-          value: "12,540",
-          growth: "+18% growth",
-        },
-      ]);
+              value: "₹4.8L",
 
-    }, 1200);
+              growth:
+                "+12% this month",
 
-  });
-};
+              status:
+                "positive",
+            },
+
+            {
+              title:
+                "Active Drivers",
+
+              value: "324",
+
+              growth:
+                "+8 new today",
+
+              status:
+                "positive",
+            },
+
+            {
+              title:
+                "Total Bookings",
+
+              value: "12,540",
+
+              growth:
+                "+18% growth",
+
+              status:
+                "positive",
+            },
+
+            {
+              title:
+                "Ride Efficiency",
+
+              value: "92%",
+
+              growth:
+                "+5% operational improvement",
+
+              status:
+                "positive",
+            },
+          ]);
+
+        }, 1200);
+      }
+    );
+  };

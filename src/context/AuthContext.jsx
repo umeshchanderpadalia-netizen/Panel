@@ -32,7 +32,16 @@ export function AuthProvider({
       );
     }
 
-    setLoading(false);
+    // Smooth Loading Delay
+    const timer =
+      setTimeout(() => {
+
+        setLoading(false);
+
+      }, 650);
+
+    return () =>
+      clearTimeout(timer);
 
   }, []);
 
@@ -45,18 +54,25 @@ export function AuthProvider({
     if (
       email ===
         "admin@getmecab.com" &&
-      password === "admin123"
+      password ===
+        "admin123"
     ) {
 
       const userData = {
         name: "Deepanshu",
-        role: "Administrator",
+        role:
+          "System Administrator",
         email,
       };
 
       localStorage.setItem(
         "cab-user",
         JSON.stringify(userData)
+      );
+
+      localStorage.setItem(
+        "admin-auth",
+        "true"
       );
 
       setUser(userData);
@@ -80,8 +96,46 @@ export function AuthProvider({
       "cab-user"
     );
 
+    localStorage.removeItem(
+      "admin-auth"
+    );
+
     setUser(null);
   };
+
+  // Loading Screen
+  if (loading) {
+
+    return (
+      <div className="relative min-h-screen bg-[#050505] overflow-hidden flex items-center justify-center">
+
+        {/* Background Glow */}
+        <div className="absolute top-[-180px] right-[-180px] w-[420px] h-[420px] bg-yellow-400/10 blur-[160px] rounded-full"></div>
+
+        <div className="absolute bottom-[-180px] left-[-180px] w-[420px] h-[420px] bg-amber-500/10 blur-[160px] rounded-full"></div>
+
+        {/* Loader */}
+        <div className="relative z-10 flex flex-col items-center">
+
+          {/* Spinner */}
+          <div className="relative">
+
+            <div className="w-20 h-20 rounded-full border-[5px] border-yellow-400/10"></div>
+
+            <div className="absolute inset-0 w-20 h-20 rounded-full border-[5px] border-transparent border-t-yellow-400 animate-spin"></div>
+
+          </div>
+
+          {/* Text */}
+          <p className="mt-8 text-zinc-400 tracking-[0.3em] uppercase text-sm">
+            Initializing Dashboard
+          </p>
+
+        </div>
+
+      </div>
+    );
+  }
 
   return (
     <AuthContext.Provider
@@ -93,7 +147,11 @@ export function AuthProvider({
       }}
     >
 
-      {children}
+      <div className="animate-[fadeIn_0.45s_ease]">
+
+        {children}
+
+      </div>
 
     </AuthContext.Provider>
   );

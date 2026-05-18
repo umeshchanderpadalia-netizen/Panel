@@ -1,20 +1,38 @@
 const stats = [
   {
-    title: "Total Revenue",
-    value: "₹4.8L",
-    growth: "+12% this month",
+    title: "Weekly Trips",
+
+    value: "155",
+
+    growth:
+      "+18% this week",
+  },
+
+  {
+    title: "Revenue Growth",
+
+    value: "₹82K",
+
+    growth:
+      "+12% increase",
   },
 
   {
     title: "Active Drivers",
-    value: "324",
-    growth: "+8 new today",
+
+    value: "48",
+
+    growth:
+      "8 drivers online",
   },
 
   {
-    title: "Total Bookings",
-    value: "12,540",
-    growth: "+18% growth",
+    title: "Ride Efficiency",
+
+    value: "92%",
+
+    growth:
+      "+5% operational growth",
   },
 ];
 

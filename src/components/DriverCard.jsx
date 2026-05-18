@@ -15,10 +15,10 @@ function DriverCard({
     driver.status === "On Trip";
 
   return (
-    <div className="relative overflow-hidden bg-white/[0.04] border border-white/10 rounded-[32px] p-6 backdrop-blur-xl hover:border-white/20 hover:-translate-y-1 transition-all duration-300">
+    <div className="group relative overflow-hidden bg-white/[0.04] border border-white/10 rounded-[32px] p-6 backdrop-blur-xl hover:border-yellow-500/20 hover:-translate-y-1 transition-all duration-300">
 
       {/* Glow */}
-      <div className="absolute top-[-80px] right-[-80px] w-[180px] h-[180px] bg-blue-500/10 blur-[100px] rounded-full"></div>
+      <div className="absolute top-[-80px] right-[-80px] w-[180px] h-[180px] bg-yellow-400/10 blur-[100px] rounded-full"></div>
 
       <div className="relative z-10">
 
@@ -26,7 +26,7 @@ function DriverCard({
         <div className="flex items-start justify-between">
 
           {/* Avatar */}
-          <div className="w-16 h-16 rounded-3xl bg-gradient-to-br from-blue-500 to-cyan-400"></div>
+          <div className="w-16 h-16 rounded-3xl bg-gradient-to-br from-yellow-400 to-amber-500 shadow-[0_0_25px_rgba(250,204,21,0.18)]"></div>
 
           {/* Status */}
           <div
@@ -52,7 +52,7 @@ function DriverCard({
             {driver.name}
           </h3>
 
-          <p className="text-slate-400 mt-2">
+          <p className="text-zinc-400 mt-2">
             {driver.vehicle}
           </p>
 
@@ -61,9 +61,9 @@ function DriverCard({
         {/* Stats */}
         <div className="grid grid-cols-2 gap-4 mt-8">
 
-          <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-4">
+          <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-4 hover:border-yellow-500/20 transition-all duration-300">
 
-            <div className="flex items-center gap-3 text-slate-400">
+            <div className="flex items-center gap-3 text-zinc-400">
 
               <Car size={18} />
 
@@ -73,15 +73,15 @@ function DriverCard({
 
             </div>
 
-            <h4 className="text-2xl font-bold mt-3">
+            <h4 className="text-2xl font-bold mt-3 text-white">
               {driver.rides}
             </h4>
 
           </div>
 
-          <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-4">
+          <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-4 hover:border-yellow-500/20 transition-all duration-300">
 
-            <div className="flex items-center gap-3 text-slate-400">
+            <div className="flex items-center gap-3 text-zinc-400">
 
               {isOnline ? (
                 <Wifi size={18} />
@@ -95,7 +95,7 @@ function DriverCard({
 
             </div>
 
-            <h4 className="text-lg font-semibold mt-3">
+            <h4 className="text-lg font-semibold mt-3 text-white">
               {driver.status}
             </h4>
 

@@ -101,7 +101,7 @@ function CommandPalette({
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-[200] bg-black/70 backdrop-blur-md flex items-start justify-center pt-24 px-6">
+    <div className="fixed inset-0 z-[200] bg-black/80 backdrop-blur-xl flex items-start justify-center pt-24 px-6">
 
       <motion.div
         initial={{
@@ -117,11 +117,11 @@ function CommandPalette({
         transition={{
           duration: 0.25,
         }}
-        className="relative overflow-hidden w-full max-w-2xl bg-[#0b1220]/95 border border-white/10 rounded-[36px] backdrop-blur-2xl shadow-2xl"
+        className="relative overflow-hidden w-full max-w-2xl bg-[#0a0a0a]/95 border border-white/10 rounded-[36px] backdrop-blur-2xl shadow-[0_0_60px_rgba(0,0,0,0.6)]"
       >
 
         {/* Glow */}
-        <div className="absolute top-[-100px] right-[-100px] w-[240px] h-[240px] bg-blue-500/10 blur-[120px] rounded-full"></div>
+        <div className="absolute top-[-100px] right-[-100px] w-[240px] h-[240px] bg-yellow-400/10 blur-[120px] rounded-full"></div>
 
         <div className="relative z-10">
 
@@ -130,7 +130,7 @@ function CommandPalette({
 
             <Search
               size={20}
-              className="text-slate-500"
+              className="text-yellow-400"
             />
 
             <input
@@ -143,17 +143,20 @@ function CommandPalette({
                   e.target.value
                 )
               }
-              className="flex-1 bg-transparent outline-none text-white placeholder:text-slate-500 text-lg"
+              className="flex-1 bg-transparent outline-none text-white placeholder:text-zinc-500 text-lg"
             />
 
             <button
               onClick={() =>
                 setOpen(false)
               }
-              className="w-10 h-10 rounded-xl hover:bg-white/[0.05] flex items-center justify-center transition"
+              className="w-10 h-10 rounded-xl hover:bg-white/[0.05] hover:border hover:border-yellow-500/20 flex items-center justify-center transition-all duration-300"
             >
 
-              <X size={18} />
+              <X
+                size={18}
+                className="text-zinc-400"
+              />
 
             </button>
 
@@ -184,10 +187,10 @@ function CommandPalette({
                             item.path
                           )
                         }
-                        className="w-full flex items-center gap-4 px-5 py-4 rounded-2xl hover:bg-white/[0.05] transition-all duration-300 text-left"
+                        className="group w-full flex items-center gap-4 px-5 py-4 rounded-2xl hover:bg-yellow-500/[0.05] border border-transparent hover:border-yellow-500/10 transition-all duration-300 text-left"
                       >
 
-                        <div className="w-12 h-12 rounded-2xl bg-blue-500/10 text-blue-400 flex items-center justify-center">
+                        <div className="w-12 h-12 rounded-2xl bg-yellow-500/10 text-yellow-400 flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-yellow-400 group-hover:to-amber-500 group-hover:text-black transition-all duration-300 shadow-[0_0_20px_rgba(250,204,21,0.08)]">
 
                           <Icon
                             size={22}
@@ -201,7 +204,7 @@ function CommandPalette({
                             {item.name}
                           </p>
 
-                          <p className="text-sm text-slate-500 mt-1">
+                          <p className="text-sm text-zinc-500 mt-1">
                             Open{" "}
                             {
                               item.name
@@ -222,7 +225,7 @@ function CommandPalette({
 
               <div className="py-16 text-center">
 
-                <p className="text-slate-500 text-lg">
+                <p className="text-zinc-500 text-lg">
                   No matching results
                 </p>
 

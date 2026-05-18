@@ -50,7 +50,7 @@ function AnimatedCounter({
   }, [value, duration]);
 
   return (
-    <span>
+    <span className="tracking-tight">
 
       {value.toString().includes("₹")
         ? `₹${count.toLocaleString()}`

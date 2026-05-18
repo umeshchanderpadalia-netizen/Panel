@@ -22,7 +22,11 @@ function Loader() {
 
           <div className="relative overflow-hidden bg-white/[0.04] border border-white/10 rounded-[36px] h-[500px]">
 
-            <div className="absolute inset-0 -translate-x-full animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/[0.04] to-transparent"></div>
+            {/* Glow */}
+            <div className="absolute top-[-100px] right-[-100px] w-[220px] h-[220px] bg-yellow-400/10 blur-[120px] rounded-full"></div>
+
+            {/* Shimmer */}
+            <div className="absolute inset-0 -translate-x-full animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-yellow-400/[0.05] to-transparent"></div>
 
           </div>
 
@@ -33,13 +37,13 @@ function Loader() {
 
           <div className="relative overflow-hidden bg-white/[0.04] border border-white/10 rounded-[32px] h-[240px]">
 
-            <div className="absolute inset-0 -translate-x-full animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/[0.04] to-transparent"></div>
+            <div className="absolute inset-0 -translate-x-full animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-yellow-400/[0.05] to-transparent"></div>
 
           </div>
 
           <div className="relative overflow-hidden bg-white/[0.04] border border-white/10 rounded-[32px] h-[240px]">
 
-            <div className="absolute inset-0 -translate-x-full animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/[0.04] to-transparent"></div>
+            <div className="absolute inset-0 -translate-x-full animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-yellow-400/[0.05] to-transparent"></div>
 
           </div>
 

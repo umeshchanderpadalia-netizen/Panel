@@ -18,14 +18,21 @@ function Bookings() {
 
       <PageTransition>
 
-        {/* Header */}
-        <div className="mb-12">
+        {/* Hero Header */}
+        <div className="relative overflow-hidden rounded-[36px] border border-white/10 bg-white/[0.03] backdrop-blur-2xl p-8 lg:p-10 mb-12">
 
-          <SectionHeader
-            label="Bookings"
-            title="Ride Bookings"
-            description="Manage all customer ride bookings and operational trip activity."
-          />
+          {/* Glow */}
+          <div className="absolute top-[-120px] right-[-120px] w-[260px] h-[260px] bg-yellow-400/10 blur-[120px] rounded-full"></div>
+
+          <div className="relative z-10">
+
+            <SectionHeader
+              label="Bookings"
+              title="Ride Bookings"
+              description="Manage all customer ride bookings and operational trip activity."
+            />
+
+          </div>
 
         </div>
 

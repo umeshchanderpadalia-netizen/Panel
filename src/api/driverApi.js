@@ -10,9 +10,22 @@ const delay = (ms) =>
 const getDrivers =
   async () => {
 
-    await delay(700);
+    await delay(800);
 
-    return driversData;
+    return driversData.map(
+      (driver) => ({
+        ...driver,
+
+        lastActive:
+          driver.status ===
+          "Online"
+            ? "Active now"
+            : driver.status ===
+              "On Trip"
+            ? "On ride"
+            : "Last seen 20 mins ago",
+      })
+    );
   };
 
 export {

@@ -49,12 +49,12 @@ function Sidebar() {
   ];
 
   return (
-    <div className="hidden xl:flex flex-col w-[290px] min-h-screen border-r border-white/5 bg-[#060816]/95 backdrop-blur-2xl p-6 sticky top-0">
+    <div className="hidden xl:flex flex-col w-[290px] min-h-screen border-r border-white/10 bg-[#060606]/95 backdrop-blur-2xl p-6 sticky top-0">
 
       {/* Logo */}
       <div className="mb-14">
 
-        <p className="text-sm uppercase tracking-[0.35em] text-blue-400">
+        <p className="text-sm uppercase tracking-[0.35em] text-yellow-400 font-semibold">
           Get Me Cab
         </p>
 
@@ -80,14 +80,21 @@ function Sidebar() {
             <Link
               key={item.name}
               to={item.path}
-              className={`flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300 ${
+              className={`group flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-300 border ${
                 active
-                  ? "bg-blue-500 text-white shadow-lg shadow-blue-500/20"
-                  : "text-slate-400 hover:text-white hover:bg-white/[0.04]"
+                  ? "bg-gradient-to-r from-yellow-400 to-amber-500 text-black border-yellow-300 shadow-[0_0_30px_rgba(250,204,21,0.18)]"
+                  : "border-transparent text-zinc-400 hover:text-white hover:bg-white/[0.04] hover:border-yellow-500/20"
               }`}
             >
 
-              <Icon size={22} />
+              <Icon
+                size={22}
+                className={`transition-all duration-300 ${
+                  active
+                    ? "text-black"
+                    : "group-hover:text-yellow-400"
+                }`}
+              />
 
               <span className="font-medium">
                 {item.name}
@@ -100,21 +107,21 @@ function Sidebar() {
       </div>
 
       {/* Bottom */}
-      <div className="mt-auto relative overflow-hidden bg-white/[0.04] border border-white/10 rounded-[30px] p-6">
+      <div className="mt-auto relative overflow-hidden bg-white/[0.04] border border-white/10 rounded-[30px] p-6 backdrop-blur-xl">
 
-        <div className="absolute top-[-60px] right-[-60px] w-[160px] h-[160px] bg-blue-500/10 blur-[100px] rounded-full"></div>
+        <div className="absolute top-[-60px] right-[-60px] w-[180px] h-[180px] bg-yellow-400/10 blur-[100px] rounded-full"></div>
 
         <div className="relative z-10">
 
-          <p className="text-sm text-slate-500 uppercase tracking-[0.25em]">
+          <p className="text-sm text-yellow-400 uppercase tracking-[0.25em] font-medium">
             System
           </p>
 
-          <h3 className="text-2xl font-bold mt-4 text-white">
+          <h3 className="text-2xl font-bold mt-4 text-white leading-tight">
             Operations Active
           </h3>
 
-          <p className="text-sm text-slate-400 mt-4 leading-relaxed">
+          <p className="text-sm text-zinc-400 mt-4 leading-relaxed">
             All dashboard systems and ride operations are functioning normally.
           </p>
 

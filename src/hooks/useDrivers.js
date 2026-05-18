@@ -35,12 +35,17 @@ function useDrivers() {
       } catch {
 
         setError(
-          "Failed to load drivers data."
+          "Unable to load driver activity."
         );
 
       } finally {
 
-        setLoading(false);
+        // Smooth Loading Transition
+        setTimeout(() => {
+
+          setLoading(false);
+
+        }, 400);
       }
     };
 

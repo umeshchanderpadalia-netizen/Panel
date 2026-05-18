@@ -37,33 +37,33 @@ function ActivityTimeline() {
 
     if (type === "success") {
 
-      return "bg-emerald-500/10 text-emerald-400";
+      return "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20";
     }
 
     if (type === "danger") {
 
-      return "bg-red-500/10 text-red-400";
+      return "bg-red-500/10 text-red-400 border border-red-500/20";
     }
 
-    return "bg-yellow-500/10 text-yellow-400";
+    return "bg-yellow-500/10 text-yellow-400 border border-yellow-500/20";
   };
 
   return (
-    <div className="relative overflow-hidden bg-white/[0.04] border border-white/10 rounded-[36px] p-7 backdrop-blur-xl">
+    <div className="relative overflow-hidden bg-white/[0.04] border border-white/10 rounded-[36px] p-7 backdrop-blur-xl hover:border-yellow-500/20 transition-all duration-300">
 
       {/* Glow */}
-      <div className="absolute bottom-[-100px] left-[-100px] w-[220px] h-[220px] bg-cyan-400/10 blur-[120px] rounded-full"></div>
+      <div className="absolute bottom-[-100px] left-[-100px] w-[220px] h-[220px] bg-yellow-400/10 blur-[120px] rounded-full"></div>
 
       <div className="relative z-10">
 
         {/* Heading */}
         <div className="mb-10">
 
-          <p className="text-sm uppercase tracking-[0.25em] text-slate-500">
+          <p className="text-sm uppercase tracking-[0.25em] text-yellow-400 font-medium">
             Activity
           </p>
 
-          <h2 className="text-3xl font-bold mt-3 tracking-tight">
+          <h2 className="text-3xl font-bold mt-3 tracking-tight text-white">
             Operations Timeline
           </h2>
 
@@ -102,13 +102,13 @@ function ActivityTimeline() {
                       {item.title}
                     </h3>
 
-                    <span className="text-xs text-slate-500">
+                    <span className="text-xs text-zinc-500">
                       {item.time}
                     </span>
 
                   </div>
 
-                  <p className="text-slate-400 mt-3 leading-relaxed">
+                  <p className="text-zinc-400 mt-3 leading-relaxed">
                     {
                       item.description
                     }

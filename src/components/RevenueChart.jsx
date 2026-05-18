@@ -62,10 +62,10 @@ function RevenueChart({ trips }) {
   ];
 
   return (
-    <div className="relative overflow-hidden bg-white/[0.04] border border-white/10 rounded-[36px] p-7 lg:p-9 backdrop-blur-xl">
+    <div className="relative overflow-hidden bg-white/[0.04] border border-white/10 rounded-[36px] p-7 lg:p-9 backdrop-blur-xl hover:border-yellow-500/20 transition-all duration-300">
 
       {/* Glow */}
-      <div className="absolute top-[-80px] right-[-80px] w-[220px] h-[220px] bg-blue-500/10 blur-[100px] rounded-full"></div>
+      <div className="absolute top-[-80px] right-[-80px] w-[220px] h-[220px] bg-yellow-400/10 blur-[100px] rounded-full"></div>
 
       {/* Content */}
       <div className="relative z-10">
@@ -75,15 +75,15 @@ function RevenueChart({ trips }) {
 
           <div>
 
-            <p className="text-sm uppercase tracking-[0.2em] text-slate-500">
+            <p className="text-sm uppercase tracking-[0.2em] text-yellow-400 font-medium">
               Analytics
             </p>
 
-            <h3 className="text-4xl font-bold mt-3 tracking-tight">
+            <h3 className="text-4xl font-bold mt-3 tracking-tight text-white">
               Ride Insights
             </h3>
 
-            <p className="text-slate-400 mt-3 text-base">
+            <p className="text-zinc-400 mt-3 text-base">
               Live operational ride analytics overview
             </p>
 
@@ -133,13 +133,13 @@ function RevenueChart({ trips }) {
 
                   <stop
                     offset="5%"
-                    stopColor="#3b82f6"
+                    stopColor="#facc15"
                     stopOpacity={0.5}
                   />
 
                   <stop
                     offset="95%"
-                    stopColor="#3b82f6"
+                    stopColor="#facc15"
                     stopOpacity={0}
                   />
 
@@ -149,19 +149,19 @@ function RevenueChart({ trips }) {
 
               <CartesianGrid
                 strokeDasharray="3 3"
-                stroke="#172033"
+                stroke="rgba(255,255,255,0.05)"
               />
 
               <XAxis
                 dataKey="name"
                 axisLine={false}
                 tickLine={false}
-                tick={{ fill: "#94a3b8" }}
+                tick={{ fill: "#a1a1aa" }}
               />
 
               <Tooltip
                 contentStyle={{
-                  background: "#0f172a",
+                  background: "#0a0a0a",
                   border: "1px solid rgba(255,255,255,0.08)",
                   borderRadius: "18px",
                   color: "#fff",
@@ -172,7 +172,7 @@ function RevenueChart({ trips }) {
               <Area
                 type="monotone"
                 dataKey="trips"
-                stroke="#3b82f6"
+                stroke="#facc15"
                 fillOpacity={1}
                 fill="url(#colorTrips)"
                 strokeWidth={4}

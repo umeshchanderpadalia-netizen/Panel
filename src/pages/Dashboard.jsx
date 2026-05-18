@@ -87,35 +87,55 @@ function Dashboard() {
       )}
 
       {/* Header */}
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-10">
+      <div className="relative overflow-hidden rounded-[36px] border border-white/10 bg-white/[0.03] backdrop-blur-2xl p-8 lg:p-12 mb-10">
 
-        <div>
+        {/* Glow */}
+        <div className="absolute top-[-120px] right-[-120px] w-[280px] h-[280px] bg-yellow-400/10 blur-[120px] rounded-full"></div>
 
-          <h2 className="text-5xl lg:text-6xl font-bold leading-tight text-white">
-            Cab Management
-            <br />
-            Dashboard
-          </h2>
+        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
 
-          <p className="text-slate-400 mt-5 text-base lg:text-lg max-w-2xl">
-            Monitor ride activity, customer operations,
-            live analytics and booking performance in
-            real time.
-          </p>
+          <div>
+
+            <p className="text-sm uppercase tracking-[0.35em] text-yellow-400 font-semibold mb-5">
+              Real-Time Operations
+            </p>
+
+            <h2 className="text-5xl lg:text-7xl font-bold leading-[1.05] tracking-tight text-white">
+
+              Cab Management
+              <br />
+
+              <span className="bg-gradient-to-r from-yellow-300 to-amber-500 bg-clip-text text-transparent">
+                Dashboard
+              </span>
+
+            </h2>
+
+            <p className="text-zinc-400 mt-6 text-base lg:text-lg max-w-2xl leading-relaxed">
+              Monitor ride activity, customer operations,
+              live analytics and booking performance in
+              real time with intelligent tracking systems.
+            </p>
+
+          </div>
+
+          {/* Add Booking */}
+          <button
+            onClick={() =>
+              setShowModal(true)
+            }
+            className="group relative overflow-hidden w-fit px-8 py-4 rounded-3xl bg-gradient-to-r from-yellow-400 to-amber-500 text-black font-semibold transition-all duration-300 hover:scale-[1.03] shadow-[0_0_35px_rgba(250,204,21,0.22)]"
+          >
+
+            <span className="relative z-10">
+              + Add Booking
+            </span>
+
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-300 bg-white/10"></div>
+
+          </button>
 
         </div>
-
-        {/* Add Booking */}
-        <button
-          onClick={() =>
-            setShowModal(true)
-          }
-          className="w-fit px-7 py-4 rounded-3xl bg-blue-500 hover:bg-blue-600 transition-all duration-300 font-semibold hover:scale-[1.03] shadow-lg shadow-blue-500/20"
-        >
-
-          + Add Booking
-
-        </button>
 
       </div>
 

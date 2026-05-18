@@ -9,26 +9,44 @@ export async function loginApi({
   password,
 }) {
 
-  await delay(900);
+  await delay(1000);
 
   if (
     email ===
       "admin@getmecab.com" &&
-    password === "admin123"
+    password ===
+      "admin123"
   ) {
+
+    const user = {
+      name: "Deepanshu",
+
+      role:
+        "System Administrator",
+
+      email,
+    };
+
+    localStorage.setItem(
+      "admin-auth",
+      "true"
+    );
+
+    localStorage.setItem(
+      "cab-user",
+      JSON.stringify(user)
+    );
 
     return {
       success: true,
-      user: {
-        name: "Deepanshu",
-        role: "Administrator",
-        email,
-      },
+
+      user,
     };
   }
 
   return {
     success: false,
+
     message:
       "Invalid email or password",
   };

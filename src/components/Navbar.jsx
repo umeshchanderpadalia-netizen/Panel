@@ -105,7 +105,7 @@ function Navbar() {
         setOpen={setCommandOpen}
       />
 
-      <div className="sticky top-0 z-50 w-full border-b border-white/5 bg-[#060816]/80 backdrop-blur-2xl">
+      <div className="sticky top-0 z-50 w-full border-b border-white/10 bg-[#060606]/90 backdrop-blur-2xl">
 
         <div className="max-w-[1500px] mx-auto h-24 px-6 lg:px-10 flex items-center justify-between">
 
@@ -115,11 +115,11 @@ function Navbar() {
             {/* Logo */}
             <div>
 
-              <p className="text-sm uppercase tracking-[0.3em] text-blue-400">
+              <p className="text-sm uppercase tracking-[0.3em] text-yellow-400 font-semibold">
                 Get Me Cab
               </p>
 
-              <h1 className="text-xl font-bold mt-1 tracking-tight">
+              <h1 className="text-xl font-bold mt-1 tracking-tight text-white">
                 Operations Panel
               </h1>
 
@@ -134,11 +134,11 @@ function Navbar() {
                   <Link
                     key={index}
                     to={link.path}
-                    className={`px-5 py-3 rounded-xl text-sm font-medium transition-all duration-300 ${
+                    className={`px-5 py-3 rounded-xl text-sm font-medium transition-all duration-300 border ${
                       location.pathname ===
                       link.path
-                        ? "bg-blue-500 text-white shadow-lg shadow-blue-500/20"
-                        : "text-slate-400 hover:text-white hover:bg-white/[0.05]"
+                        ? "bg-gradient-to-r from-yellow-400 to-amber-500 text-black border-yellow-300 shadow-[0_0_30px_rgba(250,204,21,0.18)]"
+                        : "border-transparent text-zinc-400 hover:text-white hover:bg-white/[0.05] hover:border-yellow-500/20"
                     }`}
                   >
 
@@ -160,23 +160,23 @@ function Navbar() {
               onClick={() =>
                 setCommandOpen(true)
               }
-              className="hidden md:flex items-center justify-between gap-5 px-5 py-3 rounded-2xl bg-white/[0.03] border border-white/10 backdrop-blur-xl w-[260px] hover:bg-white/[0.05] transition-all duration-300"
+              className="hidden md:flex items-center justify-between gap-5 px-5 py-3 rounded-2xl bg-white/[0.03] border border-white/10 backdrop-blur-xl w-[260px] hover:border-yellow-500/20 hover:bg-white/[0.05] transition-all duration-300"
             >
 
               <div className="flex items-center gap-3">
 
                 <Search
                   size={18}
-                  className="text-slate-500"
+                  className="text-yellow-400"
                 />
 
-                <span className="text-sm text-slate-500">
+                <span className="text-sm text-zinc-400">
                   Search...
                 </span>
 
               </div>
 
-              <div className="px-2 py-1 rounded-lg bg-white/[0.05] border border-white/10 text-xs text-slate-500">
+              <div className="px-2 py-1 rounded-lg bg-white/[0.05] border border-white/10 text-xs text-zinc-500">
 
                 Ctrl K
 
@@ -185,11 +185,11 @@ function Navbar() {
             </button>
 
             {/* Notification */}
-            <button className="w-14 h-14 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-center hover:bg-white/[0.06] transition-all duration-300">
+            <button className="w-14 h-14 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-center hover:border-yellow-500/20 hover:bg-yellow-500/10 transition-all duration-300">
 
               <Bell
                 size={20}
-                className="text-slate-300"
+                className="text-zinc-300"
               />
 
             </button>
@@ -197,20 +197,20 @@ function Navbar() {
             {/* Logout */}
             <button
               onClick={handleLogout}
-              className="w-14 h-14 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-center hover:bg-red-500/10 hover:border-red-500/20 transition-all duration-300"
+              className="w-14 h-14 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-center hover:bg-yellow-500/10 hover:border-yellow-500/20 transition-all duration-300"
             >
 
               <LogOut
                 size={20}
-                className="text-slate-300"
+                className="text-zinc-300"
               />
 
             </button>
 
             {/* Profile */}
-            <div className="hidden sm:flex items-center gap-4 px-4 py-3 rounded-2xl bg-white/[0.03] border border-white/10 backdrop-blur-xl">
+            <div className="hidden sm:flex items-center gap-4 px-4 py-3 rounded-2xl bg-white/[0.03] border border-white/10 backdrop-blur-xl hover:border-yellow-500/20 transition-all duration-300">
 
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-400"></div>
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-yellow-400 to-amber-500 shadow-[0_0_20px_rgba(250,204,21,0.25)]"></div>
 
               <div>
 
@@ -218,7 +218,7 @@ function Navbar() {
                   Deepanshu
                 </p>
 
-                <p className="text-xs text-slate-500 mt-1">
+                <p className="text-xs text-zinc-500 mt-1">
                   System Administrator
                 </p>
 
@@ -233,7 +233,7 @@ function Navbar() {
                   !mobileMenu
                 )
               }
-              className="lg:hidden w-14 h-14 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-center"
+              className="lg:hidden w-14 h-14 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-center hover:border-yellow-500/20 transition-all duration-300"
             >
 
               {mobileMenu ? (
@@ -251,7 +251,7 @@ function Navbar() {
         {/* Mobile Menu */}
         {mobileMenu && (
 
-          <div className="lg:hidden border-t border-white/10 px-6 py-6 bg-[#060816]/95 backdrop-blur-2xl">
+          <div className="lg:hidden border-t border-white/10 px-6 py-6 bg-[#060606]/95 backdrop-blur-2xl">
 
             <div className="space-y-3">
 
@@ -266,11 +266,11 @@ function Navbar() {
                         false
                       )
                     }
-                    className={`block px-5 py-4 rounded-2xl transition-all duration-300 ${
+                    className={`block px-5 py-4 rounded-2xl transition-all duration-300 border ${
                       location.pathname ===
                       link.path
-                        ? "bg-blue-500 text-white"
-                        : "bg-white/[0.03] border border-white/10 text-slate-400"
+                        ? "bg-gradient-to-r from-yellow-400 to-amber-500 text-black border-yellow-300"
+                        : "bg-white/[0.03] border-white/10 text-zinc-400 hover:border-yellow-500/20"
                     }`}
                   >
 

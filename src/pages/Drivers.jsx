@@ -15,13 +15,20 @@ function Drivers() {
       <PageTransition>
 
         {/* Header */}
-        <div className="mb-12">
+        <div className="relative overflow-hidden rounded-[36px] border border-white/10 bg-white/[0.03] backdrop-blur-2xl p-8 lg:p-10 mb-12">
 
-          <SectionHeader
-            label="Drivers"
-            title="Driver Management"
-            description="Monitor driver availability, ride activity and operational performance."
-          />
+          {/* Glow */}
+          <div className="absolute top-[-120px] right-[-120px] w-[260px] h-[260px] bg-yellow-400/10 blur-[120px] rounded-full"></div>
+
+          <div className="relative z-10">
+
+            <SectionHeader
+              label="Drivers"
+              title="Driver Management"
+              description="Monitor driver availability, ride activity and operational performance."
+            />
+
+          </div>
 
         </div>
 
@@ -49,7 +56,17 @@ function Drivers() {
           {/* Notifications */}
           <div className="xl:col-span-4">
 
-            <NotificationPanel />
+            <div className="relative overflow-hidden bg-white/[0.04] border border-white/10 rounded-[32px] p-1 backdrop-blur-xl">
+
+              <div className="absolute bottom-[-120px] left-[-120px] w-[240px] h-[240px] bg-amber-400/10 blur-[120px] rounded-full"></div>
+
+              <div className="relative z-10">
+
+                <NotificationPanel />
+
+              </div>
+
+            </div>
 
           </div>
 

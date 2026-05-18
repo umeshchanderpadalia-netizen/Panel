@@ -14,11 +14,11 @@ function StatsCard({
         y: -6,
       }}
       transition={{ duration: 0.4 }}
-      className="group relative overflow-hidden bg-white/[0.04] border border-white/10 rounded-[32px] p-7 backdrop-blur-xl hover:border-white/20 transition-all duration-300"
+      className="group relative overflow-hidden bg-white/[0.04] border border-white/10 rounded-[32px] p-7 backdrop-blur-xl hover:border-yellow-500/20 transition-all duration-300"
     >
 
       {/* Glow */}
-      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500 bg-gradient-to-br from-blue-500/10 via-transparent to-cyan-400/10"></div>
+      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500 bg-gradient-to-br from-yellow-400/10 via-transparent to-amber-500/10"></div>
 
       {/* Top Blur */}
       <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-white/[0.03] to-transparent"></div>
@@ -26,7 +26,7 @@ function StatsCard({
       {/* Content */}
       <div className="relative z-10">
 
-        <p className="text-slate-400 text-sm tracking-wide">
+        <p className="text-zinc-400 text-sm tracking-wide">
           {title}
         </p>
 
@@ -34,7 +34,7 @@ function StatsCard({
           {value}
         </h3>
 
-        <p className="text-emerald-400 mt-5 text-sm">
+        <p className="text-yellow-400 mt-5 text-sm font-medium">
           {growth}
         </p>
 

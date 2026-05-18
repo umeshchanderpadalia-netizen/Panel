@@ -23,19 +23,28 @@ ReactDOM.createRoot(
 
   <React.StrictMode>
 
-    <BrowserRouter>
+    <div className="relative overflow-hidden">
 
-      <AuthProvider>
+      {/* Global Glow */}
+      <div className="fixed top-[-250px] right-[-250px] w-[500px] h-[500px] bg-yellow-400/10 blur-[180px] rounded-full pointer-events-none z-0"></div>
 
-        <AppProvider>
+      <div className="fixed bottom-[-250px] left-[-250px] w-[500px] h-[500px] bg-amber-500/10 blur-[180px] rounded-full pointer-events-none z-0"></div>
 
-          <App />
+      <BrowserRouter>
 
-        </AppProvider>
+        <AuthProvider>
 
-      </AuthProvider>
+          <AppProvider>
 
-    </BrowserRouter>
+            <App />
+
+          </AppProvider>
+
+        </AuthProvider>
+
+      </BrowserRouter>
+
+    </div>
 
   </React.StrictMode>
 );

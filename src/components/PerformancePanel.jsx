@@ -35,27 +35,30 @@ function PerformancePanel({ trips }) {
     {
       label: "Ride Completion",
       value: completionRate,
-      color: "bg-emerald-500",
+      color:
+        "from-yellow-400 to-amber-500",
     },
 
     {
       label: "Ongoing Trips",
       value: ongoingRate,
-      color: "bg-yellow-500",
+      color:
+        "from-yellow-300 to-yellow-500",
     },
 
     {
       label: "Cancelled Trips",
       value: cancelledRate,
-      color: "bg-red-500",
+      color:
+        "from-red-400 to-red-500",
     },
   ];
 
   return (
-    <div className="relative overflow-hidden bg-white/[0.04] border border-white/10 rounded-[32px] p-7 backdrop-blur-xl hover:border-white/20 transition-all duration-300">
+    <div className="relative overflow-hidden bg-white/[0.04] border border-white/10 rounded-[32px] p-7 backdrop-blur-xl hover:border-yellow-500/20 transition-all duration-300">
 
       {/* Glow */}
-      <div className="absolute bottom-[-100px] right-[-100px] w-[220px] h-[220px] bg-blue-500/10 blur-[100px] rounded-full"></div>
+      <div className="absolute bottom-[-100px] right-[-100px] w-[220px] h-[220px] bg-yellow-400/10 blur-[100px] rounded-full"></div>
 
       {/* Top Glow */}
       <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-white/[0.03] to-transparent"></div>
@@ -67,17 +70,17 @@ function PerformancePanel({ trips }) {
 
           <div>
 
-            <p className="text-sm uppercase tracking-[0.2em] text-slate-500">
+            <p className="text-sm uppercase tracking-[0.2em] text-yellow-400 font-medium">
               Metrics
             </p>
 
-            <h3 className="text-2xl font-bold mt-3">
+            <h3 className="text-2xl font-bold mt-3 text-white">
               Performance
             </h3>
 
           </div>
 
-          <div className="w-12 h-12 rounded-2xl bg-blue-500/10 flex items-center justify-center text-blue-400 shadow-lg shadow-blue-500/10">
+          <div className="w-12 h-12 rounded-2xl bg-yellow-500/10 flex items-center justify-center text-yellow-400 shadow-[0_0_25px_rgba(250,204,21,0.12)]">
 
             <TrendingUp size={22} />
 
@@ -94,7 +97,7 @@ function PerformancePanel({ trips }) {
 
               <div className="flex items-center justify-between mb-3">
 
-                <p className="text-sm text-slate-400">
+                <p className="text-sm text-zinc-400">
                   {metric.label}
                 </p>
 
@@ -107,7 +110,7 @@ function PerformancePanel({ trips }) {
               <div className="w-full h-2.5 rounded-full bg-white/5 overflow-hidden">
 
                 <div
-                  className={`h-full rounded-full ${metric.color}`}
+                  className={`h-full rounded-full bg-gradient-to-r ${metric.color} shadow-[0_0_20px_rgba(250,204,21,0.15)]`}
                   style={{
                     width: `${metric.value}%`,
                   }}

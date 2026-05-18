@@ -1,26 +1,56 @@
-export const loginUser = (email, password) => {
-  return new Promise((resolve, reject) => {
+export const loginUser = (
+  email,
+  password
+) => {
 
-    setTimeout(() => {
+  return new Promise(
+    (resolve, reject) => {
 
-      if (email && password) {
+      setTimeout(() => {
 
-        localStorage.setItem("admin-auth", "true");
+        if (
+          email ===
+            "admin@getmecab.com" &&
+          password ===
+            "admin123"
+        ) {
 
-        resolve({
-          success: true,
-        });
+          const userData = {
+            name: "Deepanshu",
 
-      } else {
+            role:
+              "System Administrator",
 
-        reject({
-          success: false,
-          message: "Invalid credentials",
-        });
+            email,
+          };
 
-      }
+          localStorage.setItem(
+            "admin-auth",
+            "true"
+          );
 
-    }, 1500);
+          localStorage.setItem(
+            "cab-user",
+            JSON.stringify(userData)
+          );
 
-  });
+          resolve({
+            success: true,
+
+            user: userData,
+          });
+
+        } else {
+
+          reject({
+            success: false,
+
+            message:
+              "Invalid email or password",
+          });
+        }
+
+      }, 1000);
+    }
+  );
 };

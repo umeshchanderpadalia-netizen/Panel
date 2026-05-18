@@ -19,11 +19,11 @@ function NotificationToast({
           return (
             <div
               key={item.id}
-              className="relative overflow-hidden w-[340px] bg-[#0b1220]/95 border border-white/10 rounded-3xl p-5 backdrop-blur-2xl shadow-2xl animate-[fadeIn_0.3s_ease]"
+              className="relative overflow-hidden w-[340px] bg-[#0a0a0a]/95 border border-white/10 rounded-3xl p-5 backdrop-blur-2xl shadow-2xl animate-[fadeIn_0.3s_ease]"
             >
 
               {/* Glow */}
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-cyan-400/5"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/5 via-transparent to-amber-500/5"></div>
 
               <div className="relative z-10 flex items-start gap-4">
 
@@ -57,7 +57,7 @@ function NotificationToast({
                       : "Alert"}
                   </p>
 
-                  <p className="text-sm text-slate-400 mt-2">
+                  <p className="text-sm text-zinc-400 mt-2 leading-relaxed">
                     {item.message}
                   </p>
 

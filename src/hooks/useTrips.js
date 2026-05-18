@@ -35,12 +35,17 @@ function useTrips() {
       } catch {
 
         setError(
-          "Failed to load trips data."
+          "Unable to load booking activity."
         );
 
       } finally {
 
-        setLoading(false);
+        // Smooth Loading Effect
+        setTimeout(() => {
+
+          setLoading(false);
+
+        }, 400);
       }
     };
 
@@ -55,7 +60,8 @@ function useTrips() {
     setTrips,
     loading,
     error,
-    retry: fetchTrips,
+    retry:
+      fetchTrips,
   };
 }
 

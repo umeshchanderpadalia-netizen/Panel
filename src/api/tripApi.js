@@ -7,22 +7,42 @@ const delay = (ms) =>
   );
 
 // Get Trips
-const getTrips = async () => {
+const getTrips =
+  async () => {
 
-  await delay(800);
+    await delay(900);
 
-  return tripsData;
-};
+    return tripsData.map(
+      (trip) => ({
+        ...trip,
+
+        createdAt:
+          new Date().toLocaleDateString(
+            "en-IN"
+          ),
+      })
+    );
+  };
 
 // Create Trip
 const createTrip =
   async (trip) => {
 
-    await delay(600);
+    await delay(700);
 
     return {
       success: true,
-      data: trip,
+
+      data: {
+        ...trip,
+
+        id: Date.now(),
+
+        createdAt:
+          new Date().toLocaleDateString(
+            "en-IN"
+          ),
+      },
     };
   };
 

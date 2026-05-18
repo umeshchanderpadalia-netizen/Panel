@@ -3,6 +3,10 @@ import {
   Route,
 } from "react-router-dom";
 
+import {
+  AnimatePresence,
+} from "framer-motion";
+
 import Dashboard from "./pages/Dashboard";
 import Drivers from "./pages/Drivers";
 import Bookings from "./pages/Bookings";
@@ -14,60 +18,67 @@ import ProtectedRoute from "./components/ProtectedRoute";
 function App() {
 
   return (
-    <Routes>
+    <AnimatePresence mode="wait">
 
-      {/* Login */}
-      <Route
-        path="/login"
-        element={<Login />}
-      />
+      <Routes>
 
-      {/* Protected */}
-      <Route
-        path="/"
-        element={
-          <ProtectedRoute>
+        {/* Login */}
+        <Route
+          path="/login"
+          element={<Login />}
+        />
 
-            <Dashboard />
+        {/* Dashboard */}
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
 
-          </ProtectedRoute>
-        }
-      />
+              <Dashboard />
 
-      <Route
-        path="/drivers"
-        element={
-          <ProtectedRoute>
+            </ProtectedRoute>
+          }
+        />
 
-            <Drivers />
+        {/* Drivers */}
+        <Route
+          path="/drivers"
+          element={
+            <ProtectedRoute>
 
-          </ProtectedRoute>
-        }
-      />
+              <Drivers />
 
-      <Route
-        path="/bookings"
-        element={
-          <ProtectedRoute>
+            </ProtectedRoute>
+          }
+        />
 
-            <Bookings />
+        {/* Bookings */}
+        <Route
+          path="/bookings"
+          element={
+            <ProtectedRoute>
 
-          </ProtectedRoute>
-        }
-      />
+              <Bookings />
 
-      <Route
-        path="/analytics"
-        element={
-          <ProtectedRoute>
+            </ProtectedRoute>
+          }
+        />
 
-            <Analytics />
+        {/* Analytics */}
+        <Route
+          path="/analytics"
+          element={
+            <ProtectedRoute>
 
-          </ProtectedRoute>
-        }
-      />
+              <Analytics />
 
-    </Routes>
+            </ProtectedRoute>
+          }
+        />
+
+      </Routes>
+
+    </AnimatePresence>
   );
 }
 

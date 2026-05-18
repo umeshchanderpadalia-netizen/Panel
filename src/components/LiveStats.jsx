@@ -54,22 +54,22 @@ function LiveStats() {
         return (
           <div
             key={index}
-            className="relative overflow-hidden bg-white/[0.04] border border-white/10 rounded-[32px] p-6 backdrop-blur-xl hover:border-white/20 hover:-translate-y-1 transition-all duration-300"
+            className="group relative overflow-hidden bg-white/[0.04] border border-white/10 rounded-[32px] p-6 backdrop-blur-xl hover:border-yellow-500/20 hover:-translate-y-1 transition-all duration-300"
           >
 
             {/* Glow */}
-            <div className="absolute top-[-80px] right-[-80px] w-[180px] h-[180px] bg-blue-500/10 blur-[100px] rounded-full"></div>
+            <div className="absolute top-[-80px] right-[-80px] w-[180px] h-[180px] bg-yellow-400/10 blur-[100px] rounded-full"></div>
 
             <div className="relative z-10">
 
               {/* Top */}
               <div className="flex items-center justify-between">
 
-                <p className="text-sm text-slate-400 tracking-wide">
+                <p className="text-sm text-zinc-400 tracking-wide">
                   {item.title}
                 </p>
 
-                <div className="w-12 h-12 rounded-2xl bg-blue-500/10 text-blue-400 flex items-center justify-center">
+                <div className="w-12 h-12 rounded-2xl bg-yellow-500/10 text-yellow-400 flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-yellow-400 group-hover:to-amber-500 group-hover:text-black transition-all duration-300 shadow-[0_0_20px_rgba(250,204,21,0.08)]">
 
                   <Icon
                     size={22}
@@ -91,7 +91,7 @@ function LiveStats() {
               </h2>
 
               {/* Subtitle */}
-              <p className="text-sm text-slate-500 mt-4">
+              <p className="text-sm text-zinc-500 mt-4">
                 {
                   item.subtitle
                 }

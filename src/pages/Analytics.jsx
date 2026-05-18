@@ -22,63 +22,25 @@ function Analytics() {
 
   // Weekly Analytics
   const weeklyData = [
-    {
-      name: "Mon",
-      trips: 12,
-    },
-
-    {
-      name: "Tue",
-      trips: 18,
-    },
-
-    {
-      name: "Wed",
-      trips: 24,
-    },
-
-    {
-      name: "Thu",
-      trips: 16,
-    },
-
-    {
-      name: "Fri",
-      trips: 28,
-    },
-
-    {
-      name: "Sat",
-      trips: 35,
-    },
-
-    {
-      name: "Sun",
-      trips: 22,
-    },
+    { name: "Mon", trips: 12 },
+    { name: "Tue", trips: 18 },
+    { name: "Wed", trips: 24 },
+    { name: "Thu", trips: 16 },
+    { name: "Fri", trips: 28 },
+    { name: "Sat", trips: 35 },
+    { name: "Sun", trips: 22 },
   ];
 
   // Ride Distribution
   const distributionData = [
-    {
-      name: "Completed",
-      value: 68,
-    },
-
-    {
-      name: "Ongoing",
-      value: 22,
-    },
-
-    {
-      name: "Cancelled",
-      value: 10,
-    },
+    { name: "Completed", value: 68 },
+    { name: "Ongoing", value: 22 },
+    { name: "Cancelled", value: 10 },
   ];
 
   const COLORS = [
-    "#3b82f6",
     "#facc15",
+    "#f59e0b",
     "#ef4444",
   ];
 
@@ -171,14 +133,14 @@ function Analytics() {
             <div className="relative overflow-hidden bg-white/[0.04] border border-white/10 rounded-[36px] p-7 lg:p-9 backdrop-blur-xl">
 
               {/* Glow */}
-              <div className="absolute top-[-100px] right-[-100px] w-[240px] h-[240px] bg-blue-500/10 blur-[120px] rounded-full"></div>
+              <div className="absolute top-[-100px] right-[-100px] w-[240px] h-[240px] bg-yellow-400/10 blur-[120px] rounded-full"></div>
 
               <div className="relative z-10">
 
                 {/* Heading */}
                 <div className="mb-10">
 
-                  <p className="text-sm uppercase tracking-[0.25em] text-slate-500">
+                  <p className="text-sm uppercase tracking-[0.25em] text-yellow-400 font-medium">
                     Overview
                   </p>
 
@@ -186,7 +148,7 @@ function Analytics() {
                     Weekly Ride Activity
                   </h2>
 
-                  <p className="text-slate-400 mt-3">
+                  <p className="text-zinc-400 mt-3">
                     Operational ride trends across the week.
                   </p>
 
@@ -211,13 +173,13 @@ function Analytics() {
 
                           <stop
                             offset="5%"
-                            stopColor="#3b82f6"
+                            stopColor="#facc15"
                             stopOpacity={0.5}
                           />
 
                           <stop
                             offset="95%"
-                            stopColor="#3b82f6"
+                            stopColor="#facc15"
                             stopOpacity={0}
                           />
 
@@ -227,7 +189,7 @@ function Analytics() {
 
                       <CartesianGrid
                         strokeDasharray="3 3"
-                        stroke="#172033"
+                        stroke="rgba(255,255,255,0.05)"
                       />
 
                       <XAxis
@@ -235,13 +197,13 @@ function Analytics() {
                         axisLine={false}
                         tickLine={false}
                         tick={{
-                          fill: "#94a3b8",
+                          fill: "#a1a1aa",
                         }}
                       />
 
                       <Tooltip
                         contentStyle={{
-                          background: "#0f172a",
+                          background: "#0a0a0a",
                           border:
                             "1px solid rgba(255,255,255,0.08)",
                           borderRadius: "18px",
@@ -252,7 +214,7 @@ function Analytics() {
                       <Area
                         type="monotone"
                         dataKey="trips"
-                        stroke="#3b82f6"
+                        stroke="#facc15"
                         fillOpacity={1}
                         fill="url(#colorTrips)"
                         strokeWidth={4}
@@ -280,18 +242,18 @@ function Analytics() {
             <div className="relative overflow-hidden bg-white/[0.04] border border-white/10 rounded-[36px] p-7 backdrop-blur-xl">
 
               {/* Glow */}
-              <div className="absolute bottom-[-100px] left-[-100px] w-[220px] h-[220px] bg-cyan-400/10 blur-[120px] rounded-full"></div>
+              <div className="absolute bottom-[-100px] left-[-100px] w-[220px] h-[220px] bg-amber-400/10 blur-[120px] rounded-full"></div>
 
               <div className="relative z-10">
 
                 {/* Heading */}
                 <div className="mb-10">
 
-                  <p className="text-sm uppercase tracking-[0.25em] text-slate-500">
+                  <p className="text-sm uppercase tracking-[0.25em] text-yellow-400 font-medium">
                     Distribution
                   </p>
 
-                  <h2 className="text-3xl font-bold mt-3 tracking-tight">
+                  <h2 className="text-3xl font-bold mt-3 tracking-tight text-white">
                     Ride Status
                   </h2>
 
