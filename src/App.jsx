@@ -8,16 +8,29 @@ import {
 } from "framer-motion";
 
 import Dashboard from "./pages/Dashboard";
+
 import Drivers from "./pages/Drivers";
+
+import Vendors from "./pages/Vendors";
+
 import Bookings from "./pages/Bookings";
+
 import Analytics from "./pages/Analytics";
+
+import Reports from "./pages/Reports";
+
+import Settings from "./pages/Settings";
+
 import Login from "./pages/Login";
+
+import LedgerPage from "./pages/ledger/LedgerPage";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
 
   return (
+
     <AnimatePresence mode="wait">
 
       <Routes>
@@ -40,18 +53,6 @@ function App() {
           }
         />
 
-        {/* Drivers */}
-        <Route
-          path="/drivers"
-          element={
-            <ProtectedRoute>
-
-              <Drivers />
-
-            </ProtectedRoute>
-          }
-        />
-
         {/* Bookings */}
         <Route
           path="/bookings"
@@ -64,6 +65,30 @@ function App() {
           }
         />
 
+        {/* Drivers */}
+        <Route
+          path="/drivers"
+          element={
+            <ProtectedRoute>
+
+              <Drivers />
+
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Vendors */}
+        <Route
+          path="/vendors"
+          element={
+            <ProtectedRoute>
+
+              <Vendors />
+
+            </ProtectedRoute>
+          }
+        />
+
         {/* Analytics */}
         <Route
           path="/analytics"
@@ -71,6 +96,42 @@ function App() {
             <ProtectedRoute>
 
               <Analytics />
+
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Ledger */}
+        <Route
+          path="/ledger"
+          element={
+            <ProtectedRoute>
+
+              <LedgerPage />
+
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Reports */}
+        <Route
+          path="/reports"
+          element={
+            <ProtectedRoute>
+
+              <Reports />
+
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Settings */}
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
+
+              <Settings />
 
             </ProtectedRoute>
           }

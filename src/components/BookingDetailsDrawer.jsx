@@ -5,9 +5,11 @@ import {
   Car,
   CreditCard,
   Clock3,
+  Phone,
+  Building2,
+  CalendarDays,
+  Route,
 } from "lucide-react";
-
-import StatusBadge from "./StatusBadge";
 
 function BookingDetailsDrawer({
   trip,
@@ -16,16 +18,68 @@ function BookingDetailsDrawer({
 
   if (!trip) return null;
 
+  const timeline = [
+
+    {
+      title:
+        "Booking Created",
+
+      description:
+        "Ride booking was successfully created.",
+    },
+
+    {
+      title:
+        "Vendor Assigned",
+
+      description:
+        `${trip.vendor} assigned for operational handling.`,
+    },
+
+    {
+      title:
+        "Driver Assigned",
+
+      description:
+        `${trip.driver} accepted the ride assignment.`,
+    },
+
+    {
+      title:
+        trip.tripStatus ===
+        "Completed"
+          ? "Ride Completed"
+          : trip.tripStatus ===
+            "Ongoing"
+          ? "Ride In Progress"
+          : trip.tripStatus ===
+            "Cancelled"
+          ? "Ride Cancelled"
+          : "Awaiting Operations",
+
+      description:
+        trip.tripStatus ===
+        "Completed"
+          ? "Customer reached destination successfully."
+          : trip.tripStatus ===
+            "Ongoing"
+          ? "Driver is currently on active ride."
+          : trip.tripStatus ===
+            "Cancelled"
+          ? "Ride was cancelled before completion."
+          : "Booking is waiting for operational action.",
+    },
+  ];
+
   return (
-    <div className="fixed inset-0 z-[250] bg-black/70 backdrop-blur-xl flex justify-end">
+
+    <div className="fixed inset-0 z-[250] bg-black/75 backdrop-blur-xl flex justify-end">
 
       {/* Drawer */}
-      <div className="relative w-full max-w-2xl h-full bg-[#090909]/95 border-l border-white/10 backdrop-blur-3xl overflow-y-auto shadow-[-20px_0_80px_rgba(0,0,0,0.45)]">
+      <div className="relative w-full max-w-2xl h-full bg-[#090909]/95 border-l border-white/10 backdrop-blur-3xl overflow-y-auto">
 
         {/* Glow */}
         <div className="absolute top-[-120px] right-[-120px] w-[260px] h-[260px] bg-yellow-500/10 blur-[140px] rounded-full"></div>
-
-        <div className="absolute bottom-[-120px] left-[-120px] w-[260px] h-[260px] bg-amber-500/5 blur-[140px] rounded-full"></div>
 
         {/* Content */}
         <div className="relative z-10 p-8">
@@ -35,21 +89,20 @@ function BookingDetailsDrawer({
 
             <div>
 
-              <p className="text-sm uppercase tracking-[0.25em] text-yellow-400">
-                Booking Details
+              <p className="text-xs uppercase tracking-[0.35em] text-yellow-400 font-semibold">
+
+                ERP Booking Operations
+
               </p>
 
-              <h2 className="text-5xl font-bold mt-4 text-white tracking-tight">
-                Ride Overview
+              <h2 className="text-4xl font-bold mt-4 text-white">
+
+                Booking Overview
+
               </h2>
-
-              <p className="text-zinc-500 mt-4">
-                Detailed booking and trip information.
-              </p>
 
             </div>
 
-            {/* Close */}
             <button
               onClick={closeDrawer}
               className="w-12 h-12 rounded-2xl hover:bg-white/[0.05] border border-transparent hover:border-yellow-500/20 flex items-center justify-center transition-all duration-300"
@@ -65,83 +118,210 @@ function BookingDetailsDrawer({
           </div>
 
           {/* Top Card */}
-          <div className="relative overflow-hidden bg-white/[0.03] border border-white/10 rounded-[32px] p-6 backdrop-blur-xl">
+          <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-7">
 
-            {/* Glow */}
-            <div className="absolute top-[-80px] right-[-80px] w-[180px] h-[180px] bg-yellow-500/10 blur-[100px] rounded-full"></div>
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
 
-            <div className="relative z-10">
+              <div className="flex items-center gap-5">
 
-              <div className="flex items-center justify-between gap-6">
+                <div className="w-20 h-20 rounded-[28px] bg-gradient-to-br from-yellow-400 to-amber-500 flex items-center justify-center text-black text-3xl font-bold">
 
-                {/* Customer */}
-                <div className="flex items-center gap-5">
-
-                  <div className="w-20 h-20 rounded-[28px] bg-gradient-to-br from-yellow-400 to-amber-500 flex items-center justify-center text-black text-3xl font-bold shadow-[0_0_30px_rgba(250,204,21,0.15)]">
-
-                    {
-                      trip.customer?.charAt(
-                        0
-                      )
-                    }
-
-                  </div>
-
-                  <div>
-
-                    <p className="text-zinc-500 text-sm">
-                      Customer
-                    </p>
-
-                    <h3 className="text-3xl font-bold mt-2 text-white">
-                      {trip.customer}
-                    </h3>
-
-                    <p className="text-zinc-500 mt-2">
-                      Booking ID #
-                      {trip.id || "1042"}
-                    </p>
-
-                  </div>
-
-                </div>
-
-                {/* Status */}
-                <StatusBadge
-                  status={
-                    trip.status
+                  {
+                    trip.customer?.charAt(
+                      0
+                    )
                   }
-                />
-
-              </div>
-
-            </div>
-
-          </div>
-
-          {/* Info Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-8">
-
-            {/* Driver */}
-            <div className="bg-white/[0.03] border border-white/10 rounded-[28px] p-6">
-
-              <div className="flex items-center gap-4">
-
-                <div className="w-14 h-14 rounded-2xl bg-yellow-500/10 text-yellow-400 flex items-center justify-center">
-
-                  <User size={24} />
 
                 </div>
 
                 <div>
 
                   <p className="text-zinc-500 text-sm">
-                    Assigned Driver
+
+                    Customer
+
                   </p>
 
-                  <h3 className="text-xl font-semibold mt-2 text-white">
-                    {trip.driver}
+                  <h3 className="text-3xl font-bold mt-2 text-white">
+
+                    {trip.customer}
+
                   </h3>
+
+                  <p className="text-zinc-500 mt-2">
+
+                    {trip.bookingId}
+
+                  </p>
+
+                </div>
+
+              </div>
+
+              <span
+                className={`px-5 py-3 rounded-full text-sm font-semibold ${trip.color}`}
+              >
+
+                {trip.tripStatus}
+
+              </span>
+
+            </div>
+
+          </div>
+
+          {/* Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-8">
+
+            {/* Phone */}
+            <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-6">
+
+              <div className="flex items-center gap-4">
+
+                <Phone
+                  className="text-yellow-400"
+                  size={24}
+                />
+
+                <div>
+
+                  <p className="text-zinc-500 text-sm">
+
+                    Contact
+
+                  </p>
+
+                  <h3 className="text-lg font-semibold mt-2 text-white">
+
+                    {trip.phone}
+
+                  </h3>
+
+                </div>
+
+              </div>
+
+            </div>
+
+            {/* Trip Type */}
+            <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-6">
+
+              <div className="flex items-center gap-4">
+
+                <Route
+                  className="text-cyan-400"
+                  size={24}
+                />
+
+                <div>
+
+                  <p className="text-zinc-500 text-sm">
+
+                    Trip Type
+
+                  </p>
+
+                  <h3 className="text-lg font-semibold mt-2 text-white">
+
+                    {trip.tripType}
+
+                  </h3>
+
+                </div>
+
+              </div>
+
+            </div>
+
+            {/* Pickup */}
+            <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-6">
+
+              <div className="flex items-center gap-4">
+
+                <MapPin
+                  className="text-emerald-400"
+                  size={24}
+                />
+
+                <div>
+
+                  <p className="text-zinc-500 text-sm">
+
+                    Pickup
+
+                  </p>
+
+                  <h3 className="text-lg font-semibold mt-2 text-white">
+
+                    {trip.pickup}
+
+                  </h3>
+
+                </div>
+
+              </div>
+
+            </div>
+
+            {/* Drop */}
+            <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-6">
+
+              <div className="flex items-center gap-4">
+
+                <MapPin
+                  className="text-blue-400"
+                  size={24}
+                />
+
+                <div>
+
+                  <p className="text-zinc-500 text-sm">
+
+                    Drop
+
+                  </p>
+
+                  <h3 className="text-lg font-semibold mt-2 text-white">
+
+                    {trip.drop}
+
+                  </h3>
+
+                </div>
+
+              </div>
+
+            </div>
+
+            {/* Driver */}
+            <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-6">
+
+              <div className="flex items-center gap-4">
+
+                <User
+                  className="text-yellow-400"
+                  size={24}
+                />
+
+                <div>
+
+                  <p className="text-zinc-500 text-sm">
+
+                    Driver
+
+                  </p>
+
+                  <h3 className="text-lg font-semibold mt-2 text-white">
+
+                    {trip.driver}
+
+                  </h3>
+
+                  <p className="text-xs text-zinc-500 mt-2">
+
+                    {trip.driverPhone}
+
+                  </p>
 
                 </div>
 
@@ -150,24 +330,27 @@ function BookingDetailsDrawer({
             </div>
 
             {/* Vehicle */}
-            <div className="bg-white/[0.03] border border-white/10 rounded-[28px] p-6">
+            <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-6">
 
               <div className="flex items-center gap-4">
 
-                <div className="w-14 h-14 rounded-2xl bg-blue-500/10 text-blue-400 flex items-center justify-center">
-
-                  <Car size={24} />
-
-                </div>
+                <Car
+                  className="text-indigo-400"
+                  size={24}
+                />
 
                 <div>
 
                   <p className="text-zinc-500 text-sm">
+
                     Vehicle
+
                   </p>
 
-                  <h3 className="text-xl font-semibold mt-2 text-white">
-                    Toyota Innova
+                  <h3 className="text-lg font-semibold mt-2 text-white">
+
+                    {trip.vehicle}
+
                   </h3>
 
                 </div>
@@ -176,25 +359,28 @@ function BookingDetailsDrawer({
 
             </div>
 
-            {/* Destination */}
-            <div className="bg-white/[0.03] border border-white/10 rounded-[28px] p-6">
+            {/* Vendor */}
+            <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-6">
 
               <div className="flex items-center gap-4">
 
-                <div className="w-14 h-14 rounded-2xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
-
-                  <MapPin size={24} />
-
-                </div>
+                <Building2
+                  className="text-orange-400"
+                  size={24}
+                />
 
                 <div>
 
                   <p className="text-zinc-500 text-sm">
-                    Destination
+
+                    Vendor
+
                   </p>
 
-                  <h3 className="text-xl font-semibold mt-2 text-white">
-                    {trip.destination}
+                  <h3 className="text-lg font-semibold mt-2 text-white">
+
+                    {trip.vendor}
+
                   </h3>
 
                 </div>
@@ -203,25 +389,28 @@ function BookingDetailsDrawer({
 
             </div>
 
-            {/* Payment */}
-            <div className="bg-white/[0.03] border border-white/10 rounded-[28px] p-6">
+            {/* Date */}
+            <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-6">
 
               <div className="flex items-center gap-4">
 
-                <div className="w-14 h-14 rounded-2xl bg-purple-500/10 text-purple-400 flex items-center justify-center">
-
-                  <CreditCard size={24} />
-
-                </div>
+                <CalendarDays
+                  className="text-purple-400"
+                  size={24}
+                />
 
                 <div>
 
                   <p className="text-zinc-500 text-sm">
-                    Payment
+
+                    Trip Date
+
                   </p>
 
-                  <h3 className="text-xl font-semibold mt-2 text-white">
-                    ₹1,850 Paid
+                  <h3 className="text-lg font-semibold mt-2 text-white">
+
+                    {trip.date}
+
                   </h3>
 
                 </div>
@@ -232,25 +421,237 @@ function BookingDetailsDrawer({
 
           </div>
 
-          {/* Timeline */}
-          <div className="mt-8 bg-white/[0.03] border border-white/10 rounded-[32px] p-8">
+          {/* ERP Finance */}
+          <div className="mt-8 bg-white/[0.03] border border-white/10 rounded-3xl p-7">
 
             <div className="flex items-center gap-4 mb-8">
 
-              <div className="w-14 h-14 rounded-2xl bg-yellow-500/10 text-yellow-400 flex items-center justify-center">
-
-                <Clock3 size={24} />
-
-              </div>
+              <CreditCard
+                className="text-green-400"
+                size={24}
+              />
 
               <div>
 
                 <p className="text-zinc-500 text-sm">
-                  Timeline
+
+                  Financial Operations
+
                 </p>
 
                 <h3 className="text-2xl font-bold mt-2 text-white">
-                  Ride Activity
+
+                  Revenue & Expense Analysis
+
+                </h3>
+
+              </div>
+
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+              <div className="bg-black/20 border border-white/5 rounded-2xl p-5">
+
+                <p className="text-sm text-zinc-500">
+
+                  Revenue
+
+                </p>
+
+                <h3 className="text-3xl font-bold text-white mt-3">
+
+                  ₹{trip.total}
+
+                </h3>
+
+              </div>
+
+              <div className="bg-black/20 border border-white/5 rounded-2xl p-5">
+
+                <p className="text-sm text-zinc-500">
+
+                  Total Expenses
+
+                </p>
+
+                <h3 className="text-3xl font-bold text-red-400 mt-3">
+
+                  ₹{trip.totalExpenses}
+
+                </h3>
+
+              </div>
+
+              <div className="bg-black/20 border border-white/5 rounded-2xl p-5">
+
+                <p className="text-sm text-zinc-500">
+
+                  Net Profit
+
+                </p>
+
+                <h3 className="text-3xl font-bold text-emerald-400 mt-3">
+
+                  ₹{trip.profit}
+
+                </h3>
+
+              </div>
+
+              <div className="bg-black/20 border border-white/5 rounded-2xl p-5">
+
+                <p className="text-sm text-zinc-500">
+
+                  Vendor Rate
+
+                </p>
+
+                <h3 className="text-3xl font-bold text-yellow-400 mt-3">
+
+                  ₹{trip.vendorRate}
+
+                </h3>
+
+              </div>
+
+              <div className="bg-black/20 border border-white/5 rounded-2xl p-5">
+
+                <p className="text-sm text-zinc-500">
+
+                  GST
+
+                </p>
+
+                <h3 className="text-2xl font-bold text-cyan-400 mt-3">
+
+                  ₹{trip.gst}
+
+                </h3>
+
+              </div>
+
+              <div className="bg-black/20 border border-white/5 rounded-2xl p-5">
+
+                <p className="text-sm text-zinc-500">
+
+                  TDS
+
+                </p>
+
+                <h3 className="text-2xl font-bold text-orange-400 mt-3">
+
+                  ₹{trip.tds}
+
+                </h3>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          {/* ERP Status */}
+          <div className="mt-8 bg-white/[0.03] border border-white/10 rounded-3xl p-7">
+
+            <h3 className="text-2xl font-bold text-white">
+
+              ERP Status System
+
+            </h3>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-8">
+
+              <div className="bg-black/20 border border-white/5 rounded-2xl p-5">
+
+                <p className="text-sm text-zinc-500">
+
+                  Payment Status
+
+                </p>
+
+                <h3 className="text-xl font-semibold text-white mt-3">
+
+                  {trip.paymentStatus}
+
+                </h3>
+
+              </div>
+
+              <div className="bg-black/20 border border-white/5 rounded-2xl p-5">
+
+                <p className="text-sm text-zinc-500">
+
+                  Invoice Status
+
+                </p>
+
+                <h3 className="text-xl font-semibold text-white mt-3">
+
+                  {trip.invoiceStatus}
+
+                </h3>
+
+              </div>
+
+              <div className="bg-black/20 border border-white/5 rounded-2xl p-5">
+
+                <p className="text-sm text-zinc-500">
+
+                  Vendor Status
+
+                </p>
+
+                <h3 className="text-xl font-semibold text-white mt-3">
+
+                  {trip.vendorStatus}
+
+                </h3>
+
+              </div>
+
+              <div className="bg-black/20 border border-white/5 rounded-2xl p-5">
+
+                <p className="text-sm text-zinc-500">
+
+                  Booking Status
+
+                </p>
+
+                <h3 className="text-xl font-semibold text-white mt-3">
+
+                  {trip.bookingStatus}
+
+                </h3>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          {/* Timeline */}
+          <div className="mt-8 bg-white/[0.03] border border-white/10 rounded-3xl p-8">
+
+            <div className="flex items-center gap-4 mb-8">
+
+              <Clock3
+                className="text-yellow-400"
+                size={24}
+              />
+
+              <div>
+
+                <p className="text-zinc-500 text-sm">
+
+                  Operations Timeline
+
+                </p>
+
+                <h3 className="text-2xl font-bold mt-2 text-white">
+
+                  Booking Activity
+
                 </h3>
 
               </div>
@@ -259,78 +660,52 @@ function BookingDetailsDrawer({
 
             <div className="space-y-8">
 
-              {/* Item */}
-              <div className="flex gap-5">
+              {timeline.map(
+                (
+                  item,
+                  index
+                ) => (
 
-                <div className="flex flex-col items-center">
+                  <div
+                    key={index}
+                    className="flex gap-5"
+                  >
 
-                  <div className="w-4 h-4 rounded-full bg-yellow-400"></div>
+                    <div className="flex flex-col items-center">
 
-                  <div className="w-px h-full bg-white/10 mt-2"></div>
+                      <div className="w-4 h-4 rounded-full bg-yellow-400"></div>
 
-                </div>
+                      {index !==
+                        timeline.length -
+                          1 && (
 
-                <div>
+                        <div className="w-px h-full bg-white/10 mt-2"></div>
 
-                  <h4 className="text-white font-semibold">
-                    Booking Created
-                  </h4>
+                      )}
 
-                  <p className="text-zinc-500 mt-2">
-                    Ride booking was created successfully.
-                  </p>
+                    </div>
 
-                </div>
+                    <div>
 
-              </div>
+                      <h4 className="text-white font-semibold">
 
-              {/* Item */}
-              <div className="flex gap-5">
+                        {item.title}
 
-                <div className="flex flex-col items-center">
+                      </h4>
 
-                  <div className="w-4 h-4 rounded-full bg-yellow-400"></div>
+                      <p className="text-zinc-500 mt-2">
 
-                  <div className="w-px h-full bg-white/10 mt-2"></div>
+                        {
+                          item.description
+                        }
 
-                </div>
+                      </p>
 
-                <div>
+                    </div>
 
-                  <h4 className="text-white font-semibold">
-                    Driver Assigned
-                  </h4>
-
-                  <p className="text-zinc-500 mt-2">
-                    Driver accepted and started the ride.
-                  </p>
-
-                </div>
-
-              </div>
-
-              {/* Item */}
-              <div className="flex gap-5">
-
-                <div className="flex flex-col items-center">
-
-                  <div className="w-4 h-4 rounded-full bg-emerald-400"></div>
-
-                </div>
-
-                <div>
-
-                  <h4 className="text-white font-semibold">
-                    Ride Completed
-                  </h4>
-
-                  <p className="text-zinc-500 mt-2">
-                    Customer reached destination successfully.
-                  </p>
-
-                </div>
-
-              </div>
+                  </div>
+                )
+              )}
 
             </div>
 

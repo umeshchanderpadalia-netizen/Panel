@@ -1,70 +1,175 @@
-import { useState } from "react";
+const bookings = [
+  {
+    id: 2001,
 
-import MainLayout from "../layout/MainLayout";
+    customer:
+      "Aarav Sharma",
 
-import TripsTable from "../components/TripsTable";
-import SectionHeader from "../components/SectionHeader";
-import PageTransition from "../components/PageTransition";
-import TripFilters from "../components/TripFilters";
+    phone:
+      "+91 9876543210",
 
-import tripsData from "../data/trips";
+    pickup:
+      "Connaught Place",
 
-function Bookings() {
+    drop:
+      "IGI Airport",
 
-  const [trips, setTrips] =
-    useState(tripsData);
+    rideDate:
+      "20 May 2026",
 
-  const [
-    activeFilter,
-    setActiveFilter,
-  ] = useState("All");
+    bookingType:
+      "Airport Transfer",
 
-  // Filter Trips
-  const filteredTrips =
-    activeFilter === "All"
-      ? trips
-      : trips.filter(
-          (trip) =>
-            trip.status ===
-            activeFilter
-        );
+    driver:
+      "Rahul Verma",
 
-  return (
-    <MainLayout>
+    vehicle:
+      "Toyota Innova",
 
-      <PageTransition>
+    vendor:
+      "Delhi Fleet Services",
 
-        {/* Header */}
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8 mb-12">
+    fare:
+      "₹1,450",
 
-          <SectionHeader
-            label="Bookings"
-            title="Ride Bookings"
-            description="Manage customer ride bookings, monitor trip activity and track operational performance in real time."
-          />
+    paymentStatus:
+      "Paid",
 
-          {/* Filters */}
-          <TripFilters
-            activeFilter={
-              activeFilter
-            }
-            setActiveFilter={
-              setActiveFilter
-            }
-          />
+    status:
+      "Completed",
 
-        </div>
+    color:
+      "text-emerald-400 bg-emerald-500/20",
+  },
 
-        {/* Table */}
-        <TripsTable
-          trips={filteredTrips}
-          setTrips={setTrips}
-        />
+  {
+    id: 2002,
 
-      </PageTransition>
+    customer:
+      "Priya Malhotra",
 
-    </MainLayout>
-  );
-}
+    phone:
+      "+91 9812345678",
 
-export default Bookings;
+    pickup:
+      "Karol Bagh",
+
+    drop:
+      "Cyber Hub Gurgaon",
+
+    rideDate:
+      "20 May 2026",
+
+    bookingType:
+      "One Way",
+
+    driver:
+      "Mohit Singh",
+
+    vehicle:
+      "Hyundai Creta",
+
+    vendor:
+      "Urban Cab Network",
+
+    fare:
+      "₹980",
+
+    paymentStatus:
+      "Pending",
+
+    status:
+      "Ongoing",
+
+    color:
+      "text-yellow-400 bg-yellow-500/20",
+  },
+
+  {
+    id: 2003,
+
+    customer:
+      "Rohan Kapoor",
+
+    phone:
+      "+91 9898765432",
+
+    pickup:
+      "Dwarka Sector 21",
+
+    drop:
+      "Noida Sector 62",
+
+    rideDate:
+      "21 May 2026",
+
+    bookingType:
+      "Round Trip",
+
+    driver:
+      "Deepak Yadav",
+
+    vehicle:
+      "Honda City",
+
+    vendor:
+      "CityLink Travels",
+
+    fare:
+      "₹2,100",
+
+    paymentStatus:
+      "Partial",
+
+    status:
+      "Driver Assigned",
+
+    color:
+      "text-blue-400 bg-blue-500/20",
+  },
+
+  {
+    id: 2004,
+
+    customer:
+      "Neha Arora",
+
+    phone:
+      "+91 9765432109",
+
+    pickup:
+      "Pitampura",
+
+    drop:
+      "Jaipur",
+
+    rideDate:
+      "22 May 2026",
+
+    bookingType:
+      "Outstation",
+
+    driver:
+      "Sandeep Chauhan",
+
+    vehicle:
+      "Maruti Ertiga",
+
+    vendor:
+      "North India Routes",
+
+    fare:
+      "₹5,400",
+
+    paymentStatus:
+      "Pending",
+
+    status:
+      "Confirmed",
+
+    color:
+      "text-cyan-400 bg-cyan-500/20",
+  },
+];
+
+export default bookings;

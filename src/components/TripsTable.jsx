@@ -4,18 +4,15 @@ import {
 } from "react";
 
 import {
+  Eye,
   Pencil,
   Trash2,
   Search,
-  Download,
-  MapPin,
-  Car,
+  IndianRupee,
+  Receipt,
 } from "lucide-react";
 
-import StatusBadge from "./StatusBadge";
-import EditTripModal from "./EditTripModal";
-import DeleteModal from "./DeleteModal";
-import EmptyState from "./EmptyState";
+import EditBookingModal from "./EditBookingModal";
 import BookingDetailsDrawer from "./BookingDetailsDrawer";
 
 function TripsTable({
@@ -26,72 +23,90 @@ function TripsTable({
   const [search, setSearch] =
     useState("");
 
-  const [selectedTrip, setSelectedTrip] =
-    useState(null);
+  const [
+    selectedTrip,
+    setSelectedTrip,
+  ] = useState(null);
 
-  const [editModal, setEditModal] =
-    useState(false);
+  const [
+    showEditModal,
+    setShowEditModal,
+  ] = useState(false);
 
-  const [deleteModal, setDeleteModal] =
-    useState(false);
+  const [
+    showDrawer,
+    setShowDrawer,
+  ] = useState(false);
 
-  const [drawerOpen, setDrawerOpen] =
-    useState(false);
-
-  // Filter Trips
+  // Search Filter
   const filteredTrips =
     useMemo(() => {
 
       return trips.filter(
-        (trip) =>
-          trip.customer
-            ?.toLowerCase()
-            .includes(
-              search.toLowerCase()
-            ) ||
-          trip.destination
-            ?.toLowerCase()
-            .includes(
-              search.toLowerCase()
-            ) ||
-          trip.driver
-            ?.toLowerCase()
-            .includes(
-              search.toLowerCase()
-            )
+        (trip) => {
+
+          const query =
+            search.toLowerCase();
+
+          return (
+
+            trip.bookingId
+              ?.toLowerCase()
+              .includes(query) ||
+
+            trip.invoiceNo
+              ?.toLowerCase()
+              .includes(query) ||
+
+            trip.customer
+              ?.toLowerCase()
+              .includes(query) ||
+
+            trip.driver
+              ?.toLowerCase()
+              .includes(query) ||
+
+            trip.vendor
+              ?.toLowerCase()
+              .includes(query) ||
+
+            trip.pickup
+              ?.toLowerCase()
+              .includes(query) ||
+
+            trip.drop
+              ?.toLowerCase()
+              .includes(query)
+          );
+        }
       );
 
     }, [search, trips]);
 
-  // Open Drawer
-  const openDrawer = (
-    trip
+  // Delete Trip
+  const deleteTrip = (
+    bookingId
   ) => {
 
-    setSelectedTrip(trip);
+    const updatedTrips =
+      trips.filter(
+        (trip) =>
+          trip.bookingId !==
+          bookingId
+      );
 
-    setDrawerOpen(true);
+    setTrips(updatedTrips);
   };
 
-  // Open Edit
-  const handleEdit = (
-    trip
-  ) => {
-
-    setSelectedTrip(trip);
-
-    setEditModal(true);
-  };
-
-  // Save Edit
-  const saveTrip = (
+  // Update Trip
+  const updateTrip = (
     updatedTrip
   ) => {
 
     const updatedTrips =
       trips.map((trip) =>
-        trip.id ===
-        updatedTrip.id
+        trip.bookingId ===
+        updatedTrip.bookingId
           ? updatedTrip
           : trip
       );
@@ -99,407 +114,521 @@ function TripsTable({
     setTrips(updatedTrips);
   };
 
-  // Open Delete
-  const handleDelete = (
-    trip
-  ) => {
-
-    setSelectedTrip(trip);
-
-    setDeleteModal(true);
-  };
-
-  // Confirm Delete
-  const confirmDelete =
-    () => {
-
-      const updatedTrips =
-        trips.filter(
-          (trip) =>
-            trip.id !==
-            selectedTrip.id
-        );
-
-      setTrips(updatedTrips);
-
-      setDeleteModal(false);
-    };
-
   return (
-    <>
-      {/* Edit Modal */}
-      {editModal && (
-        <EditTripModal
-          trip={selectedTrip}
-          closeModal={() =>
-            setEditModal(false)
-          }
-          saveTrip={saveTrip}
-        />
-      )}
 
-      {/* Delete Modal */}
-      {deleteModal && (
-        <DeleteModal
-          closeModal={() =>
-            setDeleteModal(false)
-          }
-          confirmDelete={
-            confirmDelete
-          }
-        />
-      )}
+    <div className="relative overflow-hidden bg-white/[0.03] border border-white/10 rounded-[36px] backdrop-blur-2xl">
 
-      {/* Booking Drawer */}
-      {drawerOpen && (
-        <BookingDetailsDrawer
-          trip={selectedTrip}
-          closeDrawer={() =>
-            setDrawerOpen(false)
-          }
-        />
-      )}
+      {/* Glow */}
+      <div className="absolute top-[-120px] right-[-120px] w-[240px] h-[240px] bg-yellow-500/10 blur-[120px] rounded-full"></div>
 
-      <div className="relative overflow-hidden bg-white/[0.04] border border-white/10 rounded-[38px] p-7 lg:p-9 backdrop-blur-2xl">
+      {/* Header */}
+      <div className="relative z-10 p-6 lg:p-8 border-b border-white/10">
 
-        {/* Glow */}
-        <div className="absolute top-[-100px] right-[-100px] w-[240px] h-[240px] bg-yellow-400/10 blur-[120px] rounded-full"></div>
+        <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-6">
 
-        <div className="relative z-10">
+          <div>
 
-          {/* Header */}
-          <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-8 mb-10">
+            <p className="text-xs uppercase tracking-[0.35em] text-yellow-400 font-semibold">
 
-            {/* Left */}
-            <div>
+              ERP Booking Operations
 
-              <p className="text-sm uppercase tracking-[0.25em] text-yellow-400 font-medium">
-                Bookings
-              </p>
+            </p>
 
-              <h2 className="text-4xl font-bold mt-3 tracking-tight text-white">
-                Ride Management
-              </h2>
+            <h2 className="text-3xl font-bold text-white mt-4">
 
-              <p className="text-zinc-500 mt-3 max-w-xl">
-                Manage customer rides, drivers and operational booking activity.
-              </p>
+              Booking Management
 
-            </div>
+            </h2>
 
-            {/* Right */}
-            <div className="flex flex-col sm:flex-row gap-4">
+            <p className="text-zinc-500 mt-3 max-w-2xl leading-relaxed">
 
-              {/* Search */}
-              <div className="flex items-center gap-4 px-5 py-4 rounded-2xl bg-white/[0.03] border border-white/10 w-full sm:w-[320px] hover:border-yellow-500/20 transition-all duration-300">
+              Monitor operations, vendor assignments,
+              payment workflow, invoices, business revenue,
+              profitability and transport ERP activities.
 
-                <Search
-                  size={18}
-                  className="text-yellow-400"
-                />
-
-                <input
-                  type="text"
-                  placeholder="Search bookings..."
-                  value={search}
-                  onChange={(e) =>
-                    setSearch(
-                      e.target.value
-                    )
-                  }
-                  className="bg-transparent outline-none w-full text-sm text-white placeholder:text-zinc-500"
-                />
-
-              </div>
-
-              {/* Export */}
-              <button className="flex items-center justify-center gap-3 px-6 py-4 rounded-2xl bg-yellow-500/10 border border-yellow-500/10 text-yellow-400 hover:bg-yellow-500 hover:text-black transition-all duration-300 font-medium">
-
-                <Download size={18} />
-
-                Export
-
-              </button>
-
-            </div>
+            </p>
 
           </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-10">
+          {/* Search */}
+          <div className="relative w-full xl:w-[420px]">
 
-            {/* Card */}
-            <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-5">
-
-              <div className="flex items-center justify-between">
-
-                <div>
-
-                  <p className="text-zinc-500 text-sm">
-                    Total Bookings
-                  </p>
-
-                  <h3 className="text-3xl font-bold mt-3 text-white">
-                    {trips.length}
-                  </h3>
-
-                </div>
-
-                <div className="w-14 h-14 rounded-2xl bg-yellow-500/10 text-yellow-400 flex items-center justify-center">
-
-                  <Car size={24} />
-
-                </div>
-
-              </div>
-
-            </div>
-
-            {/* Card */}
-            <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-5">
-
-              <div className="flex items-center justify-between">
-
-                <div>
-
-                  <p className="text-zinc-500 text-sm">
-                    Active Trips
-                  </p>
-
-                  <h3 className="text-3xl font-bold mt-3 text-white">
-                    {
-                      trips.filter(
-                        (trip) =>
-                          trip.status ===
-                          "Ongoing"
-                      ).length
-                    }
-                  </h3>
-
-                </div>
-
-                <div className="w-14 h-14 rounded-2xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
-
-                  <MapPin size={24} />
-
-                </div>
-
-              </div>
-
-            </div>
-
-            {/* Card */}
-            <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-5">
-
-              <div className="flex items-center justify-between">
-
-                <div>
-
-                  <p className="text-zinc-500 text-sm">
-                    Search Results
-                  </p>
-
-                  <h3 className="text-3xl font-bold mt-3 text-white">
-                    {filteredTrips.length}
-                  </h3>
-
-                </div>
-
-                <div className="w-14 h-14 rounded-2xl bg-blue-500/10 text-blue-400 flex items-center justify-center">
-
-                  <Search size={24} />
-
-                </div>
-
-              </div>
-
-            </div>
-
-          </div>
-
-          {/* Empty State */}
-          {filteredTrips.length === 0 ? (
-
-            <EmptyState
-              title="No bookings found"
-              description="Try adjusting your search or filters to find matching booking records."
+            <Search
+              size={18}
+              className="absolute left-5 top-1/2 -translate-y-1/2 text-zinc-500"
             />
 
-          ) : (
+            <input
+              type="text"
+              placeholder="Search bookings, invoices, vendors..."
+              value={search}
+              onChange={(e) =>
+                setSearch(
+                  e.target.value
+                )
+              }
+              className="w-full bg-black/30 border border-white/10 rounded-2xl pl-14 pr-5 py-4 text-white outline-none focus:border-yellow-500/40 transition-all duration-300"
+            />
 
-            /* Table */
-            <div className="overflow-x-auto rounded-[28px] border border-white/5">
-
-              <table className="w-full min-w-[900px]">
-
-                <thead className="bg-white/[0.03] sticky top-0">
-
-                  <tr className="text-left border-b border-white/5">
-
-                    <th className="px-6 py-5 text-zinc-500 font-medium">
-                      Customer
-                    </th>
-
-                    <th className="px-6 py-5 text-zinc-500 font-medium">
-                      Destination
-                    </th>
-
-                    <th className="px-6 py-5 text-zinc-500 font-medium">
-                      Driver
-                    </th>
-
-                    <th className="px-6 py-5 text-zinc-500 font-medium">
-                      Status
-                    </th>
-
-                    <th className="px-6 py-5 text-zinc-500 font-medium text-right">
-                      Actions
-                    </th>
-
-                  </tr>
-
-                </thead>
-
-                <tbody>
-
-                  {filteredTrips.map(
-                    (
-                      trip,
-                      index
-                    ) => (
-
-                      <tr
-                        key={
-                          trip.id ||
-                          index
-                        }
-                        onClick={() =>
-                          openDrawer(trip)
-                        }
-                        className="border-b border-white/5 hover:bg-yellow-500/[0.03] transition-all duration-300 cursor-pointer"
-                      >
-
-                        {/* Customer */}
-                        <td className="px-6 py-6">
-
-                          <div className="flex items-center gap-4">
-
-                            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-yellow-400 to-amber-500 flex items-center justify-center text-black font-bold">
-
-                              {
-                                trip.customer?.charAt(
-                                  0
-                                )
-                              }
-
-                            </div>
-
-                            <div>
-
-                              <p className="font-semibold text-white">
-                                {
-                                  trip.customer
-                                }
-                              </p>
-
-                              <p className="text-sm text-zinc-500 mt-1">
-                                Booking ID #
-                                {index + 1001}
-                              </p>
-
-                            </div>
-
-                          </div>
-
-                        </td>
-
-                        {/* Destination */}
-                        <td className="px-6 py-6 text-zinc-300">
-                          {
-                            trip.destination
-                          }
-                        </td>
-
-                        {/* Driver */}
-                        <td className="px-6 py-6 text-zinc-300">
-                          {trip.driver}
-                        </td>
-
-                        {/* Status */}
-                        <td className="px-6 py-6">
-
-                          <StatusBadge
-                            status={
-                              trip.status
-                            }
-                          />
-
-                        </td>
-
-                        {/* Actions */}
-                        <td className="px-6 py-6">
-
-                          <div className="flex items-center justify-end gap-3">
-
-                            {/* Edit */}
-                            <button
-                              onClick={(e) => {
-
-                                e.stopPropagation();
-
-                                handleEdit(
-                                  trip
-                                );
-                              }}
-                              className="w-11 h-11 rounded-2xl bg-yellow-500/10 text-yellow-400 hover:bg-gradient-to-r hover:from-yellow-400 hover:to-amber-500 hover:text-black transition-all duration-300 flex items-center justify-center shadow-[0_0_20px_rgba(250,204,21,0.08)]"
-                            >
-
-                              <Pencil
-                                size={18}
-                              />
-
-                            </button>
-
-                            {/* Delete */}
-                            <button
-                              onClick={(e) => {
-
-                                e.stopPropagation();
-
-                                handleDelete(
-                                  trip
-                                );
-                              }}
-                              className="w-11 h-11 rounded-2xl bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white transition-all duration-300 flex items-center justify-center"
-                            >
-
-                              <Trash2
-                                size={18}
-                              />
-
-                            </button>
-
-                          </div>
-
-                        </td>
-
-                      </tr>
-                    )
-                  )}
-
-                </tbody>
-
-              </table>
-
-            </div>
-
-          )}
+          </div>
 
         </div>
 
       </div>
 
-    </>
+      {/* Table */}
+      <div className="overflow-x-auto">
+
+        <table className="w-full min-w-[2100px]">
+
+          <thead className="bg-white/[0.03] border-b border-white/10">
+
+            <tr>
+
+              <th className="text-left px-6 py-5 text-sm font-semibold text-zinc-400">
+
+                Booking
+
+              </th>
+
+              <th className="text-left px-6 py-5 text-sm font-semibold text-zinc-400">
+
+                Customer
+
+              </th>
+
+              <th className="text-left px-6 py-5 text-sm font-semibold text-zinc-400">
+
+                Route
+
+              </th>
+
+              <th className="text-left px-6 py-5 text-sm font-semibold text-zinc-400">
+
+                Vendor
+
+              </th>
+
+              <th className="text-left px-6 py-5 text-sm font-semibold text-zinc-400">
+
+                Driver
+
+              </th>
+
+              <th className="text-left px-6 py-5 text-sm font-semibold text-zinc-400">
+
+                Revenue
+
+              </th>
+
+              <th className="text-left px-6 py-5 text-sm font-semibold text-zinc-400">
+
+                Expenses
+
+              </th>
+
+              <th className="text-left px-6 py-5 text-sm font-semibold text-zinc-400">
+
+                Profit
+
+              </th>
+
+              <th className="text-left px-6 py-5 text-sm font-semibold text-zinc-400">
+
+                Invoice
+
+              </th>
+
+              <th className="text-left px-6 py-5 text-sm font-semibold text-zinc-400">
+
+                Payment
+
+              </th>
+
+              <th className="text-left px-6 py-5 text-sm font-semibold text-zinc-400">
+
+                Trip Status
+
+              </th>
+
+              <th className="text-left px-6 py-5 text-sm font-semibold text-zinc-400">
+
+                Actions
+
+              </th>
+
+            </tr>
+
+          </thead>
+
+          <tbody>
+
+            {filteredTrips.map(
+              (
+                trip,
+                index
+              ) => (
+
+                <tr
+                  key={index}
+                  className="border-b border-white/5 hover:bg-white/[0.02] transition-all duration-300"
+                >
+
+                  {/* Booking */}
+                  <td className="px-6 py-5">
+
+                    <div>
+
+                      <p className="text-white font-semibold">
+
+                        {
+                          trip.bookingId
+                        }
+
+                      </p>
+
+                      <p className="text-xs text-zinc-500 mt-1">
+
+                        {
+                          trip.invoiceNo
+                        }
+
+                      </p>
+
+                    </div>
+
+                  </td>
+
+                  {/* Customer */}
+                  <td className="px-6 py-5">
+
+                    <div>
+
+                      <p className="text-white font-medium">
+
+                        {
+                          trip.customer
+                        }
+
+                      </p>
+
+                      <p className="text-xs text-zinc-500 mt-1">
+
+                        {
+                          trip.phone
+                        }
+
+                      </p>
+
+                    </div>
+
+                  </td>
+
+                  {/* Route */}
+                  <td className="px-6 py-5">
+
+                    <div>
+
+                      <p className="text-sm text-zinc-300">
+
+                        {
+                          trip.pickup
+                        }
+
+                      </p>
+
+                      <p className="text-xs text-zinc-500 mt-1">
+
+                        ↓ {
+                          trip.drop
+                        }
+
+                      </p>
+
+                    </div>
+
+                  </td>
+
+                  {/* Vendor */}
+                  <td className="px-6 py-5">
+
+                    <div>
+
+                      <p className="text-sm text-white">
+
+                        {
+                          trip.vendor
+                        }
+
+                      </p>
+
+                      <p className="text-xs text-zinc-500 mt-1">
+
+                        Vendor Rate:
+                        {" "}
+                        ₹{
+                          trip.vendorRate
+                        }
+
+                      </p>
+
+                    </div>
+
+                  </td>
+
+                  {/* Driver */}
+                  <td className="px-6 py-5">
+
+                    <div>
+
+                      <p className="text-sm text-white">
+
+                        {
+                          trip.driver
+                        }
+
+                      </p>
+
+                      <p className="text-xs text-zinc-500 mt-1">
+
+                        {
+                          trip.vehicle
+                        }
+
+                      </p>
+
+                    </div>
+
+                  </td>
+
+                  {/* Revenue */}
+                  <td className="px-6 py-5">
+
+                    <div className="flex items-center gap-2 text-emerald-400 font-semibold">
+
+                      <IndianRupee
+                        size={16}
+                      />
+
+                      ₹{trip.total}
+
+                    </div>
+
+                  </td>
+
+                  {/* Expenses */}
+                  <td className="px-6 py-5">
+
+                    <p className="text-red-400 font-semibold">
+
+                      ₹{
+                        trip.totalExpenses
+                      }
+
+                    </p>
+
+                  </td>
+
+                  {/* Profit */}
+                  <td className="px-6 py-5">
+
+                    <p className="text-emerald-400 font-semibold">
+
+                      ₹{
+                        trip.profit
+                      }
+
+                    </p>
+
+                  </td>
+
+                  {/* Invoice */}
+                  <td className="px-6 py-5">
+
+                    <div className="flex items-center gap-3">
+
+                      <div className="w-10 h-10 rounded-2xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center">
+
+                        <Receipt
+                          size={18}
+                        />
+
+                      </div>
+
+                      <div>
+
+                        <p className="text-sm text-white">
+
+                          {
+                            trip.invoiceStatus
+                          }
+
+                        </p>
+
+                        <p className="text-xs text-zinc-500 mt-1">
+
+                          {
+                            trip.invoiceNo
+                          }
+
+                        </p>
+
+                      </div>
+
+                    </div>
+
+                  </td>
+
+                  {/* Payment */}
+                  <td className="px-6 py-5">
+
+                    <span
+                      className={`px-4 py-2 rounded-full text-xs font-semibold ${
+                        trip.paymentStatus ===
+                        "Paid"
+                          ? "bg-emerald-500/15 text-emerald-400"
+
+                          : trip.paymentStatus ===
+                            "Partial"
+                          ? "bg-blue-500/15 text-blue-400"
+
+                          : "bg-yellow-500/15 text-yellow-400"
+                      }`}
+                    >
+
+                      {
+                        trip.paymentStatus
+                      }
+
+                    </span>
+
+                  </td>
+
+                  {/* Trip Status */}
+                  <td className="px-6 py-5">
+
+                    <span
+                      className={`px-4 py-2 rounded-full text-xs font-semibold ${trip.color}`}
+                    >
+
+                      {
+                        trip.tripStatus
+                      }
+
+                    </span>
+
+                  </td>
+
+                  {/* Actions */}
+                  <td className="px-6 py-5">
+
+                    <div className="flex items-center gap-3">
+
+                      {/* View */}
+                      <button
+                        onClick={() => {
+
+                          setSelectedTrip(
+                            trip
+                          );
+
+                          setShowDrawer(
+                            true
+                          );
+                        }}
+                        className="w-11 h-11 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-yellow-500/20 hover:bg-yellow-500/10 flex items-center justify-center transition-all duration-300"
+                      >
+
+                        <Eye
+                          size={18}
+                          className="text-zinc-300"
+                        />
+
+                      </button>
+
+                      {/* Edit */}
+                      <button
+                        onClick={() => {
+
+                          setSelectedTrip(
+                            trip
+                          );
+
+                          setShowEditModal(
+                            true
+                          );
+                        }}
+                        className="w-11 h-11 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-blue-500/20 hover:bg-blue-500/10 flex items-center justify-center transition-all duration-300"
+                      >
+
+                        <Pencil
+                          size={18}
+                          className="text-zinc-300"
+                        />
+
+                      </button>
+
+                      {/* Delete */}
+                      <button
+                        onClick={() =>
+                          deleteTrip(
+                            trip.bookingId
+                          )
+                        }
+                        className="w-11 h-11 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-red-500/20 hover:bg-red-500/10 flex items-center justify-center transition-all duration-300"
+                      >
+
+                        <Trash2
+                          size={18}
+                          className="text-zinc-300"
+                        />
+
+                      </button>
+
+                    </div>
+
+                  </td>
+
+                </tr>
+              )
+            )}
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+      {/* Drawer */}
+      {showDrawer && (
+
+        <BookingDetailsDrawer
+          trip={selectedTrip}
+          closeDrawer={() =>
+            setShowDrawer(false)
+          }
+        />
+
+      )}
+
+      {/* Edit Modal */}
+      {showEditModal && (
+
+        <EditBookingModal
+          selectedTrip={
+            selectedTrip
+          }
+          closeModal={() =>
+            setShowEditModal(false)
+          }
+          updateTrip={
+            updateTrip
+          }
+        />
+
+      )}
+
+    </div>
   );
 }
 

@@ -1,107 +1,151 @@
-import {
-  Bell,
-  Search,
-  LogOut,
-} from "lucide-react";
+// import {
+//   Bell,
+//   LogOut,
+//   Sparkles,
+// } from "lucide-react";
 
-import {
-  useNavigate,
-} from "react-router-dom";
+// import {
+//   useNavigate,
+//   useLocation,
+// } from "react-router-dom";
 
-function Topbar() {
+// function Topbar() {
 
-  const navigate =
-    useNavigate();
+//   const navigate =
+//     useNavigate();
 
-  const handleLogout = () => {
+//   const location =
+//     useLocation();
 
-    localStorage.removeItem(
-      "admin-auth"
-    );
+//   const handleLogout = () => {
 
-    navigate("/login");
-  };
+//     localStorage.removeItem(
+//       "admin-auth"
+//     );
 
-  return (
-    <div className="sticky top-0 z-40 mb-8">
+//     navigate("/login");
+//   };
 
-      <div className="relative overflow-hidden flex items-center justify-between gap-6 bg-white/[0.04] border border-white/10 rounded-[30px] px-6 py-5 backdrop-blur-2xl hover:border-yellow-500/20 transition-all duration-300">
+//   // Dynamic Page Title
+//   const getPageTitle = () => {
 
-        {/* Glow */}
-        <div className="absolute top-[-80px] right-[-80px] w-[180px] h-[180px] bg-yellow-400/10 blur-[100px] rounded-full"></div>
+//     switch (
+//       location.pathname
+//     ) {
 
-        {/* Left */}
-        <div className="relative z-10 flex items-center gap-4 flex-1">
+//       case "/":
+//         return "Dashboard";
 
-          {/* Search */}
-          <div className="hidden md:flex items-center gap-4 w-full max-w-md px-5 py-4 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-yellow-500/20 transition-all duration-300">
+//       case "/drivers":
+//         return "Drivers";
 
-            <Search
-              size={18}
-              className="text-zinc-500"
-            />
+//       case "/bookings":
+//         return "Bookings";
 
-            <input
-              type="text"
-              placeholder="Search dashboard..."
-              className="bg-transparent outline-none w-full text-sm text-white placeholder:text-zinc-500"
-            />
+//       case "/ledger":
+//         return "Ledger";
 
-          </div>
+//       case "/analytics":
+//         return "Analytics";
 
-        </div>
+//       case "/reports":
+//         return "Reports";
 
-        {/* Right */}
-        <div className="relative z-10 flex items-center gap-4">
+//       default:
+//         return "Admin Panel";
+//     }
+//   };
 
-          {/* Notifications */}
-          <button className="w-14 h-14 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-center hover:border-yellow-500/20 hover:bg-white/[0.06] transition-all duration-300">
+//   return (
+//     <div className="sticky top-0 z-40 mb-8">
 
-            <Bell
-              size={20}
-              className="text-zinc-300"
-            />
+//       <div className="relative overflow-hidden flex items-center justify-between gap-6 bg-white/[0.04] border border-white/10 rounded-[32px] px-7 py-5 backdrop-blur-2xl hover:border-yellow-500/20 transition-all duration-500">
 
-          </button>
+//         {/* Glow */}
+//         <div className="absolute top-[-100px] right-[-100px] w-[220px] h-[220px] bg-yellow-400/10 blur-[120px] rounded-full"></div>
 
-          {/* Profile */}
-          <div className="hidden sm:flex items-center gap-4 px-4 py-3 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-yellow-500/20 transition-all duration-300">
+//         <div className="absolute bottom-[-100px] left-[-100px] w-[220px] h-[220px] bg-amber-500/5 blur-[120px] rounded-full"></div>
 
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-yellow-400 to-amber-500 shadow-[0_0_25px_rgba(250,204,21,0.18)]"></div>
+//         {/* Left */}
+//         <div className="relative z-10 flex items-center gap-5">
 
-            <div>
+//           {/* Icon */}
+//           <div className="w-14 h-14 rounded-3xl bg-gradient-to-br from-yellow-400 to-amber-500 flex items-center justify-center text-black shadow-[0_0_30px_rgba(250,204,21,0.18)]">
 
-              <p className="text-sm font-semibold text-white">
-                Deepanshu
-              </p>
+//             <Sparkles
+//               size={24}
+//             />
 
-              <p className="text-xs text-zinc-500 mt-1">
-                System Administrator
-              </p>
+//           </div>
 
-            </div>
+//           {/* Title */}
+//           <div>
 
-          </div>
+//             <p className="text-sm uppercase tracking-[0.25em] text-yellow-400 font-medium">
+//               Get Me Cab
+//             </p>
 
-          {/* Logout */}
-          <button
-            onClick={handleLogout}
-            className="w-14 h-14 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-center hover:bg-red-500/10 hover:border-red-500/20 transition-all duration-300"
-          >
+//             <h2 className="text-3xl font-bold mt-2 text-white tracking-tight">
+//               {
+//                 getPageTitle()
+//               }
+//             </h2>
 
-            <LogOut
-              size={20}
-              className="text-zinc-300"
-            />
+//           </div>
 
-          </button>
+//         </div>
 
-        </div>
+//         {/* Right */}
+//         <div className="relative z-10 flex items-center gap-4">
 
-      </div>
+//           {/* Notifications */}
+//           <button className="w-14 h-14 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-center hover:border-yellow-500/20 hover:bg-white/[0.06] transition-all duration-300">
 
-    </div>
-  );
-}
+//             <Bell
+//               size={20}
+//               className="text-zinc-300"
+//             />
 
-export default Topbar;
+//           </button>
+
+//           {/* Profile */}
+//           <div className="hidden sm:flex items-center gap-4 px-4 py-3 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-yellow-500/20 transition-all duration-300">
+
+//             <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-yellow-400 to-amber-500 shadow-[0_0_25px_rgba(250,204,21,0.18)]"></div>
+
+//             <div>
+
+//               <p className="text-sm font-semibold text-white">
+//                 Deepanshu
+//               </p>
+
+//               <p className="text-xs text-zinc-500 mt-1">
+//                 System Administrator
+//               </p>
+
+//             </div>
+
+//           </div>
+
+//           {/* Logout */}
+//           <button
+//             onClick={handleLogout}
+//             className="w-14 h-14 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-center hover:bg-red-500/10 hover:border-red-500/20 transition-all duration-300"
+//           >
+
+//             <LogOut
+//               size={20}
+//               className="text-zinc-300"
+//             />
+
+//           </button>
+
+//         </div>
+
+//       </div>
+
+//     </div>
+//   );
+// }
+
+// export default Topbar;

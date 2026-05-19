@@ -8,52 +8,72 @@ export const fetchDashboardStats =
 
           resolve([
             {
+              id: 1,
+
               title:
                 "Total Revenue",
 
               value: "₹4.8L",
 
-              growth:
+              trend:
                 "+12% this month",
+
+              category:
+                "revenue",
 
               status:
                 "positive",
             },
 
             {
+              id: 2,
+
               title:
                 "Active Drivers",
 
               value: "324",
 
-              growth:
-                "+8 new today",
+              trend:
+                "+8 active today",
+
+              category:
+                "drivers",
 
               status:
                 "positive",
             },
 
             {
+              id: 3,
+
               title:
                 "Total Bookings",
 
               value: "12,540",
 
-              growth:
-                "+18% growth",
+              trend:
+                "+18% booking growth",
+
+              category:
+                "bookings",
 
               status:
                 "positive",
             },
 
             {
+              id: 4,
+
               title:
                 "Ride Efficiency",
 
               value: "92%",
 
-              growth:
+              trend:
                 "+5% operational improvement",
+
+              category:
+                "operations",
 
               status:
                 "positive",

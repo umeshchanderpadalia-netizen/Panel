@@ -1,8 +1,11 @@
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useState,
+} from "react";
 
 function AnimatedCounter({
   value,
-  duration = 1200,
+  duration = 1600,
 }) {
 
   const [count, setCount] =
@@ -12,49 +15,81 @@ function AnimatedCounter({
 
     let start = 0;
 
-    const end = parseInt(
-      value.toString().replace(
-        /[^0-9]/g,
-        ""
-      )
-    );
+    const cleanValue =
+      value
+        .toString()
+        .replace(
+          /[^0-9]/g,
+          ""
+        );
+
+    const end =
+      parseInt(cleanValue);
 
     if (isNaN(end)) return;
 
-    const increment =
-      end / (duration / 16);
+    const startTime =
+      performance.now();
 
-    const timer =
-      setInterval(() => {
+    const animate =
+      (currentTime) => {
 
-        start += increment;
+        const progress =
+          Math.min(
+            (
+              currentTime -
+              startTime
+            ) / duration,
+            1
+          );
 
-        if (start >= end) {
+        // Ease Out Cubic
+        const easeOut =
+          1 -
+          Math.pow(
+            1 - progress,
+            3
+          );
 
-          setCount(end);
+        const current =
+          Math.floor(
+            easeOut * end
+          );
 
-          clearInterval(timer);
+        setCount(current);
+
+        if (
+          progress < 1
+        ) {
+
+          requestAnimationFrame(
+            animate
+          );
 
         } else {
 
-          setCount(
-            Math.floor(start)
-          );
+          setCount(end);
         }
+      };
 
-      }, 16);
-
-    return () =>
-      clearInterval(timer);
+    requestAnimationFrame(
+      animate
+    );
 
   }, [value, duration]);
 
-  return (
-    <span className="tracking-tight">
+  // Format
+  const formattedValue =
+    value
+      .toString()
+      .includes("₹")
+      ? `₹${count.toLocaleString()}`
+      : count.toLocaleString();
 
-      {value.toString().includes("₹")
-        ? `₹${count.toLocaleString()}`
-        : count.toLocaleString()}
+  return (
+    <span className="tracking-tight tabular-nums">
+
+      {formattedValue}
 
     </span>
   );
