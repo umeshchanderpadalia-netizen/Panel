@@ -4,18 +4,20 @@ import {
   useState,
 } from "react";
 
-import { AppContext } from "./context";
+import {
+  AppContext,
+} from "./context";
 
-import tripsData from "../data/trips";
-import driversData from "../data/drivers";
+import {
+  trips as tripsData,
+  drivers as driversData,
+} from "../data";
 
 export function AppProvider({
   children,
 }) {
 
-  // =========================
   // Trips
-  // =========================
   const [trips, setTrips] =
     useState(() => {
 
@@ -29,9 +31,7 @@ export function AppProvider({
         : tripsData;
     });
 
-  // =========================
   // Drivers
-  // =========================
   const [drivers, setDrivers] =
     useState(() => {
 
@@ -45,52 +45,59 @@ export function AppProvider({
         : driversData;
     });
 
-  // =========================
   // Notifications
-  // =========================
   const [
     notifications,
     setNotifications,
   ] = useState([]);
 
-  // =========================
-  // Live Dashboard Stats
-  // =========================
+  // Dashboard Stats
   const dashboardStats =
     useMemo(() => {
 
       const completedTrips =
         trips.filter(
           (trip) =>
-            trip.status ===
+            trip.tripStatus ===
             "Completed"
         ).length;
 
       const ongoingTrips =
         trips.filter(
           (trip) =>
-            trip.status ===
+            trip.tripStatus ===
             "Ongoing"
         ).length;
 
       const cancelledTrips =
         trips.filter(
           (trip) =>
-            trip.status ===
+            trip.tripStatus ===
             "Cancelled"
         ).length;
 
       const onlineDrivers =
         drivers.filter(
           (driver) =>
-            driver.status ===
+            driver.availability ===
             "Online"
         ).length;
 
       const totalRevenue =
-        completedTrips * 850;
+        trips.reduce(
+          (
+            total,
+            trip
+          ) =>
+            total +
+            Number(
+              trip.total || 0
+            ),
+          0
+        );
 
       return {
+
         totalTrips:
           trips.length,
 
@@ -107,9 +114,7 @@ export function AppProvider({
 
     }, [trips, drivers]);
 
-  // =========================
   // Persist Trips
-  // =========================
   useEffect(() => {
 
     localStorage.setItem(
@@ -119,9 +124,7 @@ export function AppProvider({
 
   }, [trips]);
 
-  // =========================
   // Persist Drivers
-  // =========================
   useEffect(() => {
 
     localStorage.setItem(
@@ -131,47 +134,51 @@ export function AppProvider({
 
   }, [drivers]);
 
-  // =========================
-  // Add Notification
-  // =========================
+  // Notifications
   const addNotification = (
     message,
     type = "success"
   ) => {
 
     const newNotification = {
+
       id: Date.now(),
+
       message,
+
       type,
     };
 
-    setNotifications((prev) => [
-      newNotification,
-      ...prev,
-    ]);
+    setNotifications(
+      (prev) => [
+        newNotification,
+        ...prev,
+      ]
+    );
 
     setTimeout(() => {
 
-      setNotifications((prev) =>
-        prev.filter(
-          (item) =>
-            item.id !==
-            newNotification.id
-        )
+      setNotifications(
+        (prev) =>
+          prev.filter(
+            (item) =>
+              item.id !==
+              newNotification.id
+          )
       );
 
     }, 3500);
   };
 
-  // =========================
   // Add Trip
-  // =========================
   const addTrip = (
     newTrip
   ) => {
 
     const tripWithId = {
+
       ...newTrip,
+
       id: Date.now(),
     };
 
@@ -185,9 +192,7 @@ export function AppProvider({
     );
   };
 
-  // =========================
   // Delete Trip
-  // =========================
   const deleteTrip = (
     tripId
   ) => {
@@ -195,18 +200,18 @@ export function AppProvider({
     setTrips((prev) =>
       prev.filter(
         (trip) =>
-          trip.id !== tripId
+          trip.id !==
+          tripId
       )
     );
 
     addNotification(
-      "Booking deleted"
+      "Booking deleted",
+      "warning"
     );
   };
 
-  // =========================
   // Update Trip
-  // =========================
   const updateTrip = (
     updatedTrip
   ) => {
@@ -225,27 +230,36 @@ export function AppProvider({
     );
   };
 
-  return (
-    <AppContext.Provider
-      value={{
-        // Trips
+  const value =
+    useMemo(
+      () => ({
+
         trips,
         setTrips,
         addTrip,
         deleteTrip,
         updateTrip,
 
-        // Drivers
         drivers,
         setDrivers,
 
-        // Notifications
         notifications,
         addNotification,
 
-        // Analytics
         dashboardStats,
-      }}
+      }),
+      [
+        trips,
+        drivers,
+        notifications,
+        dashboardStats,
+      ]
+    );
+
+  return (
+
+    <AppContext.Provider
+      value={value}
     >
 
       <div className="relative z-10 animate-[fadeIn_0.45s_ease]">

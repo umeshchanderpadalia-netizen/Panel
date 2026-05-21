@@ -4,25 +4,28 @@ const api = axios.create({
   baseURL:
     "https://mock-api.getmecab.com/api",
 
-  timeout: 7000,
+  timeout: 10000,
 
   headers: {
     "Content-Type":
       "application/json",
+    Accept:
+      "application/json",
   },
 });
 
-// Request Interceptor
+/* =========================
+   Request Interceptor
+========================= */
+
 api.interceptors.request.use(
   (config) => {
-
     const token =
       localStorage.getItem(
         "admin-auth"
       );
 
     if (token) {
-
       config.headers.Authorization =
         `Bearer ${token}`;
     }
@@ -34,17 +37,18 @@ api.interceptors.request.use(
     Promise.reject(error)
 );
 
-// Response Interceptor
+/* =========================
+   Response Interceptor
+========================= */
+
 api.interceptors.response.use(
   (response) => response,
 
   (error) => {
+    const status =
+      error.response?.status;
 
-    if (
-      error.response?.status ===
-      401
-    ) {
-
+    if (status === 401) {
       localStorage.removeItem(
         "admin-auth"
       );
@@ -54,7 +58,15 @@ api.interceptors.response.use(
       );
     }
 
-    return Promise.reject(error);
+    return Promise.reject({
+      success: false,
+      status,
+      message:
+        error.response?.data
+          ?.message ||
+        error.message ||
+        "Something went wrong",
+    });
   }
 );
 

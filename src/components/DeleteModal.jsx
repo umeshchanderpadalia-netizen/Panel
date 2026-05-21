@@ -1,7 +1,10 @@
 import {
   Trash2,
   X,
+  AlertTriangle,
 } from "lucide-react";
+
+import { motion } from "framer-motion";
 
 function DeleteModal({
   closeModal,
@@ -9,24 +12,40 @@ function DeleteModal({
 }) {
 
   return (
-    <div className="fixed inset-0 z-[200] bg-black/85 backdrop-blur-2xl flex items-center justify-center px-6">
 
-      <div className="relative overflow-hidden w-full max-w-md bg-[#090909]/95 border border-white/10 rounded-[40px] p-8 backdrop-blur-3xl shadow-[0_0_80px_rgba(0,0,0,0.45)]">
+    <div className="fixed inset-0 z-[220] flex items-center justify-center bg-black/85 backdrop-blur-2xl px-6 py-10">
 
-        {/* Ambient Glow */}
-        <div className="absolute top-[-100px] right-[-100px] w-[240px] h-[240px] bg-red-500/10 blur-[120px] rounded-full"></div>
+      <motion.div
+        initial={{
+          opacity: 0,
+          scale: 0.94,
+          y: 30,
+        }}
+        animate={{
+          opacity: 1,
+          scale: 1,
+          y: 0,
+        }}
+        transition={{
+          duration: 0.28,
+        }}
+        className="relative w-full max-w-md overflow-hidden rounded-[38px] border border-white/10 bg-[#090909]/95 p-8 shadow-[0_0_90px_rgba(0,0,0,0.45)] backdrop-blur-3xl"
+      >
 
-        <div className="absolute bottom-[-120px] left-[-120px] w-[240px] h-[240px] bg-red-500/5 blur-[120px] rounded-full"></div>
+        {/* Background Glow */}
+        <div className="absolute right-[-110px] top-[-110px] h-[260px] w-[260px] rounded-full bg-red-500/10 blur-[140px]"></div>
 
-        {/* Top Gradient */}
-        <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-white/[0.03] to-transparent"></div>
+        <div className="absolute bottom-[-130px] left-[-130px] h-[260px] w-[260px] rounded-full bg-red-500/5 blur-[140px]"></div>
+
+        {/* Top Overlay */}
+        <div className="absolute left-0 top-0 h-32 w-full bg-gradient-to-b from-white/[0.03] to-transparent"></div>
 
         <div className="relative z-10">
 
           {/* Close */}
           <button
             onClick={closeModal}
-            className="absolute top-0 right-0 w-12 h-12 rounded-2xl hover:bg-white/[0.05] hover:border hover:border-red-500/20 flex items-center justify-center transition-all duration-300"
+            className="absolute right-0 top-0 flex h-12 w-12 items-center justify-center rounded-2xl border border-transparent transition-all duration-300 hover:border-red-500/20 hover:bg-white/[0.05]"
           >
 
             <X
@@ -37,35 +56,87 @@ function DeleteModal({
           </button>
 
           {/* Icon */}
-          <div className="w-20 h-20 rounded-[28px] bg-red-500/10 text-red-400 flex items-center justify-center shadow-[0_0_35px_rgba(239,68,68,0.12)]">
+          <div className="flex h-20 w-20 items-center justify-center rounded-[28px] border border-red-500/10 bg-red-500/10 text-red-400 shadow-[0_0_40px_rgba(239,68,68,0.12)]">
 
-            <Trash2 size={34} />
+            <Trash2
+              size={34}
+            />
 
           </div>
 
           {/* Content */}
           <div className="mt-8">
 
-            <p className="text-sm uppercase tracking-[0.25em] text-red-400">
-              Warning
-            </p>
+            <div className="flex items-center gap-2 text-red-400">
 
-            <h2 className="text-4xl font-bold mt-4 tracking-tight text-white">
+              <AlertTriangle
+                size={15}
+              />
+
+              <p className="text-xs font-semibold uppercase tracking-[0.28em]">
+
+                Permanent Action
+
+              </p>
+
+            </div>
+
+            <h2 className="mt-4 text-4xl font-bold tracking-tight text-white">
+
               Delete Booking
+
             </h2>
 
-            <p className="text-zinc-400 mt-5 leading-relaxed">
-              This action is permanent and cannot be reversed. The selected booking record will be permanently removed from the operations dashboard.
+            <p className="mt-5 leading-relaxed text-zinc-400">
+
+              This action cannot be undone.
+              The selected booking and related operational records
+              will be permanently removed from the dashboard.
+
             </p>
 
           </div>
 
+          {/* Warning Box */}
+          <div className="mt-8 rounded-3xl border border-red-500/10 bg-red-500/[0.04] p-5">
+
+            <div className="flex items-start gap-4">
+
+              <div className="mt-1 flex h-10 w-10 items-center justify-center rounded-2xl bg-red-500/10 text-red-400">
+
+                <AlertTriangle
+                  size={18}
+                />
+
+              </div>
+
+              <div>
+
+                <h3 className="font-semibold text-white">
+
+                  Data Removal Warning
+
+                </h3>
+
+                <p className="mt-2 text-sm leading-relaxed text-zinc-400">
+
+                  Deleted bookings will no longer appear in reports,
+                  analytics or ledger operations.
+
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
           {/* Actions */}
-          <div className="flex gap-4 mt-12">
+          <div className="mt-10 flex gap-4">
 
             <button
               onClick={closeModal}
-              className="flex-1 px-6 py-4 rounded-2xl bg-white/[0.05] border border-white/10 hover:bg-white/[0.08] hover:border-red-500/20 transition-all duration-300 text-white"
+              className="flex-1 rounded-2xl border border-white/10 bg-white/[0.04] px-6 py-4 text-white transition-all duration-300 hover:border-white/20 hover:bg-white/[0.08]"
             >
 
               Cancel
@@ -74,14 +145,20 @@ function DeleteModal({
 
             <button
               onClick={confirmDelete}
-              className="group relative overflow-hidden flex-1 px-6 py-4 rounded-2xl bg-red-500 hover:bg-red-600 transition-all duration-300 font-semibold text-white shadow-[0_0_25px_rgba(239,68,68,0.18)]"
+              className="group relative flex-1 overflow-hidden rounded-2xl bg-red-500 px-6 py-4 font-semibold text-white shadow-[0_0_30px_rgba(239,68,68,0.2)] transition-all duration-300 hover:scale-[1.02] hover:bg-red-600"
             >
 
               {/* Shine */}
-              <div className="absolute top-0 left-[-120%] w-[120%] h-full bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 group-hover:left-[120%] transition-all duration-1000"></div>
+              <div className="absolute left-[-130%] top-0 h-full w-[120%] skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent transition-all duration-1000 group-hover:left-[130%]"></div>
 
-              <span className="relative z-10">
-                Delete
+              <span className="relative z-10 flex items-center justify-center gap-2">
+
+                <Trash2
+                  size={16}
+                />
+
+                Delete Booking
+
               </span>
 
             </button>
@@ -90,7 +167,7 @@ function DeleteModal({
 
         </div>
 
-      </div>
+      </motion.div>
 
     </div>
   );

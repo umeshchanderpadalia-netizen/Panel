@@ -1,4 +1,5 @@
 const vendors = [
+
   {
     id: 2001,
 
@@ -33,10 +34,10 @@ const vendors = [
       6,
 
     monthlyRevenue:
-      "₹4,80,000",
+      480000,
 
     pendingPayments:
-      "₹72,000",
+      72000,
 
     paymentStatus:
       "Pending",
@@ -88,10 +89,10 @@ const vendors = [
       4,
 
     monthlyRevenue:
-      "₹3,20,000",
+      320000,
 
     pendingPayments:
-      "₹0",
+      0,
 
     paymentStatus:
       "Paid",
@@ -107,116 +108,6 @@ const vendors = [
 
     avatar:
       "https://i.pravatar.cc/300?img=45",
-  },
-
-  {
-    id: 2003,
-
-    company:
-      "City Ride Travels",
-
-    owner:
-      "Amit Chauhan",
-
-    phone:
-      "+91 9898765432",
-
-    email:
-      "cityride@getmecab.com",
-
-    location:
-      "Dwarka",
-
-    totalDrivers:
-      31,
-
-    activeDrivers:
-      20,
-
-    assignedTrips:
-      204,
-
-    completedTrips:
-      176,
-
-    cancelledTrips:
-      11,
-
-    monthlyRevenue:
-      "₹6,40,000",
-
-    pendingPayments:
-      "₹1,20,000",
-
-    paymentStatus:
-      "Overdue",
-
-    status:
-      "Busy",
-
-    partnershipDate:
-      "22 Aug 2023",
-
-    gstNumber:
-      "07LMNOP4567Q1X9",
-
-    avatar:
-      "https://i.pravatar.cc/300?img=51",
-  },
-
-  {
-    id: 2004,
-
-    company:
-      "Metro Fleet Network",
-
-    owner:
-      "Deepak Singh",
-
-    phone:
-      "+91 9765432109",
-
-    email:
-      "metrofleet@getmecab.com",
-
-    location:
-      "Gurgaon",
-
-    totalDrivers:
-      15,
-
-    activeDrivers:
-      7,
-
-    assignedTrips:
-      72,
-
-    completedTrips:
-      66,
-
-    cancelledTrips:
-      5,
-
-    monthlyRevenue:
-      "₹2,10,000",
-
-    pendingPayments:
-      "₹36,000",
-
-    paymentStatus:
-      "Pending",
-
-    status:
-      "Inactive",
-
-    partnershipDate:
-      "10 Dec 2024",
-
-    gstNumber:
-      "06XYZAB8901K2M7",
-
-    avatar:
-      "https://i.pravatar.cc/300?img=60",
   },
 ];
 

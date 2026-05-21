@@ -2,52 +2,75 @@ import { useState } from "react";
 
 import { motion } from "framer-motion";
 
-function EditTripModal({
+function EditDriverModal({
+  selectedDriver,
   closeModal,
-  selectedTrip,
-  updateTrip,
+  updateDriver,
 }) {
 
   const [formData, setFormData] =
     useState({
-      customer:
-        selectedTrip.customer || "",
+      name:
+        selectedDriver.name || "",
 
       phone:
-        selectedTrip.phone || "",
+        selectedDriver.phone || "",
 
-      pickup:
-        selectedTrip.pickup || "",
-
-      drop:
-        selectedTrip.drop || "",
-
-      rideDate:
-        selectedTrip.rideDate || "",
-
-      bookingType:
-        selectedTrip.bookingType ||
-        "One Way",
-
-      driver:
-        selectedTrip.driver || "",
+      email:
+        selectedDriver.email || "",
 
       vehicle:
-        selectedTrip.vehicle || "",
+        selectedDriver.vehicle || "",
+
+      vehicleNumber:
+        selectedDriver.vehicleNumber ||
+        "",
+
+      vehicleType:
+        selectedDriver.vehicleType ||
+        "",
 
       vendor:
-        selectedTrip.vendor || "",
+        selectedDriver.vendor || "",
 
-      fare:
-        selectedTrip.fare || "",
-
-      paymentStatus:
-        selectedTrip.paymentStatus ||
-        "Pending",
+      location:
+        selectedDriver.location ||
+        "",
 
       status:
-        selectedTrip.status ||
-        "Pending",
+        selectedDriver.status ||
+        "Available",
+
+      availability:
+        selectedDriver.availability ||
+        "Online",
+
+      assignedTrips:
+        selectedDriver.assignedTrips ||
+        0,
+
+      completedTrips:
+        selectedDriver.completedTrips ||
+        0,
+
+      cancelledTrips:
+        selectedDriver.cancelledTrips ||
+        0,
+
+      rating:
+        selectedDriver.rating || 0,
+
+      earnings:
+        selectedDriver.earnings ||
+        "₹0",
+
+      joiningDate:
+        selectedDriver.joiningDate ||
+        "",
+
+      licenseNumber:
+        selectedDriver.licenseNumber ||
+        "",
     });
 
   const handleChange = (
@@ -66,29 +89,25 @@ function EditTripModal({
 
       switch (status) {
 
-        case "Completed":
+        case "Available":
 
           return "text-emerald-400 bg-emerald-500/20";
 
-        case "Cancelled":
+        case "On Trip":
+
+          return "text-yellow-400 bg-yellow-500/20";
+
+        case "Offline":
 
           return "text-red-400 bg-red-500/20";
 
-        case "Confirmed":
+        case "Inactive":
 
-          return "text-cyan-400 bg-cyan-500/20";
-
-        case "Driver Assigned":
-
-          return "text-blue-400 bg-blue-500/20";
-
-        case "Pending":
-
-          return "text-orange-400 bg-orange-500/20";
+          return "text-zinc-400 bg-zinc-500/20";
 
         default:
 
-          return "text-yellow-400 bg-yellow-500/20";
+          return "text-cyan-400 bg-cyan-500/20";
       }
     };
 
@@ -98,8 +117,8 @@ function EditTripModal({
 
     e.preventDefault();
 
-    updateTrip({
-      ...selectedTrip,
+    updateDriver({
+      ...selectedDriver,
       ...formData,
       color:
         getStatusColor(
@@ -112,7 +131,7 @@ function EditTripModal({
 
   return (
 
-    <div className="fixed inset-0 z-[220] flex items-center justify-center bg-black/85 backdrop-blur-2xl px-6 py-10 overflow-y-auto">
+    <div className="fixed inset-0 z-[160] flex items-center justify-center bg-black/80 backdrop-blur-xl px-6 py-10 overflow-y-auto">
 
       <motion.div
         initial={{
@@ -141,20 +160,20 @@ function EditTripModal({
 
             <p className="text-xs uppercase tracking-[0.35em] text-yellow-400 font-semibold">
 
-              Trip Operations
+              Driver Operations
 
             </p>
 
             <h2 className="text-4xl lg:text-5xl font-bold text-white mt-4">
 
-              Edit Trip
+              Edit Driver
 
             </h2>
 
             <p className="text-zinc-500 mt-4 max-w-2xl">
 
-              Update trip workflow, assignments,
-              payment information and operational activity.
+              Update driver details, assignments,
+              operational status and transport workflow.
 
             </p>
 
@@ -166,12 +185,12 @@ function EditTripModal({
             className="space-y-8"
           >
 
-            {/* Customer */}
+            {/* Driver Information */}
             <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-7">
 
               <h3 className="text-2xl font-bold text-white mb-7">
 
-                Customer Information
+                Driver Information
 
               </h3>
 
@@ -179,20 +198,22 @@ function EditTripModal({
 
                 <input
                   type="text"
-                  name="customer"
-                  placeholder="Customer Name"
+                  name="name"
+                  required
+                  placeholder="Driver Name"
                   value={
-                    formData.customer
+                    formData.name
                   }
                   onChange={
                     handleChange
                   }
-                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white"
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
                 />
 
                 <input
                   type="text"
                   name="phone"
+                  required
                   placeholder="Phone Number"
                   value={
                     formData.phone
@@ -200,19 +221,46 @@ function EditTripModal({
                   onChange={
                     handleChange
                   }
-                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white"
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
+                />
+
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email Address"
+                  value={
+                    formData.email
+                  }
+                  onChange={
+                    handleChange
+                  }
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
+                />
+
+                <input
+                  type="text"
+                  name="location"
+                  required
+                  placeholder="Current Location"
+                  value={
+                    formData.location
+                  }
+                  onChange={
+                    handleChange
+                  }
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
                 />
 
               </div>
 
             </div>
 
-            {/* Trip */}
+            {/* Vehicle & Vendor */}
             <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-7">
 
               <h3 className="text-2xl font-bold text-white mb-7">
 
-                Trip Information
+                Vehicle & Vendor
 
               </h3>
 
@@ -220,232 +268,243 @@ function EditTripModal({
 
                 <input
                   type="text"
-                  name="pickup"
-                  placeholder="Pickup"
+                  name="vehicle"
+                  required
+                  placeholder="Vehicle"
                   value={
-                    formData.pickup
+                    formData.vehicle
                   }
                   onChange={
                     handleChange
                   }
-                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white"
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
                 />
 
                 <input
                   type="text"
-                  name="drop"
-                  placeholder="Drop"
+                  name="vehicleNumber"
+                  required
+                  placeholder="Vehicle Number"
                   value={
-                    formData.drop
+                    formData.vehicleNumber
                   }
                   onChange={
                     handleChange
                   }
-                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white"
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
                 />
 
                 <input
                   type="text"
-                  name="rideDate"
-                  placeholder="Ride Date"
+                  name="vehicleType"
+                  placeholder="Vehicle Type"
                   value={
-                    formData.rideDate
+                    formData.vehicleType
                   }
                   onChange={
                     handleChange
                   }
-                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white"
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
                 />
+
+                <input
+                  type="text"
+                  name="vendor"
+                  required
+                  placeholder="Vendor"
+                  value={
+                    formData.vendor
+                  }
+                  onChange={
+                    handleChange
+                  }
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
+                />
+
+              </div>
+
+            </div>
+
+            {/* Operations */}
+            <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-7">
+
+              <h3 className="text-2xl font-bold text-white mb-7">
+
+                Operations
+
+              </h3>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
 
                 <select
-                  name="bookingType"
+                  name="status"
                   value={
-                    formData.bookingType
+                    formData.status
                   }
                   onChange={
                     handleChange
                   }
-                  className="w-full bg-[#0a0a0a] border border-white/10 rounded-2xl px-5 py-4 text-white"
+                  className="w-full bg-[#0a0a0a] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
                 >
 
                   <option>
-                    One Way
+                    Available
                   </option>
 
                   <option>
-                    Round Trip
+                    On Trip
                   </option>
 
                   <option>
-                    Airport Transfer
+                    Offline
                   </option>
 
                   <option>
-                    Outstation
+                    Inactive
                   </option>
 
                 </select>
 
-              </div>
+                <select
+                  name="availability"
+                  value={
+                    formData.availability
+                  }
+                  onChange={
+                    handleChange
+                  }
+                  className="w-full bg-[#0a0a0a] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
+                >
 
-            </div>
+                  <option>
+                    Online
+                  </option>
 
-            {/* Assignment & Operations */}
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                  <option>
+                    Offline
+                  </option>
 
-              {/* Assignment */}
-              <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-7">
+                </select>
 
-                <h3 className="text-2xl font-bold text-white mb-7">
-
-                  Assignment
-
-                </h3>
-
-                <div className="space-y-5">
-
-                  <input
-                    type="text"
-                    name="driver"
-                    placeholder="Driver"
-                    value={
-                      formData.driver
-                    }
-                    onChange={
-                      handleChange
-                    }
-                    className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white"
-                  />
-
-                  <input
-                    type="text"
-                    name="vehicle"
-                    placeholder="Vehicle"
-                    value={
-                      formData.vehicle
-                    }
-                    onChange={
-                      handleChange
-                    }
-                    className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white"
-                  />
-
-                  <input
-                    type="text"
-                    name="vendor"
-                    placeholder="Vendor"
-                    value={
-                      formData.vendor
-                    }
-                    onChange={
-                      handleChange
-                    }
-                    className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white"
-                  />
-
-                </div>
-
-              </div>
-
-              {/* Operations */}
-              <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-7">
-
-                <h3 className="text-2xl font-bold text-white mb-7">
-
-                  Operations
-
-                </h3>
-
-                <div className="space-y-5">
-
-                  <input
-                    type="text"
-                    name="fare"
-                    placeholder="Fare"
-                    value={
-                      formData.fare
-                    }
-                    onChange={
-                      handleChange
-                    }
-                    className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white"
-                  />
-
-                  <select
-                    name="paymentStatus"
-                    value={
-                      formData.paymentStatus
-                    }
-                    onChange={
-                      handleChange
-                    }
-                    className="w-full bg-[#0a0a0a] border border-white/10 rounded-2xl px-5 py-4 text-white"
-                  >
-
-                    <option>
-                      Pending
-                    </option>
-
-                    <option>
-                      Paid
-                    </option>
-
-                    <option>
-                      Partial
-                    </option>
-
-                  </select>
-
-                  <select
-                    name="status"
-                    value={
-                      formData.status
-                    }
-                    onChange={
-                      handleChange
-                    }
-                    className="w-full bg-[#0a0a0a] border border-white/10 rounded-2xl px-5 py-4 text-white"
-                  >
-
-                    <option>
-                      Pending
-                    </option>
-
-                    <option>
-                      Confirmed
-                    </option>
-
-                    <option>
-                      Driver Assigned
-                    </option>
-
-                    <option>
-                      Ongoing
-                    </option>
-
-                    <option>
-                      Completed
-                    </option>
-
-                    <option>
-                      Cancelled
-                    </option>
-
-                  </select>
-
-                </div>
+                <input
+                  type="text"
+                  name="earnings"
+                  placeholder="Monthly Earnings"
+                  value={
+                    formData.earnings
+                  }
+                  onChange={
+                    handleChange
+                  }
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
+                />
 
               </div>
 
             </div>
 
-            {/* Actions */}
-            <div className="flex gap-4">
+            {/* Performance */}
+            <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-7">
+
+              <h3 className="text-2xl font-bold text-white mb-7">
+
+                Performance Metrics
+
+              </h3>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+
+                <input
+                  type="number"
+                  name="assignedTrips"
+                  placeholder="Assigned Trips"
+                  value={
+                    formData.assignedTrips
+                  }
+                  onChange={
+                    handleChange
+                  }
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
+                />
+
+                <input
+                  type="number"
+                  name="completedTrips"
+                  placeholder="Completed Trips"
+                  value={
+                    formData.completedTrips
+                  }
+                  onChange={
+                    handleChange
+                  }
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
+                />
+
+                <input
+                  type="number"
+                  step="0.1"
+                  name="rating"
+                  placeholder="Rating"
+                  value={
+                    formData.rating
+                  }
+                  onChange={
+                    handleChange
+                  }
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
+                />
+
+              </div>
+
+            </div>
+
+            {/* Extra */}
+            <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-7">
+
+              <h3 className="text-2xl font-bold text-white mb-7">
+
+                Verification
+
+              </h3>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+                <input
+                  type="date"
+                  name="joiningDate"
+                  value={
+                    formData.joiningDate
+                  }
+                  onChange={
+                    handleChange
+                  }
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
+                />
+
+                <input
+                  type="text"
+                  name="licenseNumber"
+                  placeholder="License Number"
+                  value={
+                    formData.licenseNumber
+                  }
+                  onChange={
+                    handleChange
+                  }
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
+                />
+
+              </div>
+
+            </div>
+
+            {/* Footer */}
+            <div className="flex gap-4 pt-2">
 
               <button
                 type="button"
                 onClick={closeModal}
-                className="flex-1 border border-white/10 rounded-2xl py-4 text-white"
+                className="flex-1 border border-white/10 hover:bg-white/[0.04] transition-all duration-300 rounded-2xl py-4 text-white"
               >
 
                 Cancel
@@ -454,7 +513,7 @@ function EditTripModal({
 
               <button
                 type="submit"
-                className="flex-1 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-2xl py-4 font-semibold text-black"
+                className="flex-1 bg-gradient-to-r from-yellow-400 to-amber-500 hover:scale-[1.01] transition-all duration-300 rounded-2xl py-4 font-semibold text-black shadow-[0_0_25px_rgba(250,204,21,0.18)]"
               >
 
                 Save Changes
@@ -473,4 +532,4 @@ function EditTripModal({
   );
 }
 
-export default EditTripModal;
+export default EditDriverModal;

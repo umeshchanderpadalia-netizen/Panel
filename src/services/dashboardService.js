@@ -1,84 +1,102 @@
 export const fetchDashboardStats =
-  () => {
+  async () => {
 
     return new Promise(
-      (resolve) => {
+      (
+        resolve,
+        reject
+      ) => {
 
         setTimeout(() => {
 
-          resolve([
-            {
-              id: 1,
+          try {
 
-              title:
-                "Total Revenue",
+            resolve([
+              {
+                id: 1,
 
-              value: "₹4.8L",
+                title:
+                  "Total Revenue",
 
-              trend:
-                "+12% this month",
+                value:
+                  "₹4.8L",
 
-              category:
-                "revenue",
+                trend:
+                  "+12% this month",
 
-              status:
-                "positive",
-            },
+                category:
+                  "revenue",
 
-            {
-              id: 2,
+                status:
+                  "positive",
+              },
 
-              title:
-                "Active Drivers",
+              {
+                id: 2,
 
-              value: "324",
+                title:
+                  "Active Drivers",
 
-              trend:
-                "+8 active today",
+                value:
+                  "324",
 
-              category:
-                "drivers",
+                trend:
+                  "+8 active today",
 
-              status:
-                "positive",
-            },
+                category:
+                  "drivers",
 
-            {
-              id: 3,
+                status:
+                  "positive",
+              },
 
-              title:
-                "Total Bookings",
+              {
+                id: 3,
 
-              value: "12,540",
+                title:
+                  "Total Bookings",
 
-              trend:
-                "+18% booking growth",
+                value:
+                  "12,540",
 
-              category:
-                "bookings",
+                trend:
+                  "+18% booking growth",
 
-              status:
-                "positive",
-            },
+                category:
+                  "bookings",
 
-            {
-              id: 4,
+                status:
+                  "positive",
+              },
 
-              title:
-                "Ride Efficiency",
+              {
+                id: 4,
 
-              value: "92%",
+                title:
+                  "Ride Efficiency",
 
-              trend:
-                "+5% operational improvement",
+                value:
+                  "92%",
 
-              category:
-                "operations",
+                trend:
+                  "+5% operational improvement",
 
-              status:
-                "positive",
-            },
-          ]);
+                category:
+                  "operations",
+
+                status:
+                  "positive",
+              },
+            ]);
+
+          } catch (error) {
+
+            reject({
+              success: false,
+              message:
+                "Failed to fetch dashboard stats",
+            });
+          }
 
         }, 1200);
       }

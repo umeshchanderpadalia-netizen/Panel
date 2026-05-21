@@ -201,6 +201,7 @@ function EditVendorModal({
                 <input
                   type="text"
                   name="company"
+                  required
                   placeholder="Company Name"
                   value={
                     formData.company
@@ -208,12 +209,13 @@ function EditVendorModal({
                   onChange={
                     handleChange
                   }
-                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white"
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
                 />
 
                 <input
                   type="text"
                   name="owner"
+                  required
                   placeholder="Owner Name"
                   value={
                     formData.owner
@@ -221,12 +223,13 @@ function EditVendorModal({
                   onChange={
                     handleChange
                   }
-                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white"
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
                 />
 
                 <input
                   type="text"
                   name="phone"
+                  required
                   placeholder="Phone Number"
                   value={
                     formData.phone
@@ -234,7 +237,7 @@ function EditVendorModal({
                   onChange={
                     handleChange
                   }
-                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white"
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
                 />
 
                 <input
@@ -247,12 +250,13 @@ function EditVendorModal({
                   onChange={
                     handleChange
                   }
-                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white"
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
                 />
 
                 <input
                   type="text"
                   name="location"
+                  required
                   placeholder="Location"
                   value={
                     formData.location
@@ -260,7 +264,7 @@ function EditVendorModal({
                   onChange={
                     handleChange
                   }
-                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white"
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
                 />
 
                 <input
@@ -273,7 +277,7 @@ function EditVendorModal({
                   onChange={
                     handleChange
                   }
-                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white"
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
                 />
 
               </div>
@@ -301,7 +305,7 @@ function EditVendorModal({
                   onChange={
                     handleChange
                   }
-                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white"
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
                 />
 
                 <input
@@ -314,7 +318,7 @@ function EditVendorModal({
                   onChange={
                     handleChange
                   }
-                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white"
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
                 />
 
                 <input
@@ -327,14 +331,14 @@ function EditVendorModal({
                   onChange={
                     handleChange
                   }
-                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white"
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
                 />
 
               </div>
 
             </div>
 
-            {/* Revenue & Payments */}
+            {/* Revenue */}
             <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-7">
 
               <h3 className="text-2xl font-bold text-white mb-7">
@@ -355,7 +359,7 @@ function EditVendorModal({
                   onChange={
                     handleChange
                   }
-                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white"
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
                 />
 
                 <input
@@ -368,7 +372,7 @@ function EditVendorModal({
                   onChange={
                     handleChange
                   }
-                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white"
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
                 />
 
                 <select
@@ -379,7 +383,7 @@ function EditVendorModal({
                   onChange={
                     handleChange
                   }
-                  className="w-full bg-[#0a0a0a] border border-white/10 rounded-2xl px-5 py-4 text-white"
+                  className="w-full bg-[#0a0a0a] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
                 >
 
                   <option>
@@ -419,7 +423,7 @@ function EditVendorModal({
                   onChange={
                     handleChange
                   }
-                  className="w-full bg-[#0a0a0a] border border-white/10 rounded-2xl px-5 py-4 text-white"
+                  className="w-full bg-[#0a0a0a] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
                 >
 
                   <option>
@@ -441,16 +445,15 @@ function EditVendorModal({
                 </select>
 
                 <input
-                  type="text"
+                  type="date"
                   name="partnershipDate"
-                  placeholder="Partnership Date"
                   value={
                     formData.partnershipDate
                   }
                   onChange={
                     handleChange
                   }
-                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white"
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
                 />
 
               </div>

@@ -3,12 +3,17 @@ import {
   BarChart3,
   Car,
   CalendarDays,
+  FileText,
+  Settings,
+  Users,
   Search,
   X,
+  CornerDownLeft,
 } from "lucide-react";
 
 import {
   useEffect,
+  useMemo,
   useState,
 } from "react";
 
@@ -16,77 +21,230 @@ import {
   useNavigate,
 } from "react-router-dom";
 
-import { motion } from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+} from "framer-motion";
 
 function CommandPalette({
   open,
   setOpen,
 }) {
 
-  const navigate = useNavigate();
+  const navigate =
+    useNavigate();
 
   const [search, setSearch] =
     useState("");
 
+  const [selectedIndex, setSelectedIndex] =
+    useState(0);
+
   // Close with ESC
   useEffect(() => {
 
-    const handleEscape = (e) => {
+    const handleKeyDown =
+      (event) => {
 
-      if (e.key === "Escape") {
-        setOpen(false);
-      }
-    };
+        if (
+          event.key ===
+          "Escape"
+        ) {
+
+          setOpen(false);
+        }
+      };
 
     window.addEventListener(
       "keydown",
-      handleEscape
+      handleKeyDown
     );
 
-    return () =>
+    return () => {
+
       window.removeEventListener(
         "keydown",
-        handleEscape
+        handleKeyDown
       );
+    };
 
   }, [setOpen]);
 
   // Commands
   const commands = [
+
     {
       name: "Dashboard",
-      icon: LayoutDashboard,
+      description:
+        "Overview of operations and performance",
+      icon:
+        LayoutDashboard,
       path: "/",
-    },
-
-    {
-      name: "Analytics",
-      icon: BarChart3,
-      path: "/analytics",
-    },
-
-    {
-      name: "Drivers",
-      icon: Car,
-      path: "/drivers",
+      shortcut: "⌘ D",
     },
 
     {
       name: "Bookings",
-      icon: CalendarDays,
+      description:
+        "Manage customer bookings and trips",
+      icon:
+        CalendarDays,
       path: "/bookings",
+      shortcut: "⌘ B",
+    },
+
+    {
+      name: "Drivers",
+      description:
+        "Manage driver operations and status",
+      icon: Car,
+      path: "/drivers",
+      shortcut: "⌘ R",
+    },
+
+    {
+      name: "Vendors",
+      description:
+        "Vendor network and partnerships",
+      icon: Users,
+      path: "/vendors",
+      shortcut: "⌘ V",
+    },
+
+    {
+      name: "Analytics",
+      description:
+        "Business insights and growth reports",
+      icon:
+        BarChart3,
+      path: "/analytics",
+      shortcut: "⌘ A",
+    },
+
+    {
+      name: "Reports",
+      description:
+        "Generate operational reports",
+      icon:
+        FileText,
+      path: "/reports",
+      shortcut: "⌘ P",
+    },
+
+    {
+      name: "Settings",
+      description:
+        "System configuration and preferences",
+      icon:
+        Settings,
+      path: "/settings",
+      shortcut: "⌘ S",
     },
   ];
 
   // Filtered Commands
   const filteredCommands =
-    commands.filter((item) =>
-      item.name
-        .toLowerCase()
-        .includes(
-          search.toLowerCase()
-        )
+    useMemo(() => {
+
+      return commands.filter(
+        (item) =>
+          item.name
+            .toLowerCase()
+            .includes(
+              search.toLowerCase()
+            ) ||
+
+          item.description
+            .toLowerCase()
+            .includes(
+              search.toLowerCase()
+            )
+      );
+
+    }, [search]);
+
+  // Reset Selection
+  useEffect(() => {
+
+    setSelectedIndex(0);
+
+  }, [search]);
+
+  // Keyboard Navigation
+  useEffect(() => {
+
+    if (!open) return;
+
+    const handleKeyboard =
+      (event) => {
+
+        if (
+          event.key ===
+          "ArrowDown"
+        ) {
+
+          event.preventDefault();
+
+          setSelectedIndex(
+            (prev) =>
+              prev <
+              filteredCommands.length -
+                1
+                ? prev + 1
+                : 0
+          );
+        }
+
+        if (
+          event.key ===
+          "ArrowUp"
+        ) {
+
+          event.preventDefault();
+
+          setSelectedIndex(
+            (prev) =>
+              prev > 0
+                ? prev - 1
+                : filteredCommands.length -
+                  1
+          );
+        }
+
+        if (
+          event.key ===
+            "Enter" &&
+          filteredCommands[
+            selectedIndex
+          ]
+        ) {
+
+          handleNavigate(
+            filteredCommands[
+              selectedIndex
+            ].path
+          );
+        }
+      };
+
+    window.addEventListener(
+      "keydown",
+      handleKeyboard
     );
+
+    return () => {
+
+      window.removeEventListener(
+        "keydown",
+        handleKeyboard
+      );
+    };
+
+  }, [
+    open,
+    filteredCommands,
+    selectedIndex,
+  ]);
 
   // Navigate
   const handleNavigate = (
@@ -96,150 +254,267 @@ function CommandPalette({
     navigate(path);
 
     setOpen(false);
+
+    setSearch("");
   };
 
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-[200] bg-black/80 backdrop-blur-xl flex items-start justify-center pt-24 px-6">
+
+    <AnimatePresence>
 
       <motion.div
         initial={{
           opacity: 0,
-          scale: 0.96,
-          y: 20,
         }}
         animate={{
           opacity: 1,
-          scale: 1,
-          y: 0,
         }}
-        transition={{
-          duration: 0.25,
+        exit={{
+          opacity: 0,
         }}
-        className="relative overflow-hidden w-full max-w-2xl bg-[#0a0a0a]/95 border border-white/10 rounded-[36px] backdrop-blur-2xl shadow-[0_0_60px_rgba(0,0,0,0.6)]"
+        className="fixed inset-0 z-[200] flex items-start justify-center bg-black/80 px-6 pt-24 backdrop-blur-xl"
       >
 
-        {/* Glow */}
-        <div className="absolute top-[-100px] right-[-100px] w-[240px] h-[240px] bg-yellow-400/10 blur-[120px] rounded-full"></div>
+        <motion.div
+          initial={{
+            opacity: 0,
+            scale: 0.96,
+            y: 24,
+          }}
+          animate={{
+            opacity: 1,
+            scale: 1,
+            y: 0,
+          }}
+          exit={{
+            opacity: 0,
+            scale: 0.96,
+            y: 20,
+          }}
+          transition={{
+            duration: 0.24,
+          }}
+          className="relative w-full max-w-2xl overflow-hidden rounded-[38px] border border-white/10 bg-[#090909]/95 shadow-[0_0_80px_rgba(0,0,0,0.6)] backdrop-blur-3xl"
+        >
 
-        <div className="relative z-10">
+          {/* Glow */}
+          <div className="absolute right-[-120px] top-[-120px] h-[260px] w-[260px] rounded-full bg-yellow-400/10 blur-[140px]"></div>
 
-          {/* Top */}
-          <div className="flex items-center gap-4 px-6 py-5 border-b border-white/10">
+          <div className="absolute bottom-[-120px] left-[-120px] h-[220px] w-[220px] rounded-full bg-amber-500/10 blur-[120px]"></div>
 
-            <Search
-              size={20}
-              className="text-yellow-400"
-            />
+          <div className="relative z-10">
 
-            <input
-              autoFocus
-              type="text"
-              placeholder="Search pages..."
-              value={search}
-              onChange={(e) =>
-                setSearch(
-                  e.target.value
-                )
-              }
-              className="flex-1 bg-transparent outline-none text-white placeholder:text-zinc-500 text-lg"
-            />
+            {/* Search Header */}
+            <div className="flex items-center gap-4 border-b border-white/10 px-6 py-5">
 
-            <button
-              onClick={() =>
-                setOpen(false)
-              }
-              className="w-10 h-10 rounded-xl hover:bg-white/[0.05] hover:border hover:border-yellow-500/20 flex items-center justify-center transition-all duration-300"
-            >
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-yellow-500/10 text-yellow-400">
 
-              <X
-                size={18}
-                className="text-zinc-400"
+                <Search
+                  size={20}
+                />
+
+              </div>
+
+              <input
+                autoFocus
+                type="text"
+                placeholder="Search dashboard pages..."
+                value={search}
+                onChange={(event) =>
+                  setSearch(
+                    event.target.value
+                  )
+                }
+                className="flex-1 bg-transparent text-lg text-white outline-none placeholder:text-zinc-500"
               />
 
-            </button>
+              <button
+                onClick={() =>
+                  setOpen(false)
+                }
+                className="flex h-11 w-11 items-center justify-center rounded-2xl border border-transparent transition-all duration-300 hover:border-yellow-500/20 hover:bg-white/[0.05]"
+              >
 
-          </div>
+                <X
+                  size={18}
+                  className="text-zinc-400"
+                />
 
-          {/* Commands */}
-          <div className="p-4">
+              </button>
 
-            {filteredCommands.length >
-            0 ? (
+            </div>
 
-              <div className="space-y-2">
+            {/* Results */}
+            <div className="p-4">
 
-                {filteredCommands.map(
-                  (
-                    item,
-                    index
-                  ) => {
+              {filteredCommands.length >
+              0 ? (
 
-                    const Icon =
-                      item.icon;
+                <div className="space-y-2">
 
-                    return (
-                      <button
-                        key={index}
-                        onClick={() =>
-                          handleNavigate(
-                            item.path
-                          )
-                        }
-                        className="group w-full flex items-center gap-4 px-5 py-4 rounded-2xl hover:bg-yellow-500/[0.05] border border-transparent hover:border-yellow-500/10 transition-all duration-300 text-left"
-                      >
+                  {filteredCommands.map(
+                    (
+                      item,
+                      index
+                    ) => {
 
-                        <div className="w-12 h-12 rounded-2xl bg-yellow-500/10 text-yellow-400 flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-yellow-400 group-hover:to-amber-500 group-hover:text-black transition-all duration-300 shadow-[0_0_20px_rgba(250,204,21,0.08)]">
+                      const Icon =
+                        item.icon;
 
-                          <Icon
-                            size={22}
-                          />
+                      const active =
+                        selectedIndex ===
+                        index;
 
-                        </div>
+                      return (
 
-                        <div>
+                        <button
+                          key={item.name}
+                          onClick={() =>
+                            handleNavigate(
+                              item.path
+                            )
+                          }
+                          className={`group flex w-full items-center justify-between rounded-3xl border px-5 py-4 text-left transition-all duration-300 ${
+                            active
+                              ? "border-yellow-500/20 bg-yellow-500/[0.06]"
+                              : "border-transparent hover:border-yellow-500/10 hover:bg-white/[0.03]"
+                          }`}
+                        >
 
-                          <p className="font-semibold text-white">
-                            {item.name}
-                          </p>
+                          <div className="flex items-center gap-4">
 
-                          <p className="text-sm text-zinc-500 mt-1">
-                            Open{" "}
-                            {
-                              item.name
-                            }{" "}
-                            page
-                          </p>
+                            <div
+                              className={`flex h-14 w-14 items-center justify-center rounded-2xl transition-all duration-300 ${
+                                active
+                                  ? "bg-gradient-to-br from-yellow-400 to-amber-500 text-black"
+                                  : "bg-yellow-500/10 text-yellow-400"
+                              }`}
+                            >
 
-                        </div>
+                              <Icon
+                                size={24}
+                              />
 
-                      </button>
-                    );
-                  }
-                )}
+                            </div>
+
+                            <div>
+
+                              <p className="font-semibold text-white">
+
+                                {
+                                  item.name
+                                }
+
+                              </p>
+
+                              <p className="mt-1 text-sm text-zinc-500">
+
+                                {
+                                  item.description
+                                }
+
+                              </p>
+
+                            </div>
+
+                          </div>
+
+                          <div className="flex items-center gap-4">
+
+                            <span className="rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 text-xs text-zinc-500">
+
+                              {
+                                item.shortcut
+                              }
+
+                            </span>
+
+                            <CornerDownLeft
+                              size={16}
+                              className="text-zinc-600"
+                            />
+
+                          </div>
+
+                        </button>
+                      );
+                    }
+                  )}
+
+                </div>
+
+              ) : (
+
+                <div className="flex flex-col items-center justify-center px-6 py-16 text-center">
+
+                  <div className="flex h-20 w-20 items-center justify-center rounded-3xl bg-white/[0.04] text-zinc-500">
+
+                    <Search
+                      size={28}
+                    />
+
+                  </div>
+
+                  <h3 className="mt-6 text-2xl font-bold text-white">
+
+                    No Results Found
+
+                  </h3>
+
+                  <p className="mt-3 max-w-sm leading-relaxed text-zinc-500">
+
+                    Try searching for dashboard pages,
+                    analytics, drivers, bookings or reports.
+
+                  </p>
+
+                </div>
+              )}
+
+            </div>
+
+            {/* Footer */}
+            <div className="flex items-center justify-between border-t border-white/10 px-6 py-4">
+
+              <div className="flex items-center gap-3 text-xs text-zinc-500">
+
+                <kbd className="rounded-lg border border-white/10 bg-white/[0.03] px-2 py-1">
+                  ↑
+                </kbd>
+
+                <kbd className="rounded-lg border border-white/10 bg-white/[0.03] px-2 py-1">
+                  ↓
+                </kbd>
+
+                <span>
+                  Navigate
+                </span>
 
               </div>
 
-            ) : (
+              <div className="flex items-center gap-3 text-xs text-zinc-500">
 
-              <div className="py-16 text-center">
+                <kbd className="rounded-lg border border-white/10 bg-white/[0.03] px-2 py-1">
+                  Enter
+                </kbd>
 
-                <p className="text-zinc-500 text-lg">
-                  No matching results
-                </p>
+                <span>
+                  Open Page
+                </span>
 
               </div>
 
-            )}
+            </div>
 
           </div>
 
-        </div>
+        </motion.div>
 
       </motion.div>
 
-    </div>
+    </AnimatePresence>
   );
 }
 

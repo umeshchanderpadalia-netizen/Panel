@@ -9,7 +9,9 @@ import {
 function useApp() {
 
   const context =
-    useContext(AppContext);
+    useContext(
+      AppContext
+    );
 
   if (!context) {
 

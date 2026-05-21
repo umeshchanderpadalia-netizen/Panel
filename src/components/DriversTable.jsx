@@ -9,6 +9,8 @@ import {
   Trash2,
   Search,
   Star,
+  Users,
+  Activity,
 } from "lucide-react";
 
 import DriverDetailsDrawer from "./DriverDetailsDrawer";
@@ -38,7 +40,9 @@ function DriversTable({
     setShowEditModal,
   ] = useState(false);
 
+  // =========================
   // Search Filter
+  // =========================
   const filteredDrivers =
     useMemo(() => {
 
@@ -71,7 +75,30 @@ function DriversTable({
 
     }, [search, drivers]);
 
+  // =========================
+  // Stats
+  // =========================
+  const onlineDrivers =
+    drivers.filter(
+      (driver) =>
+        driver.availability ===
+        "Online"
+    ).length;
+
+  const activeTrips =
+    drivers.reduce(
+      (
+        total,
+        driver
+      ) =>
+        total +
+        driver.assignedTrips,
+      0
+    );
+
+  // =========================
   // Delete Driver
+  // =========================
   const deleteDriver =
     (id) => {
 
@@ -86,7 +113,9 @@ function DriversTable({
       );
     };
 
+  // =========================
   // Update Driver
+  // =========================
   const updateDriver =
     (updatedDriver) => {
 
@@ -105,58 +134,127 @@ function DriversTable({
 
   return (
 
-    <div className="relative overflow-hidden bg-white/[0.03] border border-white/10 rounded-[36px] backdrop-blur-2xl">
+    <div className="relative overflow-hidden rounded-[36px] border border-white/10 bg-white/[0.03] backdrop-blur-2xl">
 
       {/* Glow */}
-      <div className="absolute top-[-120px] right-[-120px] w-[240px] h-[240px] bg-yellow-500/10 blur-[120px] rounded-full"></div>
+      <div className="absolute top-[-140px] right-[-140px] h-[260px] w-[260px] rounded-full bg-yellow-500/10 blur-[140px]"></div>
+
+      <div className="absolute bottom-[-120px] left-[-120px] h-[240px] w-[240px] rounded-full bg-amber-500/[0.05] blur-[140px]"></div>
 
       {/* Header */}
-      <div className="relative z-10 p-6 lg:p-8 border-b border-white/10">
+      <div className="relative z-10 border-b border-white/10 p-6 lg:p-8">
 
-        <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-6">
+        <div className="flex flex-col gap-8 xl:flex-row xl:items-center xl:justify-between">
 
+          {/* Left */}
           <div>
 
-            <p className="text-xs uppercase tracking-[0.35em] text-yellow-400 font-semibold">
+            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-yellow-400">
 
               Driver Operations
 
             </p>
 
-            <h2 className="text-3xl font-bold text-white mt-4">
+            <h2 className="mt-4 text-3xl font-bold tracking-tight text-white">
 
               Driver Management
 
             </h2>
 
-            <p className="text-zinc-500 mt-3 max-w-2xl leading-relaxed">
+            <p className="mt-3 max-w-2xl leading-relaxed text-zinc-500">
 
-              Monitor availability, assignments,
-              operational workflow and driver performance.
+              Monitor driver availability, assignments,
+              fleet workflow and operational performance.
 
             </p>
 
           </div>
 
-          {/* Search */}
-          <div className="relative w-full xl:w-[360px]">
+          {/* Right */}
+          <div className="flex flex-col gap-5 xl:items-end">
 
-            <Search
-              size={18}
-              className="absolute left-5 top-1/2 -translate-y-1/2 text-zinc-500"
-            />
+            {/* Search */}
+            <div className="relative w-full xl:w-[360px]">
 
-            <input
-              type="text"
-              placeholder="Search drivers..."
-              value={search}
-              onChange={(e) =>
-                setSearch(
-                  e.target.value
-                )
-              }
-              className="w-full bg-black/30 border border-white/10 rounded-2xl pl-14 pr-5 py-4 text-white outline-none focus:border-yellow-500/40 transition-all duration-300"
-            />
+              <Search
+                size={18}
+                className="absolute left-5 top-1/2 -translate-y-1/2 text-zinc-500"
+              />
+
+              <input
+                type="text"
+                placeholder="Search drivers..."
+                value={search}
+                onChange={(e) =>
+                  setSearch(
+                    e.target.value
+                  )
+                }
+                className="w-full rounded-2xl border border-white/10 bg-black/30 py-4 pl-14 pr-5 text-white outline-none transition-all duration-300 placeholder:text-zinc-500 focus:border-yellow-500/30 focus:bg-white/[0.03]"
+              />
+
+            </div>
+
+            {/* Quick Stats */}
+            <div className="flex flex-wrap gap-3">
+
+              <div className="flex items-center gap-3 rounded-2xl border border-emerald-500/10 bg-emerald-500/10 px-4 py-3">
+
+                <Users
+                  size={16}
+                  className="text-emerald-400"
+                />
+
+                <div>
+
+                  <p className="text-[11px] uppercase tracking-[0.2em] text-emerald-400">
+
+                    Online
+
+                  </p>
+
+                  <h4 className="text-sm font-semibold text-white">
+
+                    {
+                      onlineDrivers
+                    }{" "}
+                    Drivers
+
+                  </h4>
+
+                </div>
+
+              </div>
+
+              <div className="flex items-center gap-3 rounded-2xl border border-yellow-500/10 bg-yellow-500/10 px-4 py-3">
+
+                <Activity
+                  size={16}
+                  className="text-yellow-400"
+                />
+
+                <div>
+
+                  <p className="text-[11px] uppercase tracking-[0.2em] text-yellow-400">
+
+                    Active
+
+                  </p>
+
+                  <h4 className="text-sm font-semibold text-white">
+
+                    {
+                      activeTrips
+                    }{" "}
+                    Trips
+
+                  </h4>
+
+                </div>
+
+              </div>
+
+            </div>
 
           </div>
 
@@ -169,61 +267,40 @@ function DriversTable({
 
         <table className="w-full min-w-[1700px]">
 
-          <thead className="bg-white/[0.03] border-b border-white/10">
+          <thead className="border-b border-white/10 bg-white/[0.03]">
 
             <tr>
 
-              <th className="text-left px-6 py-5 text-sm font-semibold text-zinc-400">
-                Driver
-              </th>
+              {[
+                "Driver",
+                "Phone",
+                "Vehicle",
+                "Vehicle No.",
+                "Vendor",
+                "Location",
+                "Assigned Trips",
+                "Completed Trips",
+                "Rating",
+                "Earnings",
+                "Status",
+                "Availability",
+                "Actions",
+              ].map(
+                (
+                  heading,
+                  index
+                ) => (
 
-              <th className="text-left px-6 py-5 text-sm font-semibold text-zinc-400">
-                Phone
-              </th>
+                  <th
+                    key={index}
+                    className="px-6 py-5 text-left text-sm font-semibold text-zinc-400"
+                  >
 
-              <th className="text-left px-6 py-5 text-sm font-semibold text-zinc-400">
-                Vehicle
-              </th>
+                    {heading}
 
-              <th className="text-left px-6 py-5 text-sm font-semibold text-zinc-400">
-                Vehicle No.
-              </th>
-
-              <th className="text-left px-6 py-5 text-sm font-semibold text-zinc-400">
-                Vendor
-              </th>
-
-              <th className="text-left px-6 py-5 text-sm font-semibold text-zinc-400">
-                Location
-              </th>
-
-              <th className="text-left px-6 py-5 text-sm font-semibold text-zinc-400">
-                Assigned Trips
-              </th>
-
-              <th className="text-left px-6 py-5 text-sm font-semibold text-zinc-400">
-                Completed Trips
-              </th>
-
-              <th className="text-left px-6 py-5 text-sm font-semibold text-zinc-400">
-                Rating
-              </th>
-
-              <th className="text-left px-6 py-5 text-sm font-semibold text-zinc-400">
-                Earnings
-              </th>
-
-              <th className="text-left px-6 py-5 text-sm font-semibold text-zinc-400">
-                Status
-              </th>
-
-              <th className="text-left px-6 py-5 text-sm font-semibold text-zinc-400">
-                Availability
-              </th>
-
-              <th className="text-left px-6 py-5 text-sm font-semibold text-zinc-400">
-                Actions
-              </th>
+                  </th>
+                )
+              )}
 
             </tr>
 
@@ -239,7 +316,7 @@ function DriversTable({
 
                 <tr
                   key={index}
-                  className="border-b border-white/5 hover:bg-white/[0.02] transition-all duration-300"
+                  className="group border-b border-white/[0.05] transition-all duration-300 hover:bg-white/[0.02]"
                 >
 
                   {/* Driver */}
@@ -247,28 +324,45 @@ function DriversTable({
 
                     <div className="flex items-center gap-4">
 
-                      <img
-                        src={
-                          driver.avatar
-                        }
-                        alt={
-                          driver.name
-                        }
-                        className="w-14 h-14 rounded-2xl object-cover border border-white/10"
-                      />
+                      <div className="relative">
+
+                        <img
+                          src={
+                            driver.avatar
+                          }
+                          alt={
+                            driver.name
+                          }
+                          className="h-14 w-14 rounded-2xl border border-white/10 object-cover"
+                        />
+
+                        <div
+                          className={`absolute bottom-0 right-0 h-3.5 w-3.5 rounded-full border-2 border-[#090909] ${
+                            driver.availability ===
+                            "Online"
+                              ? "bg-emerald-400"
+                              : "bg-red-400"
+                          }`}
+                        ></div>
+
+                      </div>
 
                       <div>
 
-                        <p className="text-white font-semibold">
+                        <p className="font-semibold text-white">
+
                           {
                             driver.name
                           }
+
                         </p>
 
-                        <p className="text-xs text-zinc-500 mt-1">
+                        <p className="mt-1 text-xs text-zinc-500">
+
                           {
                             driver.email
                           }
+
                         </p>
 
                       </div>
@@ -279,43 +373,65 @@ function DriversTable({
 
                   {/* Phone */}
                   <td className="px-6 py-5 text-sm text-zinc-300">
+
                     {driver.phone}
+
                   </td>
 
                   {/* Vehicle */}
                   <td className="px-6 py-5 text-sm text-zinc-300">
+
                     {driver.vehicle}
+
                   </td>
 
                   {/* Vehicle Number */}
                   <td className="px-6 py-5 text-sm text-zinc-300">
+
                     {
                       driver.vehicleNumber
                     }
+
                   </td>
 
                   {/* Vendor */}
                   <td className="px-6 py-5 text-sm text-zinc-300">
+
                     {driver.vendor}
+
                   </td>
 
                   {/* Location */}
                   <td className="px-6 py-5 text-sm text-zinc-300">
+
                     {driver.location}
+
                   </td>
 
                   {/* Assigned */}
-                  <td className="px-6 py-5 text-sm text-zinc-300">
-                    {
-                      driver.assignedTrips
-                    }
+                  <td className="px-6 py-5">
+
+                    <div className="inline-flex rounded-xl border border-yellow-500/10 bg-yellow-500/10 px-4 py-2 text-sm font-medium text-yellow-400">
+
+                      {
+                        driver.assignedTrips
+                      }
+
+                    </div>
+
                   </td>
 
                   {/* Completed */}
-                  <td className="px-6 py-5 text-sm text-zinc-300">
-                    {
-                      driver.completedTrips
-                    }
+                  <td className="px-6 py-5">
+
+                    <div className="inline-flex rounded-xl border border-emerald-500/10 bg-emerald-500/10 px-4 py-2 text-sm font-medium text-emerald-400">
+
+                      {
+                        driver.completedTrips
+                      }
+
+                    </div>
+
                   </td>
 
                   {/* Rating */}
@@ -328,10 +444,12 @@ function DriversTable({
                         fill="currentColor"
                       />
 
-                      <span className="text-sm font-medium">
+                      <span className="text-sm font-semibold">
+
                         {
                           driver.rating
                         }
+
                       </span>
 
                     </div>
@@ -339,17 +457,19 @@ function DriversTable({
                   </td>
 
                   {/* Earnings */}
-                  <td className="px-6 py-5 text-sm font-medium text-white">
+                  <td className="px-6 py-5 text-sm font-semibold text-white">
+
                     {
                       driver.earnings
                     }
+
                   </td>
 
                   {/* Status */}
                   <td className="px-6 py-5">
 
                     <span
-                      className={`px-4 py-2 rounded-full text-xs font-semibold ${driver.color}`}
+                      className={`rounded-full px-4 py-2 text-xs font-semibold ${driver.color}`}
                     >
 
                       {
@@ -364,7 +484,7 @@ function DriversTable({
                   <td className="px-6 py-5">
 
                     <span
-                      className={`px-4 py-2 rounded-full text-xs font-semibold ${
+                      className={`rounded-full px-4 py-2 text-xs font-semibold ${
                         driver.availability ===
                         "Online"
                           ? "bg-emerald-500/15 text-emerald-400"
@@ -397,7 +517,7 @@ function DriversTable({
                             true
                           );
                         }}
-                        className="w-11 h-11 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-yellow-500/20 hover:bg-yellow-500/10 flex items-center justify-center transition-all duration-300"
+                        className="flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.03] transition-all duration-300 hover:border-yellow-500/20 hover:bg-yellow-500/10"
                       >
 
                         <Eye
@@ -419,7 +539,7 @@ function DriversTable({
                             true
                           );
                         }}
-                        className="w-11 h-11 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-blue-500/20 hover:bg-blue-500/10 flex items-center justify-center transition-all duration-300"
+                        className="flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.03] transition-all duration-300 hover:border-blue-500/20 hover:bg-blue-500/10"
                       >
 
                         <Pencil
@@ -436,7 +556,7 @@ function DriversTable({
                             driver.id
                           )
                         }
-                        className="w-11 h-11 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-red-500/20 hover:bg-red-500/10 flex items-center justify-center transition-all duration-300"
+                        className="flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.03] transition-all duration-300 hover:border-red-500/20 hover:bg-red-500/10"
                       >
 
                         <Trash2
@@ -459,6 +579,38 @@ function DriversTable({
         </table>
 
       </div>
+
+      {/* Empty State */}
+      {filteredDrivers.length ===
+        0 && (
+
+        <div className="flex flex-col items-center justify-center px-6 py-24 text-center">
+
+          <div className="flex h-20 w-20 items-center justify-center rounded-[28px] border border-yellow-500/10 bg-yellow-500/10">
+
+            <Search
+              size={28}
+              className="text-yellow-400"
+            />
+
+          </div>
+
+          <h3 className="mt-6 text-2xl font-bold text-white">
+
+            No Drivers Found
+
+          </h3>
+
+          <p className="mt-3 max-w-md text-zinc-500">
+
+            Try searching with a different driver,
+            vehicle, vendor or location keyword.
+
+          </p>
+
+        </div>
+
+      )}
 
       {/* Drawer */}
       {showDrawer && (

@@ -17,6 +17,10 @@
   --glow-yellow: rgba(250, 204, 21, 0.18);
 }
 
+/* =========================
+   Global
+========================= */
+
 html {
   scroll-behavior: smooth;
 }
@@ -27,142 +31,236 @@ body {
   min-height: 100vh;
 
   background:
-    radial-gradient(circle at top right, rgba(250, 204, 21, 0.08), transparent 30%),
-    radial-gradient(circle at bottom left, rgba(245, 158, 11, 0.06), transparent 30%),
+    radial-gradient(
+      circle at top right,
+      rgba(250, 204, 21, 0.08),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at bottom left,
+      rgba(245, 158, 11, 0.06),
+      transparent 30%
+    ),
     #050505;
 
   color: var(--text-primary);
 
-  font-family: Inter, sans-serif;
+  font-family:
+    Inter,
+    sans-serif;
 
   overflow-x: hidden;
+
+  text-rendering:
+    optimizeLegibility;
+
+  -webkit-font-smoothing:
+    antialiased;
+
+  -moz-osx-font-smoothing:
+    grayscale;
 }
 
-/* Global Reset */
-* {
+#root {
+  min-height: 100vh;
+}
+
+/* =========================
+   Reset
+========================= */
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
-/* Links */
+* {
+  -webkit-tap-highlight-color:
+    transparent;
+}
+
+/* =========================
+   Typography
+========================= */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+
+/* =========================
+   Links
+========================= */
+
 a {
   text-decoration: none;
   color: inherit;
 }
 
-/* Buttons */
+/* =========================
+   Buttons
+========================= */
+
 button {
-  transition: all 0.3s ease;
   cursor: pointer;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease,
+    background 0.3s ease,
+    border-color 0.3s ease;
 }
 
-/* Inputs */
+/* =========================
+   Inputs
+========================= */
+
 input,
 textarea,
 select {
   outline: none;
-  border: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.03);
-  color: var(--text-primary);
+
+  border: 1px solid
+    var(--border);
+
+  background:
+    rgba(255, 255, 255, 0.03);
+
+  color:
+    var(--text-primary);
 }
 
-/* Selection */
+/* =========================
+   Selection
+========================= */
+
 ::selection {
-  background: rgba(250, 204, 21, 0.35);
+  background:
+    rgba(250, 204, 21, 0.35);
+
   color: white;
 }
 
-/* Scrollbar */
+/* =========================
+   Scrollbar
+========================= */
+
 ::-webkit-scrollbar {
   width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-secondary);
+  background:
+    var(--bg-secondary);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(
-    to bottom,
-    rgba(250, 204, 21, 0.4),
-    rgba(245, 158, 11, 0.4)
-  );
   border-radius: 999px;
+
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(250, 204, 21, 0.4),
+      rgba(245, 158, 11, 0.4)
+    );
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(
-    to bottom,
-    rgba(250, 204, 21, 0.7),
-    rgba(245, 158, 11, 0.7)
-  );
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(250, 204, 21, 0.7),
+      rgba(245, 158, 11, 0.7)
+    );
 }
 
-/* Glass Effect */
+/* =========================
+   Reusable Utilities
+========================= */
+
 .glass {
-  background: var(--card-bg);
-  backdrop-filter: blur(14px);
-  border: 1px solid var(--border);
+  background:
+    var(--card-bg);
+
+  backdrop-filter:
+    blur(14px);
+
+  border:
+    1px solid
+    var(--border);
 }
 
-/* Yellow Glow */
 .yellow-glow {
   box-shadow:
     0 0 20px rgba(250, 204, 21, 0.15),
     0 0 40px rgba(250, 204, 21, 0.08);
 }
 
-/* Gradient Text */
 .gradient-text {
-  background: linear-gradient(
-    to right,
-    #facc15,
-    #fde68a
-  );
+  background:
+    linear-gradient(
+      to right,
+      #facc15,
+      #fde68a
+    );
 
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  -webkit-background-clip:
+    text;
+
+  -webkit-text-fill-color:
+    transparent;
 }
 
-/* Floating Animation */
+/* =========================
+   Animations
+========================= */
+
 @keyframes float {
   0% {
-    transform: translateY(0px);
+    transform:
+      translateY(0px);
   }
 
   50% {
-    transform: translateY(-6px);
+    transform:
+      translateY(-6px);
   }
 
   100% {
-    transform: translateY(0px);
+    transform:
+      translateY(0px);
   }
 }
 
 .float-animation {
-  animation: float 4s ease-in-out infinite;
+  animation:
+    float 4s ease-in-out infinite;
 }
 
-/* Fade Animation */
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+
+    transform:
+      translateY(10px);
   }
 
   to {
     opacity: 1;
-    transform: translateY(0);
+
+    transform:
+      translateY(0);
   }
 }
 
-/* Shimmer Animation */
 @keyframes shimmer {
   100% {
-    transform: translateX(200%);
+    transform:
+      translateX(200%);
   }
-}
-
-/* Smooth UI */
-* {
-  -webkit-tap-highlight-color: transparent;
 }

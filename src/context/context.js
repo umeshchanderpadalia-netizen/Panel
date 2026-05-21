@@ -5,14 +5,13 @@ import {
 export const AppContext =
   createContext({
     trips: [],
-
     setTrips: () => {},
 
     drivers: [],
-
     setDrivers: () => {},
 
     notifications: [],
-
     addNotification: () => {},
+
+    dashboardStats: {},
   });

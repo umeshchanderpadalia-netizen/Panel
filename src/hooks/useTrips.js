@@ -1,44 +1,46 @@
 import {
   useEffect,
-  useState,
 } from "react";
 
 import {
   getTrips,
 } from "../api/tripApi";
 
+import useAsync from "./useAsync";
+
 function useTrips() {
 
-  const [trips, setTrips] =
-    useState([]);
-
-  const [loading, setLoading] =
-    useState(true);
-
-  const [error, setError] =
-    useState("");
+  const {
+    data,
+    setData,
+    loading,
+    error,
+    execute,
+  } = useAsync(
+    getTrips,
+    false
+  );
 
   // Fetch Trips
   const fetchTrips =
     async () => {
 
-      try {
+      const response =
+        await execute();
 
-        setLoading(true);
+      if (!response)
+        return;
 
-        setError("");
+      const formattedTrips =
+        response.map(
+          (trip) => ({
 
-        const data =
-          await getTrips();
-
-        // Future Backend Validation
-        const formattedTrips =
-          data.map((trip) => ({
-
-            id: trip.id,
+            id:
+              trip.id,
 
             customer:
-              trip.customer || "",
+              trip.customer ||
+              "",
 
             phone:
               trip.phone || "",
@@ -50,20 +52,24 @@ function useTrips() {
               trip.drop || "",
 
             rideDate:
-              trip.rideDate || "",
+              trip.rideDate ||
+              "",
 
             bookingType:
               trip.bookingType ||
               "One Way",
 
             driver:
-              trip.driver || "",
+              trip.driver ||
+              "",
 
             vehicle:
-              trip.vehicle || "",
+              trip.vehicle ||
+              "",
 
             vendor:
-              trip.vendor || "",
+              trip.vendor ||
+              "",
 
             fare:
               trip.fare || "",
@@ -79,27 +85,12 @@ function useTrips() {
             color:
               trip.color ||
               "text-yellow-400 bg-yellow-500/20",
-          }));
-
-        setTrips(
-          formattedTrips
+          })
         );
 
-      } catch {
-
-        setError(
-          "Unable to load booking operations."
-        );
-
-      } finally {
-
-        // Smooth Loading Effect
-        setTimeout(() => {
-
-          setLoading(false);
-
-        }, 400);
-      }
+      setData(
+        formattedTrips
+      );
     };
 
   useEffect(() => {
@@ -109,10 +100,17 @@ function useTrips() {
   }, []);
 
   return {
-    trips,
-    setTrips,
+
+    trips:
+      data || [],
+
+    setTrips:
+      setData,
+
     loading,
+
     error,
+
     retry:
       fetchTrips,
   };

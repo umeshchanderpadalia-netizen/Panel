@@ -1,5 +1,7 @@
 import {
   useEffect,
+  useMemo,
+  useRef,
   useState,
 } from "react";
 
@@ -11,22 +13,37 @@ function AnimatedCounter({
   const [count, setCount] =
     useState(0);
 
+  const animationFrame =
+    useRef(null);
+
+  const numericValue =
+    useMemo(() => {
+
+      const cleanValue =
+        value
+          ?.toString()
+          .replace(
+            /[^0-9]/g,
+            ""
+          );
+
+      return parseInt(
+        cleanValue || 0,
+        10
+      );
+
+    }, [value]);
+
   useEffect(() => {
 
-    let start = 0;
+    if (
+      Number.isNaN(
+        numericValue
+      )
+    ) {
 
-    const cleanValue =
-      value
-        .toString()
-        .replace(
-          /[^0-9]/g,
-          ""
-        );
-
-    const end =
-      parseInt(cleanValue);
-
-    if (isNaN(end)) return;
+      return;
+    }
 
     const startTime =
       performance.now();
@@ -44,50 +61,104 @@ function AnimatedCounter({
           );
 
         // Ease Out Cubic
-        const easeOut =
+        const easedProgress =
           1 -
           Math.pow(
             1 - progress,
             3
           );
 
-        const current =
+        const currentValue =
           Math.floor(
-            easeOut * end
+            easedProgress *
+              numericValue
           );
 
-        setCount(current);
+        setCount(
+          currentValue
+        );
 
         if (
           progress < 1
         ) {
 
-          requestAnimationFrame(
-            animate
-          );
+          animationFrame.current =
+            requestAnimationFrame(
+              animate
+            );
 
         } else {
 
-          setCount(end);
+          setCount(
+            numericValue
+          );
         }
       };
 
-    requestAnimationFrame(
-      animate
-    );
+    animationFrame.current =
+      requestAnimationFrame(
+        animate
+      );
 
-  }, [value, duration]);
+    return () => {
 
-  // Format
+      if (
+        animationFrame.current
+      ) {
+
+        cancelAnimationFrame(
+          animationFrame.current
+        );
+      }
+    };
+
+  }, [
+    numericValue,
+    duration,
+  ]);
+
   const formattedValue =
-    value
-      .toString()
-      .includes("₹")
-      ? `₹${count.toLocaleString()}`
-      : count.toLocaleString();
+    useMemo(() => {
+
+      const formattedCount =
+        count.toLocaleString(
+          "en-IN"
+        );
+
+      if (
+        value
+          ?.toString()
+          .includes("₹")
+      ) {
+
+        return `₹${formattedCount}`;
+      }
+
+      if (
+        value
+          ?.toString()
+          .includes("%")
+      ) {
+
+        return `${formattedCount}%`;
+      }
+
+      if (
+        value
+          ?.toString()
+          .includes("+")
+      ) {
+
+        return `+${formattedCount}`;
+      }
+
+      return formattedCount;
+
+    }, [count, value]);
 
   return (
-    <span className="tracking-tight tabular-nums">
+
+    <span className="tabular-nums tracking-tight">
 
       {formattedValue}
 

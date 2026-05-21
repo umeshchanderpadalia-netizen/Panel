@@ -7,7 +7,6 @@ import PageTransition from "../components/PageTransition";
 import {
   ShieldCheck,
   Bell,
-  User2,
   Palette,
   Database,
   LockKeyhole,
@@ -22,6 +21,7 @@ import {
 
 function Settings() {
 
+  // Settings Cards
   const settingsCards = [
 
     {
@@ -145,7 +145,7 @@ function Settings() {
 
         <div className="space-y-8">
 
-          {/* Hero */}
+          {/* Hero Section */}
           <section className="relative overflow-hidden rounded-[36px] border border-white/10 bg-white/[0.03] backdrop-blur-2xl p-8 lg:p-10">
 
             {/* Glow */}
@@ -155,7 +155,7 @@ function Settings() {
 
             <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-10">
 
-              {/* Left */}
+              {/* Left Content */}
               <div className="max-w-3xl">
 
                 <SectionHeader
@@ -166,9 +166,10 @@ function Settings() {
 
               </div>
 
-              {/* Right */}
+              {/* Right Actions */}
               <div className="flex flex-col gap-4">
 
+                {/* Save Button */}
                 <button className="flex items-center gap-3 px-7 py-4 rounded-2xl bg-gradient-to-r from-yellow-400 to-amber-500 text-black font-semibold shadow-[0_0_30px_rgba(250,204,21,0.18)] hover:scale-[1.02] transition-all duration-300">
 
                   <Save
@@ -179,6 +180,7 @@ function Settings() {
 
                 </button>
 
+                {/* System Status */}
                 <div className="flex items-center gap-3 px-5 py-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/10">
 
                   <CheckCircle2
@@ -211,15 +213,16 @@ function Settings() {
           </section>
 
           {/* Business Configuration */}
-          <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+          <section className="grid grid-cols-1 xl:grid-cols-3 gap-6">
 
-            {/* Company Info */}
+            {/* Company Information */}
             <div className="xl:col-span-2 relative overflow-hidden bg-white/[0.03] border border-white/10 rounded-[34px] p-7 backdrop-blur-2xl">
 
               <div className="absolute top-[-100px] right-[-100px] w-[220px] h-[220px] bg-yellow-400/10 blur-[120px] rounded-full"></div>
 
               <div className="relative z-10">
 
+                {/* Header */}
                 <div className="flex items-center justify-between mb-8">
 
                   <div>
@@ -251,6 +254,7 @@ function Settings() {
                 {/* Form */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
 
+                  {/* Company Name */}
                   <div>
 
                     <label className="text-sm text-zinc-400">
@@ -267,6 +271,7 @@ function Settings() {
 
                   </div>
 
+                  {/* GST Number */}
                   <div>
 
                     <label className="text-sm text-zinc-400">
@@ -283,6 +288,7 @@ function Settings() {
 
                   </div>
 
+                  {/* Email */}
                   <div>
 
                     <label className="text-sm text-zinc-400">
@@ -299,6 +305,7 @@ function Settings() {
 
                   </div>
 
+                  {/* Contact */}
                   <div>
 
                     <label className="text-sm text-zinc-400">
@@ -315,6 +322,7 @@ function Settings() {
 
                   </div>
 
+                  {/* Address */}
                   <div className="md:col-span-2">
 
                     <label className="text-sm text-zinc-400">
@@ -340,7 +348,7 @@ function Settings() {
             {/* ERP Status */}
             <div className="space-y-6">
 
-              {/* System */}
+              {/* System Status */}
               <div className="relative overflow-hidden bg-white/[0.03] border border-white/10 rounded-[34px] p-7">
 
                 <div className="absolute top-[-100px] right-[-100px] w-[220px] h-[220px] bg-emerald-500/10 blur-[120px] rounded-full"></div>
@@ -361,6 +369,7 @@ function Settings() {
 
                   </h3>
 
+                  {/* Status List */}
                   <div className="space-y-4 mt-6">
 
                     <div className="flex items-center justify-between">
@@ -433,7 +442,7 @@ function Settings() {
 
               </div>
 
-              {/* Security */}
+              {/* Security Alert */}
               <div className="relative overflow-hidden bg-red-500/[0.04] border border-red-500/20 rounded-[34px] p-7">
 
                 <div className="absolute top-[-100px] right-[-100px] w-[220px] h-[220px] bg-red-500/10 blur-[120px] rounded-full"></div>
@@ -467,10 +476,10 @@ function Settings() {
 
             </div>
 
-          </div>
+          </section>
 
           {/* Settings Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+          <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
 
             {settingsCards.map(
               (
@@ -539,7 +548,7 @@ function Settings() {
               }
             )}
 
-          </div>
+          </section>
 
         </div>
 

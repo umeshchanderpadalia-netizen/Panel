@@ -1,11 +1,14 @@
 import {
   Activity,
   Car,
-  Users,
   IndianRupee,
   TrendingUp,
   Wallet,
+  ArrowUpRight,
+  Sparkles,
 } from "lucide-react";
+
+import { motion } from "framer-motion";
 
 import AnimatedCounter from "./AnimatedCounter";
 
@@ -58,7 +61,7 @@ function LiveStats() {
         Activity,
 
       subtitle:
-        "Trips in progress",
+        "Trips currently in progress",
 
       growth:
         "+8%",
@@ -68,6 +71,9 @@ function LiveStats() {
 
       iconBg:
         "bg-yellow-500/10 text-yellow-400",
+
+      border:
+        "hover:border-yellow-500/20",
     },
 
     {
@@ -81,7 +87,7 @@ function LiveStats() {
         Car,
 
       subtitle:
-        "Successfully completed",
+        "Successfully completed rides",
 
       growth:
         "+15%",
@@ -91,6 +97,9 @@ function LiveStats() {
 
       iconBg:
         "bg-emerald-500/10 text-emerald-400",
+
+      border:
+        "hover:border-emerald-500/20",
     },
 
     {
@@ -114,6 +123,9 @@ function LiveStats() {
 
       iconBg:
         "bg-blue-500/10 text-blue-400",
+
+      border:
+        "hover:border-blue-500/20",
     },
 
     {
@@ -133,10 +145,13 @@ function LiveStats() {
         "+18%",
 
       glow:
-        "from-purple-500/20 to-pink-500/5",
+        "from-purple-500/20 to-fuchsia-500/5",
 
       iconBg:
         "bg-purple-500/10 text-purple-400",
+
+      border:
+        "hover:border-purple-500/20",
     },
   ];
 
@@ -152,9 +167,25 @@ function LiveStats() {
 
           return (
 
-            <div
+            <motion.div
               key={index}
-              className="group relative overflow-hidden bg-white/[0.04] border border-white/10 rounded-[34px] p-6 backdrop-blur-2xl hover:border-yellow-500/20 hover:-translate-y-1 transition-all duration-500"
+              initial={{
+                opacity: 0,
+                y: 20,
+              }}
+              whileInView={{
+                opacity: 1,
+                y: 0,
+              }}
+              viewport={{
+                once: true,
+              }}
+              transition={{
+                duration: 0.4,
+                delay:
+                  index * 0.06,
+              }}
+              className={`group relative overflow-hidden bg-white/[0.04] border border-white/10 rounded-[34px] p-6 backdrop-blur-2xl hover:-translate-y-1.5 transition-all duration-500 ${item.border}`}
             >
 
               {/* Gradient Glow */}
@@ -163,28 +194,31 @@ function LiveStats() {
               ></div>
 
               {/* Main Glow */}
-              <div className="absolute top-[-80px] right-[-80px] w-[200px] h-[200px] bg-yellow-400/10 blur-[120px] rounded-full"></div>
+              <div className="absolute top-[-90px] right-[-90px] w-[220px] h-[220px] bg-yellow-400/10 blur-[120px] rounded-full"></div>
+
+              {/* Shine */}
+              <div className="absolute top-0 left-[-120%] w-[120%] h-full bg-gradient-to-r from-transparent via-white/[0.04] to-transparent skew-x-12 group-hover:left-[120%] transition-all duration-1000"></div>
 
               {/* Content */}
               <div className="relative z-10">
 
                 {/* Top */}
-                <div className="flex items-start justify-between">
+                <div className="flex items-start justify-between gap-4">
 
                   <div>
 
-                    <p className="text-sm text-zinc-500 tracking-wide">
+                    <p className="text-sm uppercase tracking-[0.2em] text-zinc-500">
 
                       {item.title}
 
                     </p>
 
                     {/* Live */}
-                    <div className="flex items-center gap-2 mt-4">
+                    <div className="flex items-center gap-2 mt-5">
 
                       <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></div>
 
-                      <span className="text-xs uppercase tracking-[0.2em] text-emerald-400">
+                      <span className="text-[11px] uppercase tracking-[0.25em] text-emerald-400 font-medium">
 
                         ERP LIVE
 
@@ -196,11 +230,14 @@ function LiveStats() {
 
                   {/* Icon */}
                   <div
-                    className={`w-14 h-14 rounded-3xl flex items-center justify-center transition-all duration-500 group-hover:scale-110 shadow-[0_0_30px_rgba(255,255,255,0.04)] ${item.iconBg}`}
+                    className={`relative overflow-hidden w-16 h-16 rounded-3xl flex items-center justify-center transition-all duration-500 group-hover:scale-110 shadow-[0_0_30px_rgba(255,255,255,0.04)] ${item.iconBg}`}
                   >
 
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-300 bg-white/[0.03]"></div>
+
                     <Icon
-                      size={24}
+                      size={26}
+                      className="relative z-10"
                     />
 
                   </div>
@@ -208,30 +245,38 @@ function LiveStats() {
                 </div>
 
                 {/* Value */}
-                <h2 className="text-5xl font-bold mt-8 tracking-tight text-white">
+                <div className="mt-8">
 
-                  <AnimatedCounter
-                    value={
-                      item.value
-                    }
-                  />
+                  <h2 className="text-5xl font-bold tracking-tight text-white leading-none">
 
-                </h2>
+                    <AnimatedCounter
+                      value={
+                        item.value
+                      }
+                    />
+
+                  </h2>
+
+                </div>
 
                 {/* Bottom */}
-                <div className="flex items-center justify-between mt-6">
+                <div className="flex items-end justify-between gap-4 mt-8">
 
-                  <p className="text-sm text-zinc-500">
+                  <div>
 
-                    {
-                      item.subtitle
-                    }
+                    <p className="text-sm text-zinc-500 leading-relaxed max-w-[180px]">
 
-                  </p>
+                      {
+                        item.subtitle
+                      }
 
-                  <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/10 text-emerald-400 text-sm font-medium">
+                    </p>
 
-                    <TrendingUp
+                  </div>
+
+                  <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/10 text-emerald-400 text-sm font-semibold shadow-[0_0_20px_rgba(16,185,129,0.08)]">
+
+                    <ArrowUpRight
                       size={14}
                     />
 
@@ -243,9 +288,33 @@ function LiveStats() {
 
                 </div>
 
+                {/* Footer Accent */}
+                <div className="flex items-center justify-between mt-7 pt-5 border-t border-white/[0.06]">
+
+                  <div className="flex items-center gap-2 text-zinc-500 text-xs uppercase tracking-[0.18em]">
+
+                    <Sparkles
+                      size={12}
+                    />
+
+                    Analytics
+
+                  </div>
+
+                  <div className="flex items-center gap-2 text-emerald-400 text-xs uppercase tracking-[0.18em]">
+
+                    <TrendingUp
+                      size={12}
+                    />
+
+                    Stable
+                  </div>
+
+                </div>
+
               </div>
 
-            </div>
+            </motion.div>
           );
         }
       )}

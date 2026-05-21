@@ -1,41 +1,42 @@
 import {
   useEffect,
-  useState,
 } from "react";
 
 import {
   getDrivers,
 } from "../api/driverApi";
 
+import useAsync from "./useAsync";
+
 function useDrivers() {
 
-  const [drivers, setDrivers] =
-    useState([]);
-
-  const [loading, setLoading] =
-    useState(true);
-
-  const [error, setError] =
-    useState("");
+  const {
+    data,
+    setData,
+    loading,
+    error,
+    execute,
+  } = useAsync(
+    getDrivers,
+    false
+  );
 
   // Fetch Drivers
   const fetchDrivers =
     async () => {
 
-      try {
+      const response =
+        await execute();
 
-        setLoading(true);
+      if (!response)
+        return;
 
-        setError("");
+      const formattedDrivers =
+        response.map(
+          (driver) => ({
 
-        const data =
-          await getDrivers();
-
-        // Future Backend Validation
-        const formattedDrivers =
-          data.map((driver) => ({
-
-            id: driver.id,
+            id:
+              driver.id,
 
             name:
               driver.name || "",
@@ -84,7 +85,8 @@ function useDrivers() {
               0,
 
             rating:
-              driver.rating || 0,
+              driver.rating ||
+              0,
 
             earnings:
               driver.earnings ||
@@ -99,32 +101,18 @@ function useDrivers() {
               "",
 
             avatar:
-              driver.avatar || "",
+              driver.avatar ||
+              "",
 
             color:
               driver.color ||
               "text-emerald-400 bg-emerald-500/20",
-          }));
-
-        setDrivers(
-          formattedDrivers
+          })
         );
 
-      } catch {
-
-        setError(
-          "Unable to load driver operations."
-        );
-
-      } finally {
-
-        // Smooth Loading Effect
-        setTimeout(() => {
-
-          setLoading(false);
-
-        }, 400);
-      }
+      setData(
+        formattedDrivers
+      );
     };
 
   useEffect(() => {
@@ -134,10 +122,17 @@ function useDrivers() {
   }, []);
 
   return {
-    drivers,
-    setDrivers,
+
+    drivers:
+      data || [],
+
+    setDrivers:
+      setData,
+
     loading,
+
     error,
+
     retry:
       fetchDrivers,
   };

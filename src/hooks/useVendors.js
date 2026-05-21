@@ -1,56 +1,62 @@
 import {
   useEffect,
-  useState,
 } from "react";
 
 import {
   getVendors,
 } from "../api/vendorApi";
 
+import useAsync from "./useAsync";
+
 function useVendors() {
 
-  const [vendors, setVendors] =
-    useState([]);
-
-  const [loading, setLoading] =
-    useState(true);
-
-  const [error, setError] =
-    useState("");
+  const {
+    data,
+    setData,
+    loading,
+    error,
+    execute,
+  } = useAsync(
+    getVendors,
+    false
+  );
 
   // Fetch Vendors
   const fetchVendors =
     async () => {
 
-      try {
+      const response =
+        await execute();
 
-        setLoading(true);
+      if (!response)
+        return;
 
-        setError("");
+      const formattedVendors =
+        response.map(
+          (vendor) => ({
 
-        const data =
-          await getVendors();
-
-        // Future Backend Validation
-        const formattedVendors =
-          data.map((vendor) => ({
-
-            id: vendor.id,
+            id:
+              vendor.id,
 
             company:
-              vendor.company || "",
+              vendor.company ||
+              "",
 
             owner:
-              vendor.owner || "",
+              vendor.owner ||
+              "",
 
             phone:
-              vendor.phone || "",
+              vendor.phone ||
+              "",
 
             email:
-              vendor.email || "",
+              vendor.email ||
+              "",
 
             location:
-              vendor.location || "",
+              vendor.location ||
+              "",
 
             totalDrivers:
               vendor.totalDrivers ||
@@ -97,32 +103,18 @@ function useVendors() {
               "",
 
             avatar:
-              vendor.avatar || "",
+              vendor.avatar ||
+              "",
 
             color:
               vendor.color ||
               "text-emerald-400 bg-emerald-500/20",
-          }));
-
-        setVendors(
-          formattedVendors
+          })
         );
 
-      } catch {
-
-        setError(
-          "Unable to load vendor operations."
-        );
-
-      } finally {
-
-        // Smooth Loading Effect
-        setTimeout(() => {
-
-          setLoading(false);
-
-        }, 400);
-      }
+      setData(
+        formattedVendors
+      );
     };
 
   useEffect(() => {
@@ -132,10 +124,17 @@ function useVendors() {
   }, []);
 
   return {
-    vendors,
-    setVendors,
+
+    vendors:
+      data || [],
+
+    setVendors:
+      setData,
+
     loading,
+
     error,
+
     retry:
       fetchVendors,
   };

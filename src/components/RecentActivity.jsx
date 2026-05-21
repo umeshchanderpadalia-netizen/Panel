@@ -5,7 +5,11 @@ import {
   Activity,
   IndianRupee,
   Receipt,
+  ArrowUpRight,
+  Sparkles,
 } from "lucide-react";
+
+import { motion } from "framer-motion";
 
 function RecentActivity({
   trips,
@@ -17,10 +21,10 @@ function RecentActivity({
 
   return (
 
-    <div className="relative overflow-hidden bg-white/[0.04] border border-white/10 rounded-[36px] p-7 backdrop-blur-2xl hover:border-yellow-500/20 transition-all duration-500">
+    <div className="relative overflow-hidden bg-white/[0.04] border border-white/10 rounded-[38px] p-7 lg:p-8 backdrop-blur-3xl hover:border-yellow-500/20 transition-all duration-500">
 
-      {/* Glow */}
-      <div className="absolute bottom-[-100px] right-[-100px] w-[240px] h-[240px] bg-yellow-400/10 blur-[120px] rounded-full"></div>
+      {/* Ambient Glow */}
+      <div className="absolute bottom-[-120px] right-[-120px] w-[260px] h-[260px] bg-yellow-400/10 blur-[140px] rounded-full"></div>
 
       <div className="absolute top-[-120px] left-[-120px] w-[240px] h-[240px] bg-amber-500/5 blur-[120px] rounded-full"></div>
 
@@ -30,47 +34,57 @@ function RecentActivity({
       <div className="relative z-10">
 
         {/* Header */}
-        <div className="flex items-start justify-between mb-10">
+        <div className="flex flex-col xl:flex-row xl:items-start xl:justify-between gap-6 mb-12">
 
           <div>
 
-            <p className="text-sm uppercase tracking-[0.25em] text-yellow-400 font-medium">
+            <p className="text-xs uppercase tracking-[0.35em] text-yellow-400 font-semibold">
 
               ERP Activity Feed
 
             </p>
 
-            <h3 className="text-3xl font-bold mt-4 tracking-tight text-white">
+            <h3 className="text-4xl font-bold mt-5 tracking-tight text-white">
 
               Live Operations
 
             </h3>
 
-            <p className="text-zinc-500 mt-4 leading-relaxed">
+            <p className="text-zinc-500 mt-5 leading-relaxed max-w-2xl">
 
-              Real-time booking workflow, financial activity,
-              payment operations and transport ERP monitoring.
+              Real-time booking workflow, payment tracking,
+              invoice monitoring and transport operational activity.
 
             </p>
 
           </div>
 
-          {/* Live */}
-          <div className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/10">
+          {/* Live Badge */}
+          <div className="flex items-center gap-3 px-5 py-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/10">
 
             <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></div>
 
-            <span className="text-xs uppercase tracking-[0.2em] text-emerald-400 font-medium">
+            <div>
 
-              Live
+              <p className="text-[10px] uppercase tracking-[0.25em] text-emerald-400 font-semibold">
 
-            </span>
+                ERP LIVE
+
+              </p>
+
+              <p className="text-xs text-zinc-500 mt-1">
+
+                Real-time sync active
+
+              </p>
+
+            </div>
 
           </div>
 
         </div>
 
-        {/* Activity Timeline */}
+        {/* Activities */}
         <div className="space-y-6">
 
           {latestTrips.map(
@@ -87,43 +101,93 @@ function RecentActivity({
                 trip.tripStatus ===
                 "Cancelled";
 
+              const isOngoing =
+                trip.tripStatus ===
+                "Ongoing";
+
+              const getStatusStyle =
+                () => {
+
+                  if (
+                    isCompleted
+                  ) {
+
+                    return "bg-emerald-500/10 text-emerald-400 border-emerald-500/20";
+                  }
+
+                  if (
+                    isCancelled
+                  ) {
+
+                    return "bg-red-500/10 text-red-400 border-red-500/20";
+                  }
+
+                  if (
+                    isOngoing
+                  ) {
+
+                    return "bg-blue-500/10 text-blue-400 border-blue-500/20";
+                  }
+
+                  return "bg-yellow-500/10 text-yellow-400 border-yellow-500/20";
+                };
+
               return (
 
-                <div
+                <motion.div
                   key={index}
-                  className="group relative flex gap-5 p-5 rounded-[28px] bg-white/[0.03] border border-white/5 hover:border-yellow-500/10 hover:bg-white/[0.04] transition-all duration-300"
+                  initial={{
+                    opacity: 0,
+                    y: 18,
+                  }}
+                  whileInView={{
+                    opacity: 1,
+                    y: 0,
+                  }}
+                  transition={{
+                    duration: 0.35,
+                    delay:
+                      index * 0.06,
+                  }}
+                  viewport={{
+                    once: true,
+                  }}
+                  className="group relative overflow-hidden flex gap-5 p-6 rounded-[30px] bg-white/[0.03] border border-white/5 hover:border-yellow-500/10 hover:bg-white/[0.04] transition-all duration-500"
                 >
 
+                  {/* Hover Glow */}
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500 bg-gradient-to-r from-yellow-500/[0.03] to-transparent"></div>
+
                   {/* Timeline */}
-                  <div className="absolute left-[31px] top-[70px] w-px h-full bg-white/5"></div>
+                  {index !==
+                    latestTrips.length -
+                      1 && (
+
+                    <div className="absolute left-[34px] top-[82px] w-px h-full bg-gradient-to-b from-white/10 to-transparent"></div>
+
+                  )}
 
                   {/* Icon */}
                   <div
-                    className={`relative z-10 w-14 h-14 rounded-3xl flex items-center justify-center shadow-[0_0_25px_rgba(255,255,255,0.04)] ${
-                      isCompleted
-                        ? "bg-emerald-500/10 text-emerald-400"
-                        : isCancelled
-                        ? "bg-red-500/10 text-red-400"
-                        : "bg-yellow-500/10 text-yellow-400"
-                    }`}
+                    className={`relative z-10 w-16 h-16 rounded-3xl border flex items-center justify-center shadow-[0_0_30px_rgba(255,255,255,0.04)] ${getStatusStyle()}`}
                   >
 
                     {isCompleted ? (
 
                       <CheckCircle2
-                        size={24}
+                        size={26}
                       />
 
                     ) : isCancelled ? (
 
                       <XCircle
-                        size={24}
+                        size={26}
                       />
 
                     ) : (
 
                       <Clock3
-                        size={24}
+                        size={26}
                       />
 
                     )}
@@ -131,28 +195,51 @@ function RecentActivity({
                   </div>
 
                   {/* Content */}
-                  <div className="flex-1">
+                  <div className="relative z-10 flex-1">
 
                     {/* Top */}
-                    <div className="flex items-start justify-between gap-4">
+                    <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5">
 
                       <div>
 
-                        <h4 className="text-lg font-semibold text-white">
+                        <div className="flex items-center gap-3 flex-wrap">
 
-                          {
-                            trip.customer
-                          }
+                          <h4 className="text-xl font-semibold text-white">
 
-                        </h4>
+                            {
+                              trip.customer
+                            }
 
-                        <p className="text-zinc-500 mt-2">
+                          </h4>
+
+                          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/[0.03] border border-white/5">
+
+                            <Sparkles
+                              size={13}
+                              className="text-yellow-400"
+                            />
+
+                            <span className="text-[10px] uppercase tracking-[0.2em] text-zinc-400">
+
+                              Booking
+                            </span>
+
+                          </div>
+
+                        </div>
+
+                        <p className="text-zinc-500 mt-3 leading-relaxed">
 
                           {
                             trip.pickup
                           }
 
-                          {" "}→{" "}
+                          {" "}
+
+                          <ArrowUpRight
+                            size={14}
+                            className="inline mx-1 text-yellow-400"
+                          />
 
                           <span className="text-zinc-300">
 
@@ -168,13 +255,7 @@ function RecentActivity({
 
                       {/* Status */}
                       <div
-                        className={`px-4 py-2 rounded-2xl text-sm font-medium border ${
-                          isCompleted
-                            ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
-                            : isCancelled
-                            ? "bg-red-500/10 text-red-400 border-red-500/20"
-                            : "bg-yellow-500/10 text-yellow-400 border-yellow-500/20"
-                        }`}
+                        className={`px-5 py-3 rounded-2xl text-sm font-semibold border whitespace-nowrap ${getStatusStyle()}`}
                       >
 
                         {
@@ -186,27 +267,31 @@ function RecentActivity({
                     </div>
 
                     {/* ERP Info */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-8">
 
                       {/* Revenue */}
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-start gap-3 p-4 rounded-2xl bg-white/[0.02] border border-white/5">
 
-                        <IndianRupee
-                          size={16}
-                          className="text-emerald-400"
-                        />
+                        <div className="w-11 h-11 rounded-2xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+
+                          <IndianRupee
+                            size={18}
+                          />
+
+                        </div>
 
                         <div>
 
-                          <p className="text-xs text-zinc-500">
+                          <p className="text-xs uppercase tracking-[0.18em] text-zinc-500">
 
                             Revenue
 
                           </p>
 
-                          <p className="text-sm text-white font-medium">
+                          <p className="text-lg font-semibold text-white mt-2">
 
-                            ₹{
+                            ₹
+                            {
                               trip.total
                             }
 
@@ -217,22 +302,25 @@ function RecentActivity({
                       </div>
 
                       {/* Invoice */}
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-start gap-3 p-4 rounded-2xl bg-white/[0.02] border border-white/5">
 
-                        <Receipt
-                          size={16}
-                          className="text-cyan-400"
-                        />
+                        <div className="w-11 h-11 rounded-2xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center">
+
+                          <Receipt
+                            size={18}
+                          />
+
+                        </div>
 
                         <div>
 
-                          <p className="text-xs text-zinc-500">
+                          <p className="text-xs uppercase tracking-[0.18em] text-zinc-500">
 
                             Invoice
 
                           </p>
 
-                          <p className="text-sm text-white font-medium">
+                          <p className="text-lg font-semibold text-white mt-2">
 
                             {
                               trip.invoiceStatus
@@ -245,22 +333,25 @@ function RecentActivity({
                       </div>
 
                       {/* Payment */}
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-start gap-3 p-4 rounded-2xl bg-white/[0.02] border border-white/5">
 
-                        <Activity
-                          size={16}
-                          className="text-yellow-400"
-                        />
+                        <div className="w-11 h-11 rounded-2xl bg-yellow-500/10 text-yellow-400 flex items-center justify-center">
+
+                          <Activity
+                            size={18}
+                          />
+
+                        </div>
 
                         <div>
 
-                          <p className="text-xs text-zinc-500">
+                          <p className="text-xs uppercase tracking-[0.18em] text-zinc-500">
 
                             Payment
 
                           </p>
 
-                          <p className="text-sm text-white font-medium">
+                          <p className="text-lg font-semibold text-white mt-2">
 
                             {
                               trip.paymentStatus
@@ -274,35 +365,43 @@ function RecentActivity({
 
                     </div>
 
-                    {/* Bottom */}
-                    <div className="flex items-center justify-between mt-6">
+                    {/* Footer */}
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mt-8">
 
-                      <p className="text-sm text-zinc-500">
+                      <div className="flex items-center gap-3">
 
-                        Vendor:
-                        {" "}
+                        <div className="w-2 h-2 rounded-full bg-yellow-400"></div>
 
-                        <span className="text-zinc-300">
+                        <p className="text-sm text-zinc-500">
 
-                          {
-                            trip.vendor
-                          }
+                          Vendor:
+                          {" "}
 
-                        </span>
+                          <span className="text-zinc-300">
 
-                      </p>
+                            {
+                              trip.vendor
+                            }
 
-                      <p className="text-xs uppercase tracking-[0.2em] text-zinc-600">
+                          </span>
 
-                        ERP LIVE
+                        </p>
 
-                      </p>
+                      </div>
+
+                      <div className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-emerald-400">
+
+                        <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
+
+                        ERP ACTIVE
+
+                      </div>
 
                     </div>
 
                   </div>
 
-                </div>
+                </motion.div>
               );
             }
           )}

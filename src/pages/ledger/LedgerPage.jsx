@@ -13,61 +13,74 @@ import {
   Users,
   IndianRupee,
   TrendingUp,
+  CheckCircle2,
 } from "lucide-react";
 
 import useApp from "../../hooks/useApp";
 
 function LedgerPage() {
 
-  const [activeTab, setActiveTab] =
-    useState("customer");
+  // Active Tab
+  const [
+    activeTab,
+    setActiveTab,
+  ] = useState("customer");
 
+  // App Data
   const {
     trips,
   } = useApp();
 
-  const totalReceivable =
-    trips.reduce(
-      (
-        total,
-        trip
-      ) =>
-        trip.paymentStatus !==
-        "Paid"
-          ? total +
-            Number(
-              trip.total || 0
-            )
-          : total,
-      0
-    );
+  // Financial Metrics
+  const financialMetrics = {
 
-  const totalRevenue =
-    trips.reduce(
-      (
-        total,
-        trip
-      ) =>
-        total +
-        Number(
-          trip.total || 0
-        ),
-      0
-    );
+    totalReceivable:
+      trips.reduce(
+        (
+          total,
+          trip
+        ) =>
+          trip.paymentStatus !==
+          "Paid"
+            ? total +
+              Number(
+                trip.total || 0
+              )
+            : total,
+        0
+      ),
 
-  const totalProfit =
-    trips.reduce(
-      (
-        total,
-        trip
-      ) =>
-        total +
-        Number(
-          trip.profit || 0
-        ),
-      0
-    );
+    totalRevenue:
+      trips.reduce(
+        (
+          total,
+          trip
+        ) =>
+          total +
+          Number(
+            trip.total || 0
+          ),
+        0
+      ),
 
+    totalProfit:
+      trips.reduce(
+        (
+          total,
+          trip
+        ) =>
+          total +
+          Number(
+            trip.profit || 0
+          ),
+        0
+      ),
+
+    activeAccounts:
+      trips.length,
+  };
+
+  // Stats Cards
   const stats = [
 
     {
@@ -75,7 +88,7 @@ function LedgerPage() {
         "Receivables",
 
       value:
-        `₹${totalReceivable}`,
+        `₹${financialMetrics.totalReceivable.toLocaleString()}`,
 
       icon:
         Wallet,
@@ -92,7 +105,7 @@ function LedgerPage() {
         "Revenue",
 
       value:
-        `₹${totalRevenue}`,
+        `₹${financialMetrics.totalRevenue.toLocaleString()}`,
 
       icon:
         IndianRupee,
@@ -109,7 +122,7 @@ function LedgerPage() {
         "Profit",
 
       value:
-        `₹${totalProfit}`,
+        `₹${financialMetrics.totalProfit.toLocaleString()}`,
 
       icon:
         TrendingUp,
@@ -126,7 +139,7 @@ function LedgerPage() {
         "Active Accounts",
 
       value:
-        trips.length,
+        financialMetrics.activeAccounts,
 
       icon:
         Users,
@@ -145,16 +158,17 @@ function LedgerPage() {
 
       <div className="space-y-8">
 
-        {/* Hero */}
+        {/* Hero Section */}
         <section className="relative overflow-hidden rounded-[36px] border border-white/10 bg-white/[0.03] backdrop-blur-2xl p-8 lg:p-10">
 
-          {/* Glow */}
+          {/* Glow Effects */}
           <div className="absolute top-[-120px] right-[-120px] w-[260px] h-[260px] bg-yellow-400/10 blur-[120px] rounded-full"></div>
 
           <div className="absolute bottom-[-120px] left-[-120px] w-[260px] h-[260px] bg-amber-500/5 blur-[120px] rounded-full"></div>
 
           <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-10">
 
+            {/* Left Content */}
             <div className="max-w-3xl">
 
               <p className="text-sm uppercase tracking-[0.35em] text-yellow-400 font-semibold">
@@ -185,23 +199,41 @@ function LedgerPage() {
 
             </div>
 
+            {/* Financial Status */}
             <div className="px-7 py-5 rounded-3xl bg-white/[0.03] border border-white/10">
 
-              <p className="text-sm text-zinc-500">
+              <div className="flex items-center gap-3">
 
-                ERP Financial Status
+                <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center">
 
-              </p>
+                  <CheckCircle2
+                    size={22}
+                    className="text-emerald-400"
+                  />
 
-              <h3 className="text-3xl font-bold text-white mt-4">
+                </div>
 
-                Active
+                <div>
 
-              </h3>
+                  <p className="text-sm text-zinc-500">
 
-              <p className="text-sm text-emerald-400 mt-3">
+                    ERP Financial Status
 
-                Ledger systems synchronized
+                  </p>
+
+                  <h3 className="text-2xl font-bold text-white mt-1">
+
+                    Active
+
+                  </h3>
+
+                </div>
+
+              </div>
+
+              <p className="text-sm text-emerald-400 mt-4">
+
+                Ledger systems synchronized successfully
 
               </p>
 
@@ -211,8 +243,8 @@ function LedgerPage() {
 
         </section>
 
-        {/* Stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+        {/* Financial Stats */}
+        <section className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
 
           {stats.map(
             (
@@ -230,6 +262,7 @@ function LedgerPage() {
                   className="group relative overflow-hidden bg-white/[0.04] border border-white/10 rounded-[32px] p-6 backdrop-blur-2xl hover:border-yellow-500/20 hover:-translate-y-1 transition-all duration-500"
                 >
 
+                  {/* Gradient Glow */}
                   <div
                     className={`absolute inset-0 opacity-40 bg-gradient-to-br ${item.glow}`}
                   ></div>
@@ -275,11 +308,12 @@ function LedgerPage() {
             }
           )}
 
-        </div>
+        </section>
 
-        {/* Tabs */}
-        <div className="flex items-center gap-3 bg-white/[0.03] border border-white/10 rounded-2xl p-2 w-fit">
+        {/* Ledger Tabs */}
+        <section className="flex items-center gap-3 bg-white/[0.03] border border-white/10 rounded-2xl p-2 w-fit">
 
+          {/* Customer Tab */}
           <button
             onClick={() =>
               setActiveTab(
@@ -298,6 +332,7 @@ function LedgerPage() {
 
           </button>
 
+          {/* Vendor Tab */}
           <button
             onClick={() =>
               setActiveTab(
@@ -316,10 +351,10 @@ function LedgerPage() {
 
           </button>
 
-        </div>
+        </section>
 
-        {/* Content */}
-        <div>
+        {/* Ledger Content */}
+        <section>
 
           {activeTab ===
           "customer" ? (
@@ -332,7 +367,7 @@ function LedgerPage() {
 
           )}
 
-        </div>
+        </section>
 
       </div>
 

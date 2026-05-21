@@ -5,7 +5,11 @@ import {
   BadgeCheck,
   IndianRupee,
   Activity,
+  ArrowUpRight,
+  Radio,
 } from "lucide-react";
+
+import { motion } from "framer-motion";
 
 function DriverActivity() {
 
@@ -119,70 +123,87 @@ function DriverActivity() {
 
         case "Completed":
 
-          return "bg-emerald-500/15 text-emerald-400";
+          return "bg-emerald-500/15 text-emerald-400 border border-emerald-500/20";
 
         case "Assigned":
 
-          return "bg-blue-500/15 text-blue-400";
+          return "bg-blue-500/15 text-blue-400 border border-blue-500/20";
 
         case "Available":
 
-          return "bg-yellow-500/15 text-yellow-400";
+          return "bg-yellow-500/15 text-yellow-400 border border-yellow-500/20";
 
         case "Cancelled":
 
-          return "bg-red-500/15 text-red-400";
+          return "bg-red-500/15 text-red-400 border border-red-500/20";
 
         default:
 
-          return "bg-zinc-500/15 text-zinc-400";
+          return "bg-zinc-500/15 text-zinc-400 border border-zinc-500/20";
       }
     };
 
   return (
 
-    <div className="relative overflow-hidden bg-white/[0.03] border border-white/10 rounded-[36px] p-6 lg:p-8 backdrop-blur-2xl">
+    <div className="relative overflow-hidden rounded-[38px] border border-white/10 bg-white/[0.04] p-6 backdrop-blur-2xl lg:p-8">
 
       {/* Glow */}
-      <div className="absolute bottom-[-120px] right-[-120px] w-[240px] h-[240px] bg-yellow-500/10 blur-[120px] rounded-full"></div>
+      <div className="absolute bottom-[-120px] right-[-120px] h-[260px] w-[260px] rounded-full bg-yellow-500/10 blur-[130px]"></div>
 
-      <div className="absolute top-[-120px] left-[-120px] w-[240px] h-[240px] bg-amber-500/5 blur-[120px] rounded-full"></div>
+      <div className="absolute left-[-120px] top-[-120px] h-[240px] w-[240px] rounded-full bg-amber-500/5 blur-[120px]"></div>
 
       <div className="relative z-10">
 
         {/* Header */}
-        <div className="mb-8 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-6">
+        <div className="mb-10 flex flex-col gap-6 xl:flex-row xl:items-center xl:justify-between">
 
           <div>
 
-            <p className="text-xs uppercase tracking-[0.35em] text-yellow-400 font-semibold">
+            <div className="flex items-center gap-2">
 
-              ERP Driver Intelligence
+              <Radio
+                size={14}
+                className="text-yellow-400"
+              />
 
-            </p>
+              <p className="text-xs font-semibold uppercase tracking-[0.35em] text-yellow-400">
 
-            <h2 className="text-3xl font-bold text-white mt-4">
+                ERP Driver Intelligence
+
+              </p>
+
+            </div>
+
+            <h2 className="mt-4 text-3xl font-bold tracking-tight text-white lg:text-4xl">
 
               Live Driver Activity
 
             </h2>
 
-            <p className="text-zinc-500 mt-3 max-w-2xl">
+            <p className="mt-4 max-w-2xl leading-relaxed text-zinc-500">
 
-              Real-time driver assignments, trip workflow,
-              dispatch operations and ERP transport activity.
+              Monitor driver assignments,
+              trip dispatch workflow,
+              operational movement and live ERP transport activity.
 
             </p>
 
           </div>
 
-          <div className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/10">
+          {/* Live Badge */}
+          <div className="flex items-center gap-3 rounded-2xl border border-emerald-500/15 bg-emerald-500/10 px-5 py-3 shadow-[0_0_25px_rgba(16,185,129,0.08)]">
 
-            <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></div>
+            <div className="relative flex h-3 w-3">
 
-            <span className="text-xs uppercase tracking-[0.2em] text-emerald-400">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
 
-              ERP LIVE
+              <span className="relative inline-flex h-3 w-3 rounded-full bg-emerald-400"></span>
+
+            </div>
+
+            <span className="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-400">
+
+              ERP LIVE TRACKING
 
             </span>
 
@@ -190,47 +211,83 @@ function DriverActivity() {
 
         </div>
 
-        {/* Activity List */}
+        {/* Activities */}
         <div className="space-y-5">
 
           {activities.map(
-            (activity) => (
+            (
+              activity,
+              index
+            ) => (
 
-              <div
+              <motion.div
                 key={activity.id}
-                className="group relative overflow-hidden bg-white/[0.03] border border-white/10 hover:border-yellow-500/20 rounded-3xl p-6 transition-all duration-300"
+                initial={{
+                  opacity: 0,
+                  y: 18,
+                }}
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                }}
+                transition={{
+                  duration: 0.35,
+                  delay:
+                    index * 0.08,
+                }}
+                className="group relative overflow-hidden rounded-[30px] border border-white/10 bg-white/[0.03] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-yellow-500/20 hover:bg-white/[0.045]"
               >
 
                 {/* Hover Glow */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-300 bg-gradient-to-r from-yellow-500/[0.03] to-transparent"></div>
+                <div className="absolute inset-0 opacity-0 transition-all duration-300 group-hover:opacity-100">
 
-                <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-6">
+                  <div className="absolute right-[-60px] top-[-60px] h-[180px] w-[180px] rounded-full bg-yellow-500/[0.06] blur-[90px]"></div>
+
+                </div>
+
+                <div className="relative z-10 flex flex-col gap-6 xl:flex-row xl:items-center xl:justify-between">
 
                   {/* Left */}
                   <div className="flex items-start gap-5">
 
                     {/* Icon */}
-                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-yellow-400 to-amber-500 flex items-center justify-center shadow-[0_0_25px_rgba(250,204,21,0.18)]">
+                    <div className="flex h-16 w-16 items-center justify-center rounded-[24px] bg-gradient-to-br from-yellow-400 to-amber-500 shadow-[0_0_30px_rgba(250,204,21,0.2)]">
 
                       <Car
-                        size={24}
+                        size={28}
                         className="text-black"
                       />
 
                     </div>
 
-                    {/* Content */}
+                    {/* Details */}
                     <div>
 
-                      <h3 className="text-xl font-semibold text-white">
+                      <div className="flex flex-wrap items-center gap-3">
 
-                        {
-                          activity.driver
-                        }
+                        <h3 className="text-2xl font-semibold text-white">
 
-                      </h3>
+                          {
+                            activity.driver
+                          }
 
-                      <p className="text-zinc-400 mt-2 leading-relaxed">
+                        </h3>
+
+                        <span
+                          className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] ${getStatusStyle(
+                            activity.status
+                          )}`}
+                        >
+
+                          {
+                            activity.status
+                          }
+
+                        </span>
+
+                      </div>
+
+                      <p className="mt-3 leading-relaxed text-zinc-400">
 
                         {
                           activity.action
@@ -238,7 +295,8 @@ function DriverActivity() {
 
                       </p>
 
-                      <div className="flex flex-wrap items-center gap-5 mt-4 text-sm text-zinc-500">
+                      {/* Meta */}
+                      <div className="mt-5 flex flex-wrap items-center gap-5 text-sm text-zinc-500">
 
                         <div className="flex items-center gap-2">
 
@@ -295,40 +353,41 @@ function DriverActivity() {
                   </div>
 
                   {/* Right */}
-                  <div className="flex flex-col items-start xl:items-end gap-4">
+                  <div className="flex flex-col items-start gap-4 xl:items-end">
 
                     {/* Earnings */}
-                    <div className="flex items-center gap-2 px-4 py-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/10">
+                    <div className="flex items-center gap-3 rounded-2xl border border-emerald-500/15 bg-emerald-500/10 px-5 py-4">
 
-                      <IndianRupee
-                        size={16}
-                        className="text-emerald-400"
-                      />
+                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/15">
 
-                      <span className="text-sm font-semibold text-emerald-400">
+                        <IndianRupee
+                          size={18}
+                          className="text-emerald-400"
+                        />
 
-                        {
-                          activity.earnings
-                        }
+                      </div>
 
-                      </span>
+                      <div>
+
+                        <p className="text-xs uppercase tracking-[0.18em] text-zinc-500">
+
+                          Earnings
+
+                        </p>
+
+                        <h4 className="mt-1 text-lg font-bold text-emerald-400">
+
+                          {
+                            activity.earnings
+                          }
+
+                        </h4>
+
+                      </div>
 
                     </div>
 
-                    {/* Status */}
-                    <span
-                      className={`px-5 py-3 rounded-2xl text-sm font-semibold ${getStatusStyle(
-                        activity.status
-                      )}`}
-                    >
-
-                      {
-                        activity.status
-                      }
-
-                    </span>
-
-                    {/* Live */}
+                    {/* ERP Activity */}
                     <div className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-zinc-500">
 
                       <Activity
@@ -337,13 +396,18 @@ function DriverActivity() {
 
                       ERP ACTIVE
 
+                      <ArrowUpRight
+                        size={14}
+                        className="text-yellow-400"
+                      />
+
                     </div>
 
                   </div>
 
                 </div>
 
-              </div>
+              </motion.div>
             )
           )}
 

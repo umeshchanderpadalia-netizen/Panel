@@ -3,51 +3,75 @@ const delay = (ms) =>
     setTimeout(resolve, ms)
   );
 
-// Login API
+const ADMIN_CREDENTIALS = {
+  email: "admin@getmecab.com",
+  password: "admin123",
+};
+
 export async function loginApi({
   email,
   password,
 }) {
-
   await delay(1000);
 
-  if (
-    email ===
-      "admin@getmecab.com" &&
-    password ===
-      "admin123"
-  ) {
+  const normalizedEmail =
+    email.trim().toLowerCase();
 
-    const user = {
-      name: "Deepanshu",
+  const normalizedPassword =
+    password.trim();
 
-      role:
-        "System Administrator",
+  const isValidUser =
+    normalizedEmail ===
+      ADMIN_CREDENTIALS.email &&
+    normalizedPassword ===
+      ADMIN_CREDENTIALS.password;
 
-      email,
-    };
-
-    localStorage.setItem(
-      "admin-auth",
-      "true"
-    );
-
-    localStorage.setItem(
-      "cab-user",
-      JSON.stringify(user)
-    );
-
+  if (!isValidUser) {
     return {
-      success: true,
-
-      user,
+      success: false,
+      message:
+        "Invalid email or password",
     };
   }
 
-  return {
-    success: false,
+  const user = {
+    id: 1,
+    name: "Deepanshu",
+    role:
+      "System Administrator",
+    email: normalizedEmail,
+  };
 
-    message:
-      "Invalid email or password",
+  localStorage.setItem(
+    "admin-auth",
+    "true"
+  );
+
+  localStorage.setItem(
+    "cab-user",
+    JSON.stringify(user)
+  );
+
+  return {
+    success: true,
+    user,
+    token:
+      "mock-jwt-token-getmecab",
+  };
+}
+
+export async function logoutApi() {
+  await delay(400);
+
+  localStorage.removeItem(
+    "admin-auth"
+  );
+
+  localStorage.removeItem(
+    "cab-user"
+  );
+
+  return {
+    success: true,
   };
 }

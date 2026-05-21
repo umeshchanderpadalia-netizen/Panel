@@ -15,64 +15,70 @@ import useApp from "../hooks/useApp";
 
 function Reports() {
 
+  // App Data
   const {
     trips,
   } = useApp();
 
-  const totalRevenue =
-    trips.reduce(
-      (
-        total,
-        trip
-      ) =>
-        total +
-        Number(
-          trip.total || 0
-        ),
-      0
-    );
+  // Report Metrics
+  const reportMetrics = {
 
-  const totalExpenses =
-    trips.reduce(
-      (
-        total,
-        trip
-      ) =>
-        total +
-        Number(
-          trip.totalExpenses ||
-            0
-        ),
-      0
-    );
+    totalRevenue:
+      trips.reduce(
+        (
+          total,
+          trip
+        ) =>
+          total +
+          Number(
+            trip.total || 0
+          ),
+        0
+      ),
 
-  const totalProfit =
-    trips.reduce(
-      (
-        total,
-        trip
-      ) =>
-        total +
-        Number(
-          trip.profit || 0
-        ),
-      0
-    );
+    totalExpenses:
+      trips.reduce(
+        (
+          total,
+          trip
+        ) =>
+          total +
+          Number(
+            trip.totalExpenses ||
+              0
+          ),
+        0
+      ),
 
-  const completedTrips =
-    trips.filter(
-      (trip) =>
-        trip.tripStatus ===
-        "Completed"
-    ).length;
+    totalProfit:
+      trips.reduce(
+        (
+          total,
+          trip
+        ) =>
+          total +
+          Number(
+            trip.profit || 0
+          ),
+        0
+      ),
 
-  const pendingPayments =
-    trips.filter(
-      (trip) =>
-        trip.paymentStatus !==
-        "Paid"
-    ).length;
+    completedTrips:
+      trips.filter(
+        (trip) =>
+          trip.tripStatus ===
+          "Completed"
+      ).length,
 
+    pendingPayments:
+      trips.filter(
+        (trip) =>
+          trip.paymentStatus !==
+          "Paid"
+      ).length,
+  };
+
+  // Report Cards
   const reportCards = [
 
     {
@@ -80,7 +86,7 @@ function Reports() {
         "Revenue Report",
 
       value:
-        `₹${totalRevenue}`,
+        `₹${reportMetrics.totalRevenue.toLocaleString()}`,
 
       icon:
         IndianRupee,
@@ -97,7 +103,7 @@ function Reports() {
         "Expense Report",
 
       value:
-        `₹${totalExpenses}`,
+        `₹${reportMetrics.totalExpenses.toLocaleString()}`,
 
       icon:
         Wallet,
@@ -114,7 +120,7 @@ function Reports() {
         "Profit Report",
 
       value:
-        `₹${totalProfit}`,
+        `₹${reportMetrics.totalProfit.toLocaleString()}`,
 
       icon:
         TrendingUp,
@@ -131,7 +137,7 @@ function Reports() {
         "Completed Trips",
 
       value:
-        completedTrips,
+        reportMetrics.completedTrips,
 
       icon:
         BarChart3,
@@ -144,6 +150,7 @@ function Reports() {
     },
   ];
 
+  // Reports List
   const reports = [
 
     {
@@ -197,7 +204,7 @@ function Reports() {
 
       <div className="space-y-8">
 
-        {/* Hero */}
+        {/* Hero Section */}
         <section className="relative overflow-hidden rounded-[36px] border border-white/10 bg-white/[0.03] backdrop-blur-2xl p-8 lg:p-10">
 
           {/* Glow */}
@@ -207,7 +214,7 @@ function Reports() {
 
           <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-10">
 
-            {/* Left */}
+            {/* Left Content */}
             <div className="max-w-3xl">
 
               <p className="text-sm uppercase tracking-[0.35em] text-yellow-400 font-semibold">
@@ -238,9 +245,10 @@ function Reports() {
 
             </div>
 
-            {/* Right */}
+            {/* Right Actions */}
             <div className="flex flex-col gap-4">
 
+              {/* Export Button */}
               <button className="flex items-center gap-3 px-7 py-4 rounded-2xl bg-gradient-to-r from-yellow-400 to-amber-500 text-black font-semibold shadow-[0_0_30px_rgba(250,204,21,0.18)] hover:scale-[1.02] transition-all duration-300">
 
                 <Download
@@ -251,6 +259,7 @@ function Reports() {
 
               </button>
 
+              {/* Period */}
               <div className="flex items-center gap-3 px-5 py-4 rounded-2xl bg-white/[0.03] border border-white/10">
 
                 <CalendarDays
@@ -282,8 +291,8 @@ function Reports() {
 
         </section>
 
-        {/* Report Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+        {/* Report Metrics */}
+        <section className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
 
           {reportCards.map(
             (
@@ -347,10 +356,10 @@ function Reports() {
             }
           )}
 
-        </div>
+        </section>
 
-        {/* Reports */}
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+        {/* Reports Grid */}
+        <section className="grid grid-cols-1 xl:grid-cols-2 gap-6">
 
           {reports.map(
             (
@@ -372,6 +381,7 @@ function Reports() {
 
                   <div className="relative z-10">
 
+                    {/* Header */}
                     <div className="flex items-start justify-between mb-8">
 
                       <div>
@@ -400,6 +410,7 @@ function Reports() {
 
                     </div>
 
+                    {/* Description */}
                     <p className="text-zinc-500 leading-relaxed">
 
                       {
@@ -408,6 +419,7 @@ function Reports() {
 
                     </p>
 
+                    {/* Action */}
                     <button className="mt-8 flex items-center gap-3 px-5 py-4 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-yellow-500/20 hover:bg-yellow-500/10 transition-all duration-300 text-white">
 
                       <FileText
@@ -425,15 +437,16 @@ function Reports() {
             }
           )}
 
-        </div>
+        </section>
 
-        {/* Alerts */}
-        <div className="relative overflow-hidden bg-red-500/[0.04] border border-red-500/20 rounded-[34px] p-7 backdrop-blur-2xl">
+        {/* Financial Alerts */}
+        <section className="relative overflow-hidden bg-red-500/[0.04] border border-red-500/20 rounded-[34px] p-7 backdrop-blur-2xl">
 
           <div className="absolute top-[-100px] right-[-100px] w-[240px] h-[240px] bg-red-500/10 blur-[120px] rounded-full"></div>
 
           <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-8">
 
+            {/* Left Content */}
             <div>
 
               <p className="text-sm uppercase tracking-[0.25em] text-red-400 font-medium">
@@ -451,20 +464,21 @@ function Reports() {
               <p className="text-zinc-400 mt-4 leading-relaxed max-w-2xl">
 
                 {
-                  pendingPayments
+                  reportMetrics.pendingPayments
                 } bookings currently require payment reconciliation,
-                invoice follow-up or financial settlement verification.
+                invoice follow-up or settlement verification.
 
               </p>
 
             </div>
 
+            {/* Right Stats */}
             <div className="px-7 py-5 rounded-3xl bg-red-500/10 border border-red-500/20">
 
               <h2 className="text-5xl font-bold text-red-400">
 
                 {
-                  pendingPayments
+                  reportMetrics.pendingPayments
                 }
 
               </h2>
@@ -479,7 +493,7 @@ function Reports() {
 
           </div>
 
-        </div>
+        </section>
 
       </div>
 

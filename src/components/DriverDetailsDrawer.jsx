@@ -8,7 +8,12 @@ import {
   Star,
   Wallet,
   CalendarDays,
+  ShieldCheck,
+  Activity,
+  CircleDot,
 } from "lucide-react";
+
+import { motion } from "framer-motion";
 
 function DriverDetailsDrawer({
   driver,
@@ -18,59 +23,176 @@ function DriverDetailsDrawer({
   if (!driver)
     return null;
 
+  const availabilityStyle =
+    driver.availability ===
+    "Online"
+      ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/20"
+      : "bg-red-500/15 text-red-400 border border-red-500/20";
+
+  const infoCards = [
+
+    {
+      icon: Phone,
+      title:
+        "Phone Number",
+      value:
+        driver.phone,
+      iconColor:
+        "text-cyan-400",
+    },
+
+    {
+      icon: Mail,
+      title:
+        "Email Address",
+      value:
+        driver.email,
+      iconColor:
+        "text-yellow-400",
+    },
+
+    {
+      icon: Car,
+      title:
+        "Vehicle",
+      value:
+        driver.vehicle,
+      subValue:
+        driver.vehicleNumber,
+      iconColor:
+        "text-purple-400",
+    },
+
+    {
+      icon: BadgeCheck,
+      title:
+        "Vendor",
+      value:
+        driver.vendor,
+      iconColor:
+        "text-emerald-400",
+    },
+
+    {
+      icon: MapPin,
+      title:
+        "Current Location",
+      value:
+        driver.location,
+      iconColor:
+        "text-orange-400",
+    },
+
+    {
+      icon: CalendarDays,
+      title:
+        "Joining Date",
+      value:
+        driver.joiningDate,
+      iconColor:
+        "text-blue-400",
+    },
+  ];
+
   return (
 
-    <div className="fixed inset-0 z-[140] flex justify-end bg-black/70 backdrop-blur-md">
+    <div className="fixed inset-0 z-[160] flex justify-end bg-black/80 backdrop-blur-xl">
 
-      <div className="relative w-full max-w-2xl h-screen overflow-y-auto bg-[#090909] border-l border-white/10 shadow-2xl">
+      <motion.div
+        initial={{
+          opacity: 0,
+          x: 80,
+        }}
+        animate={{
+          opacity: 1,
+          x: 0,
+        }}
+        exit={{
+          opacity: 0,
+          x: 80,
+        }}
+        transition={{
+          duration: 0.3,
+        }}
+        className="relative h-screen w-full max-w-2xl overflow-y-auto border-l border-white/10 bg-[#090909]/95 shadow-[0_0_80px_rgba(0,0,0,0.45)] backdrop-blur-3xl"
+      >
 
         {/* Glow */}
-        <div className="absolute top-[-120px] right-[-120px] w-[260px] h-[260px] bg-yellow-400/10 blur-[140px] rounded-full"></div>
+        <div className="absolute right-[-120px] top-[-120px] h-[260px] w-[260px] rounded-full bg-yellow-400/10 blur-[140px]"></div>
 
-        <div className="relative z-10 p-8">
+        <div className="absolute bottom-[-120px] left-[-120px] h-[240px] w-[240px] rounded-full bg-amber-500/5 blur-[120px]"></div>
+
+        <div className="relative z-10 p-8 lg:p-10">
 
           {/* Header */}
-          <div className="flex items-start justify-between mb-10">
+          <div className="mb-10 flex items-start justify-between gap-6">
 
-            <div className="flex items-center gap-5">
+            <div className="flex items-start gap-5">
 
-              <img
-                src={driver.avatar}
-                alt={driver.name}
-                className="w-24 h-24 rounded-3xl object-cover border border-white/10"
-              />
+              {/* Avatar */}
+              <div className="relative">
 
+                <img
+                  src={
+                    driver.avatar
+                  }
+                  alt={
+                    driver.name
+                  }
+                  className="h-24 w-24 rounded-[28px] border border-white/10 object-cover shadow-[0_0_30px_rgba(250,204,21,0.08)]"
+                />
+
+                <div className="absolute -bottom-2 -right-2 flex h-8 w-8 items-center justify-center rounded-full border border-black bg-emerald-400">
+
+                  <CircleDot
+                    size={14}
+                    className="text-black"
+                  />
+
+                </div>
+
+              </div>
+
+              {/* Details */}
               <div>
 
-                <p className="text-xs uppercase tracking-[0.35em] text-yellow-400 font-semibold">
+                <div className="flex items-center gap-2">
 
-                  Driver Profile
+                  <Activity
+                    size={14}
+                    className="text-yellow-400"
+                  />
 
-                </p>
+                  <p className="text-xs font-semibold uppercase tracking-[0.35em] text-yellow-400">
 
-                <h2 className="text-4xl font-bold text-white mt-3">
+                    Driver Profile
 
-                  {driver.name}
+                  </p>
+
+                </div>
+
+                <h2 className="mt-4 text-4xl font-bold tracking-tight text-white">
+
+                  {
+                    driver.name
+                  }
 
                 </h2>
 
-                <div className="flex items-center gap-3 mt-4">
+                <div className="mt-5 flex flex-wrap items-center gap-3">
 
                   <span
-                    className={`px-4 py-2 rounded-full text-xs font-semibold ${driver.color}`}
+                    className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] ${driver.color}`}
                   >
 
-                    {driver.status}
+                    {
+                      driver.status
+                    }
 
                   </span>
 
                   <span
-                    className={`px-4 py-2 rounded-full text-xs font-semibold ${
-                      driver.availability ===
-                      "Online"
-                        ? "bg-emerald-500/15 text-emerald-400"
-                        : "bg-red-500/15 text-red-400"
-                    }`}
+                    className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] ${availabilityStyle}`}
                   >
 
                     {
@@ -87,13 +209,15 @@ function DriverDetailsDrawer({
 
             {/* Close */}
             <button
-              onClick={closeDrawer}
-              className="w-12 h-12 rounded-2xl border border-white/10 bg-white/[0.03] hover:bg-white/[0.06] transition-all duration-300 flex items-center justify-center"
+              onClick={
+                closeDrawer
+              }
+              className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.03] transition-all duration-300 hover:border-yellow-500/20 hover:bg-white/[0.06]"
             >
 
               <X
                 size={20}
-                className="text-white"
+                className="text-zinc-300"
               />
 
             </button>
@@ -101,243 +225,226 @@ function DriverDetailsDrawer({
           </div>
 
           {/* Information Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
 
-            {/* Phone */}
-            <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-6">
+            {infoCards.map(
+              (
+                item,
+                index
+              ) => {
 
-              <div className="flex items-center gap-3 text-zinc-400">
+                const Icon =
+                  item.icon;
 
-                <Phone size={18} />
+                return (
 
-                <p className="text-sm">
-                  Phone Number
-                </p>
+                  <div
+                    key={index}
+                    className="group relative overflow-hidden rounded-[30px] border border-white/10 bg-white/[0.03] p-6 transition-all duration-300 hover:border-yellow-500/20 hover:bg-white/[0.045]"
+                  >
 
-              </div>
+                    {/* Hover Glow */}
+                    <div className="absolute inset-0 opacity-0 transition-all duration-300 group-hover:opacity-100">
 
-              <h3 className="text-lg font-semibold text-white mt-4">
+                      <div className="absolute right-[-40px] top-[-40px] h-[120px] w-[120px] rounded-full bg-yellow-500/[0.04] blur-[70px]"></div>
 
-                {driver.phone}
+                    </div>
 
-              </h3>
+                    <div className="relative z-10">
 
-            </div>
+                      <div className="flex items-center gap-3 text-zinc-400">
 
-            {/* Email */}
-            <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-6">
+                        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/[0.04]">
 
-              <div className="flex items-center gap-3 text-zinc-400">
+                          <Icon
+                            size={18}
+                            className={
+                              item.iconColor
+                            }
+                          />
 
-                <Mail size={18} />
+                        </div>
 
-                <p className="text-sm">
-                  Email Address
-                </p>
+                        <p className="text-sm uppercase tracking-[0.12em]">
 
-              </div>
+                          {
+                            item.title
+                          }
 
-              <h3 className="text-lg font-semibold text-white mt-4 break-all">
+                        </p>
 
-                {driver.email}
+                      </div>
 
-              </h3>
+                      <h3 className="mt-5 text-lg font-semibold leading-relaxed text-white break-words">
 
-            </div>
+                        {
+                          item.value
+                        }
 
-            {/* Vehicle */}
-            <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-6">
+                      </h3>
 
-              <div className="flex items-center gap-3 text-zinc-400">
+                      {item.subValue && (
 
-                <Car size={18} />
+                        <p className="mt-2 text-sm text-zinc-500">
 
-                <p className="text-sm">
-                  Vehicle
-                </p>
+                          {
+                            item.subValue
+                          }
 
-              </div>
+                        </p>
+                      )}
 
-              <h3 className="text-lg font-semibold text-white mt-4">
+                    </div>
 
-                {driver.vehicle}
-
-              </h3>
-
-              <p className="text-zinc-500 mt-2 text-sm">
-
-                {
-                  driver.vehicleNumber
-                }
-
-              </p>
-
-            </div>
-
-            {/* Vendor */}
-            <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-6">
-
-              <div className="flex items-center gap-3 text-zinc-400">
-
-                <BadgeCheck
-                  size={18}
-                />
-
-                <p className="text-sm">
-                  Vendor
-                </p>
-
-              </div>
-
-              <h3 className="text-lg font-semibold text-white mt-4">
-
-                {driver.vendor}
-
-              </h3>
-
-            </div>
-
-            {/* Location */}
-            <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-6">
-
-              <div className="flex items-center gap-3 text-zinc-400">
-
-                <MapPin size={18} />
-
-                <p className="text-sm">
-                  Current Location
-                </p>
-
-              </div>
-
-              <h3 className="text-lg font-semibold text-white mt-4">
-
-                {driver.location}
-
-              </h3>
-
-            </div>
-
-            {/* Joining */}
-            <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-6">
-
-              <div className="flex items-center gap-3 text-zinc-400">
-
-                <CalendarDays
-                  size={18}
-                />
-
-                <p className="text-sm">
-                  Joining Date
-                </p>
-
-              </div>
-
-              <h3 className="text-lg font-semibold text-white mt-4">
-
-                {
-                  driver.joiningDate
-                }
-
-              </h3>
-
-            </div>
+                  </div>
+                );
+              }
+            )}
 
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-6">
+          <div className="mt-6 grid grid-cols-1 gap-5 md:grid-cols-3">
 
-            {/* Completed */}
-            <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-6">
+            {/* Completed Trips */}
+            <div className="relative overflow-hidden rounded-[30px] border border-white/10 bg-white/[0.03] p-6">
 
-              <p className="text-sm text-zinc-400">
+              <div className="absolute right-[-40px] top-[-40px] h-[120px] w-[120px] rounded-full bg-cyan-500/[0.05] blur-[70px]"></div>
 
-                Completed Trips
+              <div className="relative z-10">
 
-              </p>
+                <p className="text-sm uppercase tracking-[0.14em] text-zinc-500">
 
-              <h2 className="text-4xl font-bold text-white mt-4">
+                  Completed Trips
 
-                {
-                  driver.completedTrips
-                }
+                </p>
 
-              </h2>
+                <h2 className="mt-5 text-5xl font-bold text-white">
+
+                  {
+                    driver.completedTrips
+                  }
+
+                </h2>
+
+              </div>
 
             </div>
 
             {/* Rating */}
-            <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-6">
+            <div className="relative overflow-hidden rounded-[30px] border border-white/10 bg-white/[0.03] p-6">
 
-              <div className="flex items-center gap-2 text-yellow-400">
+              <div className="absolute right-[-40px] top-[-40px] h-[120px] w-[120px] rounded-full bg-yellow-500/[0.05] blur-[70px]"></div>
 
-                <Star
-                  size={18}
-                  fill="currentColor"
-                />
+              <div className="relative z-10">
 
-                <p className="text-sm">
-                  Rating
-                </p>
+                <div className="flex items-center gap-2 text-yellow-400">
+
+                  <Star
+                    size={18}
+                    fill="currentColor"
+                  />
+
+                  <p className="text-sm uppercase tracking-[0.14em]">
+
+                    Rating
+
+                  </p>
+
+                </div>
+
+                <h2 className="mt-5 text-5xl font-bold text-white">
+
+                  {
+                    driver.rating
+                  }
+
+                </h2>
 
               </div>
-
-              <h2 className="text-4xl font-bold text-white mt-4">
-
-                {driver.rating}
-
-              </h2>
 
             </div>
 
             {/* Earnings */}
-            <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-6">
+            <div className="relative overflow-hidden rounded-[30px] border border-white/10 bg-white/[0.03] p-6">
 
-              <div className="flex items-center gap-2 text-emerald-400">
+              <div className="absolute right-[-40px] top-[-40px] h-[120px] w-[120px] rounded-full bg-emerald-500/[0.05] blur-[70px]"></div>
 
-                <Wallet size={18} />
+              <div className="relative z-10">
 
-                <p className="text-sm">
-                  Earnings
-                </p>
+                <div className="flex items-center gap-2 text-emerald-400">
+
+                  <Wallet
+                    size={18}
+                  />
+
+                  <p className="text-sm uppercase tracking-[0.14em]">
+
+                    Earnings
+
+                  </p>
+
+                </div>
+
+                <h2 className="mt-5 text-4xl font-bold text-white">
+
+                  {
+                    driver.earnings
+                  }
+
+                </h2>
 
               </div>
-
-              <h2 className="text-4xl font-bold text-white mt-4">
-
-                {
-                  driver.earnings
-                }
-
-              </h2>
 
             </div>
 
           </div>
 
           {/* License */}
-          <div className="mt-6 bg-white/[0.03] border border-white/10 rounded-3xl p-6">
+          <div className="relative mt-6 overflow-hidden rounded-[32px] border border-white/10 bg-white/[0.03] p-7">
 
-            <p className="text-sm text-zinc-400">
+            <div className="absolute right-[-60px] top-[-60px] h-[150px] w-[150px] rounded-full bg-yellow-500/[0.05] blur-[90px]"></div>
 
-              License Number
+            <div className="relative z-10">
 
-            </p>
+              <div className="flex items-center gap-3 text-zinc-400">
 
-            <h3 className="text-2xl font-bold text-white mt-4 tracking-wide">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/[0.04]">
 
-              {
-                driver.licenseNumber
-              }
+                  <ShieldCheck
+                    size={20}
+                    className="text-yellow-400"
+                  />
 
-            </h3>
+                </div>
+
+                <div>
+
+                  <p className="text-sm uppercase tracking-[0.14em]">
+
+                    License Number
+
+                  </p>
+
+                  <h3 className="mt-2 text-2xl font-bold tracking-[0.08em] text-white">
+
+                    {
+                      driver.licenseNumber
+                    }
+
+                  </h3>
+
+                </div>
+
+              </div>
+
+            </div>
 
           </div>
 
         </div>
 
-      </div>
+      </motion.div>
 
     </div>
   );

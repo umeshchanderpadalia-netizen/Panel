@@ -1,5 +1,6 @@
 import {
   useEffect,
+  useMemo,
   useState,
 } from "react";
 
@@ -32,13 +33,12 @@ export function AuthProvider({
       );
     }
 
-    // Smooth Loading Delay
     const timer =
       setTimeout(() => {
 
         setLoading(false);
 
-      }, 650);
+      }, 500);
 
     return () =>
       clearTimeout(timer);
@@ -59,9 +59,13 @@ export function AuthProvider({
     ) {
 
       const userData = {
-        name: "Deepanshu",
+
+        name:
+          "Deepanshu",
+
         role:
           "System Administrator",
+
         email,
       };
 
@@ -83,7 +87,9 @@ export function AuthProvider({
     }
 
     return {
+
       success: false,
+
       message:
         "Invalid email or password",
     };
@@ -103,21 +109,29 @@ export function AuthProvider({
     setUser(null);
   };
 
-  // Loading Screen
+  const value =
+    useMemo(
+      () => ({
+        user,
+        login,
+        logout,
+        loading,
+      }),
+      [user, loading]
+    );
+
   if (loading) {
 
     return (
+
       <div className="relative min-h-screen bg-[#050505] overflow-hidden flex items-center justify-center">
 
-        {/* Background Glow */}
         <div className="absolute top-[-180px] right-[-180px] w-[420px] h-[420px] bg-yellow-400/10 blur-[160px] rounded-full"></div>
 
         <div className="absolute bottom-[-180px] left-[-180px] w-[420px] h-[420px] bg-amber-500/10 blur-[160px] rounded-full"></div>
 
-        {/* Loader */}
         <div className="relative z-10 flex flex-col items-center">
 
-          {/* Spinner */}
           <div className="relative">
 
             <div className="w-20 h-20 rounded-full border-[5px] border-yellow-400/10"></div>
@@ -126,9 +140,10 @@ export function AuthProvider({
 
           </div>
 
-          {/* Text */}
           <p className="mt-8 text-zinc-400 tracking-[0.3em] uppercase text-sm">
+
             Initializing Dashboard
+
           </p>
 
         </div>
@@ -138,20 +153,12 @@ export function AuthProvider({
   }
 
   return (
+
     <AuthContext.Provider
-      value={{
-        user,
-        login,
-        logout,
-        loading,
-      }}
+      value={value}
     >
 
-      <div className="animate-[fadeIn_0.45s_ease]">
-
-        {children}
-
-      </div>
+      {children}
 
     </AuthContext.Provider>
   );

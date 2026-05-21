@@ -199,6 +199,7 @@ function EditDriverModal({
                 <input
                   type="text"
                   name="name"
+                  required
                   placeholder="Driver Name"
                   value={
                     formData.name
@@ -206,12 +207,13 @@ function EditDriverModal({
                   onChange={
                     handleChange
                   }
-                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white"
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
                 />
 
                 <input
                   type="text"
                   name="phone"
+                  required
                   placeholder="Phone Number"
                   value={
                     formData.phone
@@ -219,7 +221,7 @@ function EditDriverModal({
                   onChange={
                     handleChange
                   }
-                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white"
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
                 />
 
                 <input
@@ -232,12 +234,13 @@ function EditDriverModal({
                   onChange={
                     handleChange
                   }
-                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white"
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
                 />
 
                 <input
                   type="text"
                   name="location"
+                  required
                   placeholder="Current Location"
                   value={
                     formData.location
@@ -245,7 +248,7 @@ function EditDriverModal({
                   onChange={
                     handleChange
                   }
-                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white"
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
                 />
 
               </div>
@@ -266,6 +269,7 @@ function EditDriverModal({
                 <input
                   type="text"
                   name="vehicle"
+                  required
                   placeholder="Vehicle"
                   value={
                     formData.vehicle
@@ -273,12 +277,13 @@ function EditDriverModal({
                   onChange={
                     handleChange
                   }
-                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white"
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
                 />
 
                 <input
                   type="text"
                   name="vehicleNumber"
+                  required
                   placeholder="Vehicle Number"
                   value={
                     formData.vehicleNumber
@@ -286,7 +291,7 @@ function EditDriverModal({
                   onChange={
                     handleChange
                   }
-                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white"
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
                 />
 
                 <input
@@ -299,12 +304,13 @@ function EditDriverModal({
                   onChange={
                     handleChange
                   }
-                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white"
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
                 />
 
                 <input
                   type="text"
                   name="vendor"
+                  required
                   placeholder="Vendor"
                   value={
                     formData.vendor
@@ -312,7 +318,7 @@ function EditDriverModal({
                   onChange={
                     handleChange
                   }
-                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white"
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
                 />
 
               </div>
@@ -338,7 +344,7 @@ function EditDriverModal({
                   onChange={
                     handleChange
                   }
-                  className="w-full bg-[#0a0a0a] border border-white/10 rounded-2xl px-5 py-4 text-white"
+                  className="w-full bg-[#0a0a0a] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
                 >
 
                   <option>
@@ -367,7 +373,7 @@ function EditDriverModal({
                   onChange={
                     handleChange
                   }
-                  className="w-full bg-[#0a0a0a] border border-white/10 rounded-2xl px-5 py-4 text-white"
+                  className="w-full bg-[#0a0a0a] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
                 >
 
                   <option>
@@ -390,14 +396,14 @@ function EditDriverModal({
                   onChange={
                     handleChange
                   }
-                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white"
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
                 />
 
               </div>
 
             </div>
 
-            {/* Stats */}
+            {/* Performance */}
             <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-7">
 
               <h3 className="text-2xl font-bold text-white mb-7">
@@ -418,7 +424,7 @@ function EditDriverModal({
                   onChange={
                     handleChange
                   }
-                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white"
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
                 />
 
                 <input
@@ -431,7 +437,7 @@ function EditDriverModal({
                   onChange={
                     handleChange
                   }
-                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white"
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
                 />
 
                 <input
@@ -445,7 +451,47 @@ function EditDriverModal({
                   onChange={
                     handleChange
                   }
-                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white"
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
+                />
+
+              </div>
+
+            </div>
+
+            {/* Extra */}
+            <div className="bg-white/[0.03] border border-white/10 rounded-3xl p-7">
+
+              <h3 className="text-2xl font-bold text-white mb-7">
+
+                Verification
+
+              </h3>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+                <input
+                  type="date"
+                  name="joiningDate"
+                  value={
+                    formData.joiningDate
+                  }
+                  onChange={
+                    handleChange
+                  }
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
+                />
+
+                <input
+                  type="text"
+                  name="licenseNumber"
+                  placeholder="License Number"
+                  value={
+                    formData.licenseNumber
+                  }
+                  onChange={
+                    handleChange
+                  }
+                  className="w-full bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-400/30"
                 />
 
               </div>

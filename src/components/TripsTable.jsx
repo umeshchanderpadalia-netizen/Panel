@@ -10,9 +10,12 @@ import {
   Search,
   IndianRupee,
   Receipt,
+  Sparkles,
+  CalendarDays,
 } from "lucide-react";
 
 import EditBookingModal from "./EditBookingModal";
+
 import BookingDetailsDrawer from "./BookingDetailsDrawer";
 
 function TripsTable({
@@ -38,7 +41,6 @@ function TripsTable({
     setShowDrawer,
   ] = useState(false);
 
-  // Search Filter
   const filteredTrips =
     useMemo(() => {
 
@@ -83,75 +85,83 @@ function TripsTable({
 
     }, [search, trips]);
 
-  // Delete Trip
-  const deleteTrip = (
-    bookingId
-  ) => {
+  const deleteTrip =
+    (bookingId) => {
 
-    const updatedTrips =
-      trips.filter(
-        (trip) =>
-          trip.bookingId !==
-          bookingId
-      );
+      const updatedTrips =
+        trips.filter(
+          (trip) =>
+            trip.bookingId !==
+            bookingId
+        );
 
-    setTrips(updatedTrips);
-  };
+      setTrips(updatedTrips);
+    };
 
-  // Update Trip
-  const updateTrip = (
-    updatedTrip
-  ) => {
+  const updateTrip =
+    (updatedTrip) => {
 
-    const updatedTrips =
-      trips.map((trip) =>
-        trip.bookingId ===
-        updatedTrip.bookingId
-          ? updatedTrip
-          : trip
-      );
+      const updatedTrips =
+        trips.map((trip) =>
+          trip.bookingId ===
+          updatedTrip.bookingId
+            ? updatedTrip
+            : trip
+        );
 
-    setTrips(updatedTrips);
-  };
+      setTrips(updatedTrips);
+    };
 
   return (
 
-    <div className="relative overflow-hidden bg-white/[0.03] border border-white/10 rounded-[36px] backdrop-blur-2xl">
+    <div className="relative overflow-hidden bg-white/[0.03] border border-white/10 rounded-[38px] backdrop-blur-3xl">
 
       {/* Glow */}
-      <div className="absolute top-[-120px] right-[-120px] w-[240px] h-[240px] bg-yellow-500/10 blur-[120px] rounded-full"></div>
+      <div className="absolute top-[-140px] right-[-140px] w-[280px] h-[280px] bg-yellow-500/10 blur-[140px] rounded-full"></div>
+
+      <div className="absolute bottom-[-140px] left-[-140px] w-[280px] h-[280px] bg-amber-500/5 blur-[140px] rounded-full"></div>
 
       {/* Header */}
-      <div className="relative z-10 p-6 lg:p-8 border-b border-white/10">
+      <div className="relative z-10 p-7 lg:p-8 border-b border-white/10">
 
-        <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-6">
+        <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-8">
 
+          {/* Left */}
           <div>
 
-            <p className="text-xs uppercase tracking-[0.35em] text-yellow-400 font-semibold">
+            <div className="flex items-center gap-3">
 
-              ERP Booking Operations
+              <Sparkles
+                size={15}
+                className="text-yellow-400"
+              />
 
-            </p>
+              <p className="text-xs uppercase tracking-[0.35em] text-yellow-400 font-semibold">
 
-            <h2 className="text-3xl font-bold text-white mt-4">
+                ERP Booking Operations
+
+              </p>
+
+            </div>
+
+            <h2 className="text-4xl font-bold text-white mt-5 tracking-tight">
 
               Booking Management
 
             </h2>
 
-            <p className="text-zinc-500 mt-3 max-w-2xl leading-relaxed">
+            <p className="text-zinc-500 mt-5 max-w-3xl leading-relaxed">
 
-              Monitor operations, vendor assignments,
-              payment workflow, invoices, business revenue,
-              profitability and transport ERP activities.
+              Monitor business operations, trip assignments,
+              vendor workflow, invoices, financial performance
+              and live transport activities.
 
             </p>
 
           </div>
 
           {/* Search */}
-          <div className="relative w-full xl:w-[420px]">
+          <div className="relative w-full xl:w-[430px]">
 
             <Search
               size={18}
@@ -160,7 +170,7 @@ function TripsTable({
 
             <input
               type="text"
-              placeholder="Search bookings, invoices, vendors..."
+              placeholder="Search bookings, vendors, drivers..."
               value={search}
               onChange={(e) =>
                 setSearch(
@@ -177,7 +187,7 @@ function TripsTable({
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-yellow-500/10">
 
         <table className="w-full min-w-[2100px]">
 
@@ -185,77 +195,35 @@ function TripsTable({
 
             <tr>
 
-              <th className="text-left px-6 py-5 text-sm font-semibold text-zinc-400">
+              {[
+                "Booking",
+                "Customer",
+                "Route",
+                "Vendor",
+                "Driver",
+                "Revenue",
+                "Expenses",
+                "Profit",
+                "Invoice",
+                "Payment",
+                "Trip Status",
+                "Actions",
+              ].map(
+                (
+                  heading,
+                  index
+                ) => (
 
-                Booking
+                  <th
+                    key={index}
+                    className="text-left px-6 py-5 text-xs uppercase tracking-[0.2em] font-semibold text-zinc-500 whitespace-nowrap"
+                  >
 
-              </th>
+                    {heading}
 
-              <th className="text-left px-6 py-5 text-sm font-semibold text-zinc-400">
-
-                Customer
-
-              </th>
-
-              <th className="text-left px-6 py-5 text-sm font-semibold text-zinc-400">
-
-                Route
-
-              </th>
-
-              <th className="text-left px-6 py-5 text-sm font-semibold text-zinc-400">
-
-                Vendor
-
-              </th>
-
-              <th className="text-left px-6 py-5 text-sm font-semibold text-zinc-400">
-
-                Driver
-
-              </th>
-
-              <th className="text-left px-6 py-5 text-sm font-semibold text-zinc-400">
-
-                Revenue
-
-              </th>
-
-              <th className="text-left px-6 py-5 text-sm font-semibold text-zinc-400">
-
-                Expenses
-
-              </th>
-
-              <th className="text-left px-6 py-5 text-sm font-semibold text-zinc-400">
-
-                Profit
-
-              </th>
-
-              <th className="text-left px-6 py-5 text-sm font-semibold text-zinc-400">
-
-                Invoice
-
-              </th>
-
-              <th className="text-left px-6 py-5 text-sm font-semibold text-zinc-400">
-
-                Payment
-
-              </th>
-
-              <th className="text-left px-6 py-5 text-sm font-semibold text-zinc-400">
-
-                Trip Status
-
-              </th>
-
-              <th className="text-left px-6 py-5 text-sm font-semibold text-zinc-400">
-
-                Actions
-
-              </th>
+                  </th>
+                )
+              )}
 
             </tr>
 
@@ -271,7 +239,7 @@ function TripsTable({
 
                 <tr
                   key={index}
-                  className="border-b border-white/5 hover:bg-white/[0.02] transition-all duration-300"
+                  className="group border-b border-white/5 hover:bg-white/[0.025] transition-all duration-300"
                 >
 
                   {/* Booking */}
@@ -287,13 +255,22 @@ function TripsTable({
 
                       </p>
 
-                      <p className="text-xs text-zinc-500 mt-1">
+                      <div className="flex items-center gap-2 mt-2">
 
-                        {
-                          trip.invoiceNo
-                        }
+                        <CalendarDays
+                          size={12}
+                          className="text-zinc-500"
+                        />
 
-                      </p>
+                        <p className="text-xs text-zinc-500">
+
+                          {
+                            trip.date
+                          }
+
+                        </p>
+
+                      </div>
 
                     </div>
 
@@ -312,7 +289,7 @@ function TripsTable({
 
                       </p>
 
-                      <p className="text-xs text-zinc-500 mt-1">
+                      <p className="text-xs text-zinc-500 mt-2">
 
                         {
                           trip.phone
@@ -329,7 +306,7 @@ function TripsTable({
 
                     <div>
 
-                      <p className="text-sm text-zinc-300">
+                      <p className="text-sm text-zinc-200">
 
                         {
                           trip.pickup
@@ -337,7 +314,7 @@ function TripsTable({
 
                       </p>
 
-                      <p className="text-xs text-zinc-500 mt-1">
+                      <p className="text-xs text-zinc-500 mt-2">
 
                         ↓ {
                           trip.drop
@@ -362,7 +339,7 @@ function TripsTable({
 
                       </p>
 
-                      <p className="text-xs text-zinc-500 mt-1">
+                      <p className="text-xs text-zinc-500 mt-2">
 
                         Vendor Rate:
                         {" "}
@@ -389,7 +366,7 @@ function TripsTable({
 
                       </p>
 
-                      <p className="text-xs text-zinc-500 mt-1">
+                      <p className="text-xs text-zinc-500 mt-2">
 
                         {
                           trip.vehicle
@@ -407,10 +384,12 @@ function TripsTable({
                     <div className="flex items-center gap-2 text-emerald-400 font-semibold">
 
                       <IndianRupee
-                        size={16}
+                        size={15}
                       />
 
-                      ₹{trip.total}
+                      ₹{
+                        trip.total
+                      }
 
                     </div>
 
@@ -447,7 +426,7 @@ function TripsTable({
 
                     <div className="flex items-center gap-3">
 
-                      <div className="w-10 h-10 rounded-2xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center">
+                      <div className="w-11 h-11 rounded-2xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center">
 
                         <Receipt
                           size={18}
@@ -483,16 +462,18 @@ function TripsTable({
                   <td className="px-6 py-5">
 
                     <span
-                      className={`px-4 py-2 rounded-full text-xs font-semibold ${
+                      className={`px-4 py-2 rounded-2xl text-xs font-semibold border ${
                         trip.paymentStatus ===
                         "Paid"
-                          ? "bg-emerald-500/15 text-emerald-400"
+
+                          ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
 
                           : trip.paymentStatus ===
                             "Partial"
-                          ? "bg-blue-500/15 text-blue-400"
 
-                          : "bg-yellow-500/15 text-yellow-400"
+                          ? "bg-blue-500/10 text-blue-400 border-blue-500/20"
+
+                          : "bg-yellow-500/10 text-yellow-400 border-yellow-500/20"
                       }`}
                     >
 
@@ -504,11 +485,11 @@ function TripsTable({
 
                   </td>
 
-                  {/* Trip Status */}
+                  {/* Status */}
                   <td className="px-6 py-5">
 
                     <span
-                      className={`px-4 py-2 rounded-full text-xs font-semibold ${trip.color}`}
+                      className={`px-4 py-2 rounded-2xl text-xs font-semibold border ${trip.color}`}
                     >
 
                       {
@@ -611,7 +592,7 @@ function TripsTable({
 
       )}
 
-      {/* Edit Modal */}
+      {/* Edit */}
       {showEditModal && (
 
         <EditBookingModal

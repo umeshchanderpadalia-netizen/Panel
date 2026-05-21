@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import {
   ShieldCheck,
   CheckCircle2,
+  Eye,
+  EyeOff,
 } from "lucide-react";
 
 import { loginUser } from "../services/authService";
@@ -14,25 +16,49 @@ import Toast from "../components/Toast";
 
 function Login() {
 
-  const navigate = useNavigate();
+  const navigate =
+    useNavigate();
 
+  // Form State
   const [email, setEmail] =
     useState("");
 
-  const [password, setPassword] =
-    useState("");
+  const [
+    password,
+    setPassword,
+  ] = useState("");
 
+  // UI State
   const [loading, setLoading] =
     useState(false);
 
   const [toast, setToast] =
     useState("");
 
+  const [
+    showPassword,
+    setShowPassword,
+  ] = useState(false);
+
+  // Login Handler
   const handleLogin = async (
     e
   ) => {
 
     e.preventDefault();
+
+    // Validation
+    if (
+      !email.trim() ||
+      !password.trim()
+    ) {
+
+      setToast(
+        "Please fill all fields"
+      );
+
+      return;
+    }
 
     try {
 
@@ -55,12 +81,14 @@ function Login() {
           navigate("/");
 
         }, 1000);
-
       }
 
     } catch (error) {
 
-      setToast(error.message);
+      setToast(
+        error.message ||
+          "Login Failed"
+      );
 
     } finally {
 
@@ -71,18 +99,23 @@ function Login() {
         setToast("");
 
       }, 3000);
-
     }
   };
 
   return (
+
     <div className="min-h-screen bg-[#050505] text-white grid lg:grid-cols-2 overflow-hidden">
 
+      {/* Toast */}
       {toast && (
-        <Toast message={toast} />
+
+        <Toast
+          message={toast}
+        />
+
       )}
 
-      {/* LEFT SIDE */}
+      {/* Left Side */}
       <div className="relative hidden lg:flex flex-col justify-between p-14 overflow-hidden border-r border-white/5">
 
         {/* Ambient Glow */}
@@ -90,15 +123,15 @@ function Login() {
 
         <div className="absolute bottom-[-250px] right-[-250px] w-[520px] h-[520px] bg-amber-500/10 blur-[180px] rounded-full"></div>
 
-        {/* Abstract Glass Shapes */}
+        {/* Glass Shapes */}
         <div className="absolute top-[18%] right-[12%] w-[260px] h-[260px] rounded-[42px] border border-white/5 bg-white/[0.02] backdrop-blur-3xl rotate-12"></div>
 
         <div className="absolute bottom-[12%] left-[10%] w-[190px] h-[190px] rounded-[34px] border border-white/5 bg-white/[0.02] backdrop-blur-3xl -rotate-12"></div>
 
-        {/* Soft Grid */}
+        {/* Grid */}
         <div className="absolute inset-0 opacity-[0.02] bg-[linear-gradient(rgba(255,255,255,0.3)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.3)_1px,transparent_1px)] bg-[size:80px_80px]"></div>
 
-        {/* Brand */}
+        {/* Branding */}
         <div className="relative z-10">
 
           <div className="flex items-center gap-4">
@@ -115,11 +148,15 @@ function Login() {
             <div>
 
               <h1 className="text-2xl font-bold tracking-tight">
+
                 Get Me Cab
+
               </h1>
 
               <p className="text-zinc-500 mt-1">
+
                 Operations Platform
+
               </p>
 
             </div>
@@ -128,11 +165,13 @@ function Login() {
 
         </div>
 
-        {/* Main Content */}
+        {/* Content */}
         <div className="relative z-10 max-w-xl">
 
           <p className="text-yellow-400 uppercase tracking-[0.3em] text-sm">
+
             Premium Operations Suite
+
           </p>
 
           <h2 className="text-7xl font-bold leading-[0.95] tracking-tight mt-8">
@@ -146,7 +185,9 @@ function Login() {
           </h2>
 
           <p className="text-zinc-400 text-lg leading-relaxed mt-10">
+
             Centralized ride operations platform designed for modern transportation businesses with premium real-time management and operational control.
+
           </p>
 
           {/* Features */}
@@ -156,12 +197,16 @@ function Login() {
 
               <div className="w-11 h-11 rounded-2xl bg-yellow-500/10 text-yellow-400 flex items-center justify-center">
 
-                <CheckCircle2 size={20} />
+                <CheckCircle2
+                  size={20}
+                />
 
               </div>
 
               <p className="text-zinc-300 text-lg">
+
                 Real-time ride management
+
               </p>
 
             </div>
@@ -170,12 +215,16 @@ function Login() {
 
               <div className="w-11 h-11 rounded-2xl bg-yellow-500/10 text-yellow-400 flex items-center justify-center">
 
-                <CheckCircle2 size={20} />
+                <CheckCircle2
+                  size={20}
+                />
 
               </div>
 
               <p className="text-zinc-300 text-lg">
+
                 Smart driver operations
+
               </p>
 
             </div>
@@ -184,12 +233,16 @@ function Login() {
 
               <div className="w-11 h-11 rounded-2xl bg-yellow-500/10 text-yellow-400 flex items-center justify-center">
 
-                <CheckCircle2 size={20} />
+                <CheckCircle2
+                  size={20}
+                />
 
               </div>
 
               <p className="text-zinc-300 text-lg">
+
                 Secure enterprise dashboard
+
               </p>
 
             </div>
@@ -200,23 +253,19 @@ function Login() {
 
       </div>
 
-      {/* RIGHT SIDE */}
+      {/* Right Side */}
       <div className="relative flex items-center justify-center px-6 py-12 overflow-hidden">
 
-        {/* Background Glow */}
+        {/* Glow */}
         <div className="absolute top-[-200px] right-[-200px] w-[420px] h-[420px] bg-yellow-500/10 blur-[180px] rounded-full"></div>
 
         <div className="absolute bottom-[-200px] left-[-200px] w-[420px] h-[420px] bg-amber-500/10 blur-[180px] rounded-full"></div>
 
-        {/* Premium Depth Layers */}
-
-        {/* Main Glow Ring */}
+        {/* Depth Layers */}
         <div className="absolute w-[520px] h-[520px] rounded-full border border-yellow-500/10 bg-yellow-500/[0.03] blur-3xl"></div>
 
-        {/* Glass Layer */}
         <div className="absolute w-[420px] h-[420px] rounded-[60px] border border-white/5 bg-white/[0.025] backdrop-blur-3xl rotate-6 shadow-[0_0_60px_rgba(0,0,0,0.25)]"></div>
 
-        {/* Secondary Layer */}
         <div className="absolute w-[360px] h-[360px] rounded-[50px] border border-white/5 bg-white/[0.02] backdrop-blur-3xl -rotate-6"></div>
 
         {/* Floating Orbs */}
@@ -224,10 +273,10 @@ function Login() {
 
         <div className="absolute bottom-[18%] left-[18%] w-32 h-32 rounded-full bg-amber-500/10 blur-[80px]"></div>
 
-        {/* Form */}
+        {/* Form Card */}
         <div className="relative z-10 w-full max-w-md">
 
-          <div className="relative overflow-hidden bg-white/[0.04] border border-white/10 rounded-[40px] p-8 backdrop-blur-2xl shadow-[0_0_80px_rgba(0,0,0,0.45)] hover:shadow-[0_0_100px_rgba(0,0,0,0.55)] transition-all duration-500">
+          <div className="relative overflow-hidden bg-white/[0.04] border border-white/10 rounded-[40px] p-8 backdrop-blur-2xl shadow-[0_0_80px_rgba(0,0,0,0.45)]">
 
             {/* Top Glow */}
             <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-white/[0.03] to-transparent"></div>
@@ -238,7 +287,9 @@ function Login() {
               <div className="mb-10">
 
                 <p className="text-yellow-400 uppercase tracking-[0.25em] text-sm">
+
                   Secure Access
+
                 </p>
 
                 <h1 className="text-5xl font-bold mt-5 tracking-tight leading-tight">
@@ -250,7 +301,9 @@ function Login() {
                 </h1>
 
                 <p className="text-zinc-500 mt-5 leading-relaxed">
+
                   Sign in to continue managing rides, drivers and operations.
+
                 </p>
 
               </div>
@@ -262,7 +315,9 @@ function Login() {
               ) : (
 
                 <form
-                  onSubmit={handleLogin}
+                  onSubmit={
+                    handleLogin
+                  }
                   className="space-y-5"
                 >
 
@@ -270,7 +325,9 @@ function Login() {
                   <div>
 
                     <label className="text-sm text-zinc-400 block mb-3">
+
                       Email Address
+
                     </label>
 
                     <input
@@ -291,34 +348,72 @@ function Login() {
                   <div>
 
                     <label className="text-sm text-zinc-400 block mb-3">
+
                       Password
+
                     </label>
 
-                    <input
-                      type="password"
-                      placeholder="Enter your password"
-                      value={password}
-                      onChange={(e) =>
-                        setPassword(
-                          e.target.value
-                        )
-                      }
-                      className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-5 py-4 text-white outline-none focus:border-yellow-500 focus:bg-white/[0.05] focus:shadow-[0_0_25px_rgba(250,204,21,0.08)] transition-all duration-300"
-                    />
+                    <div className="relative">
+
+                      <input
+                        type={
+                          showPassword
+                            ? "text"
+                            : "password"
+                        }
+                        placeholder="Enter your password"
+                        value={password}
+                        onChange={(e) =>
+                          setPassword(
+                            e.target.value
+                          )
+                        }
+                        className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-5 py-4 pr-14 text-white outline-none focus:border-yellow-500 focus:bg-white/[0.05] focus:shadow-[0_0_25px_rgba(250,204,21,0.08)] transition-all duration-300"
+                      />
+
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setShowPassword(
+                            !showPassword
+                          )
+                        }
+                        className="absolute top-1/2 right-5 -translate-y-1/2 text-zinc-500 hover:text-white transition-all duration-300"
+                      >
+
+                        {showPassword ? (
+
+                          <EyeOff
+                            size={20}
+                          />
+
+                        ) : (
+
+                          <Eye
+                            size={20}
+                          />
+
+                        )}
+
+                      </button>
+
+                    </div>
 
                   </div>
 
-                  {/* Button */}
+                  {/* Submit */}
                   <button
                     type="submit"
                     className="group relative overflow-hidden w-full bg-gradient-to-r from-yellow-400 to-amber-500 hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 rounded-2xl py-4 font-semibold text-black mt-4 shadow-[0_0_35px_rgba(250,204,21,0.15)]"
                   >
 
-                    {/* Shine Effect */}
+                    {/* Shine */}
                     <div className="absolute top-0 left-[-120%] w-[120%] h-full bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-12 group-hover:left-[120%] transition-all duration-1000"></div>
 
                     <span className="relative z-10">
+
                       Sign In
+
                     </span>
 
                   </button>

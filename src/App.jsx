@@ -1,6 +1,7 @@
 import {
   Routes,
   Route,
+  Navigate,
 } from "react-router-dom";
 
 import {
@@ -8,19 +9,12 @@ import {
 } from "framer-motion";
 
 import Dashboard from "./pages/Dashboard";
-
 import Drivers from "./pages/Drivers";
-
 import Vendors from "./pages/Vendors";
-
 import Bookings from "./pages/Bookings";
-
 import Analytics from "./pages/Analytics";
-
 import Reports from "./pages/Reports";
-
 import Settings from "./pages/Settings";
-
 import Login from "./pages/Login";
 
 import LedgerPage from "./pages/ledger/LedgerPage";
@@ -28,14 +22,11 @@ import LedgerPage from "./pages/ledger/LedgerPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
-
   return (
-
     <AnimatePresence mode="wait">
-
       <Routes>
 
-        {/* Login */}
+        {/* Authentication */}
         <Route
           path="/login"
           element={<Login />}
@@ -46,9 +37,7 @@ function App() {
           path="/"
           element={
             <ProtectedRoute>
-
               <Dashboard />
-
             </ProtectedRoute>
           }
         />
@@ -58,9 +47,7 @@ function App() {
           path="/bookings"
           element={
             <ProtectedRoute>
-
               <Bookings />
-
             </ProtectedRoute>
           }
         />
@@ -70,9 +57,7 @@ function App() {
           path="/drivers"
           element={
             <ProtectedRoute>
-
               <Drivers />
-
             </ProtectedRoute>
           }
         />
@@ -82,9 +67,7 @@ function App() {
           path="/vendors"
           element={
             <ProtectedRoute>
-
               <Vendors />
-
             </ProtectedRoute>
           }
         />
@@ -94,9 +77,7 @@ function App() {
           path="/analytics"
           element={
             <ProtectedRoute>
-
               <Analytics />
-
             </ProtectedRoute>
           }
         />
@@ -106,9 +87,7 @@ function App() {
           path="/ledger"
           element={
             <ProtectedRoute>
-
               <LedgerPage />
-
             </ProtectedRoute>
           }
         />
@@ -118,9 +97,7 @@ function App() {
           path="/reports"
           element={
             <ProtectedRoute>
-
               <Reports />
-
             </ProtectedRoute>
           }
         />
@@ -130,15 +107,23 @@ function App() {
           path="/settings"
           element={
             <ProtectedRoute>
-
               <Settings />
-
             </ProtectedRoute>
           }
         />
 
-      </Routes>
+        {/* Fallback */}
+        <Route
+          path="*"
+          element={
+            <Navigate
+              to="/"
+              replace
+            />
+          }
+        />
 
+      </Routes>
     </AnimatePresence>
   );
 }

@@ -8,6 +8,10 @@ import {
   Pencil,
   Trash2,
   Search,
+  Users,
+  Sparkles,
+  Wallet,
+  Car,
 } from "lucide-react";
 
 import VendorDetailsDrawer from "./VendorDetailsDrawer";
@@ -37,7 +41,7 @@ function VendorsTable({
     setShowEditModal,
   ] = useState(false);
 
-  // Search Filter
+  // Search
   const filteredVendors =
     useMemo(() => {
 
@@ -66,7 +70,7 @@ function VendorsTable({
 
     }, [search, vendors]);
 
-  // Delete Vendor
+  // Delete
   const deleteVendor =
     (id) => {
 
@@ -81,7 +85,7 @@ function VendorsTable({
       );
     };
 
-  // Update Vendor
+  // Update
   const updateVendor =
     (updatedVendor) => {
 
@@ -100,7 +104,7 @@ function VendorsTable({
 
   return (
 
-    <div className="relative overflow-hidden bg-white/[0.03] border border-white/10 rounded-[36px] backdrop-blur-2xl">
+    <div className="relative overflow-hidden bg-white/[0.03] border border-white/10 rounded-[38px] backdrop-blur-2xl">
 
       {/* Glow */}
       <div className="absolute top-[-120px] right-[-120px] w-[240px] h-[240px] bg-yellow-500/10 blur-[120px] rounded-full"></div>
@@ -112,11 +116,20 @@ function VendorsTable({
 
           <div>
 
-            <p className="text-xs uppercase tracking-[0.35em] text-yellow-400 font-semibold">
+            <div className="flex items-center gap-2">
 
-              Vendor Operations
+              <Sparkles
+                size={14}
+                className="text-yellow-400"
+              />
 
-            </p>
+              <p className="text-xs uppercase tracking-[0.35em] text-yellow-400 font-semibold">
+
+                Vendor Operations
+
+              </p>
+
+            </div>
 
             <h2 className="text-3xl font-bold text-white mt-4">
 
@@ -126,15 +139,15 @@ function VendorsTable({
 
             <p className="text-zinc-500 mt-3 max-w-2xl leading-relaxed">
 
-              Manage fleet partners, operational workflow,
-              driver allocation and payment activity.
+              Manage fleet partners, payment workflow,
+              operational analytics and driver allocation.
 
             </p>
 
           </div>
 
           {/* Search */}
-          <div className="relative w-full xl:w-[360px]">
+          <div className="relative w-full xl:w-[380px]">
 
             <Search
               size={18}
@@ -162,7 +175,7 @@ function VendorsTable({
       {/* Table */}
       <div className="overflow-x-auto">
 
-        <table className="w-full min-w-[1700px]">
+        <table className="w-full min-w-[1800px]">
 
           <thead className="bg-white/[0.03] border-b border-white/10">
 
@@ -193,7 +206,7 @@ function VendorsTable({
               </th>
 
               <th className="text-left px-6 py-5 text-sm font-semibold text-zinc-400">
-                Assigned Trips
+                Trips
               </th>
 
               <th className="text-left px-6 py-5 text-sm font-semibold text-zinc-400">
@@ -201,7 +214,7 @@ function VendorsTable({
               </th>
 
               <th className="text-left px-6 py-5 text-sm font-semibold text-zinc-400">
-                Pending Payments
+                Pending
               </th>
 
               <th className="text-left px-6 py-5 text-sm font-semibold text-zinc-400">
@@ -238,15 +251,21 @@ function VendorsTable({
 
                     <div className="flex items-center gap-4">
 
-                      <img
-                        src={
-                          vendor.avatar
-                        }
-                        alt={
-                          vendor.company
-                        }
-                        className="w-14 h-14 rounded-2xl object-cover border border-white/10"
-                      />
+                      <div className="relative">
+
+                        <div className="absolute inset-0 bg-yellow-400/20 blur-xl rounded-full"></div>
+
+                        <img
+                          src={
+                            vendor.avatar
+                          }
+                          alt={
+                            vendor.company
+                          }
+                          className="relative w-14 h-14 rounded-2xl object-cover border border-white/10"
+                        />
+
+                      </div>
 
                       <div>
 
@@ -284,20 +303,41 @@ function VendorsTable({
                   </td>
 
                   {/* Drivers */}
-                  <td className="px-6 py-5 text-sm text-zinc-300">
-                    {
-                      vendor.totalDrivers
-                    }
+                  <td className="px-6 py-5">
+
+                    <div className="flex items-center gap-2 text-zinc-300">
+
+                      <Users
+                        size={16}
+                        className="text-cyan-400"
+                      />
+
+                      {
+                        vendor.totalDrivers
+                      }
+
+                    </div>
+
                   </td>
 
-                  {/* Active Drivers */}
-                  <td className="px-6 py-5 text-sm text-emerald-400">
-                    {
-                      vendor.activeDrivers
-                    }
+                  {/* Active */}
+                  <td className="px-6 py-5">
+
+                    <div className="flex items-center gap-2 text-emerald-400 font-medium">
+
+                      <Car
+                        size={16}
+                      />
+
+                      {
+                        vendor.activeDrivers
+                      }
+
+                    </div>
+
                   </td>
 
-                  {/* Assigned Trips */}
+                  {/* Trips */}
                   <td className="px-6 py-5 text-sm text-zinc-300">
                     {
                       vendor.assignedTrips
@@ -305,31 +345,46 @@ function VendorsTable({
                   </td>
 
                   {/* Revenue */}
-                  <td className="px-6 py-5 text-sm font-medium text-white">
-                    {
-                      vendor.monthlyRevenue
-                    }
+                  <td className="px-6 py-5">
+
+                    <div className="flex items-center gap-2 text-white font-semibold">
+
+                      <Wallet
+                        size={16}
+                        className="text-yellow-400"
+                      />
+
+                      {
+                        vendor.monthlyRevenue
+                      }
+
+                    </div>
+
                   </td>
 
                   {/* Pending */}
-                  <td className="px-6 py-5 text-sm text-yellow-400">
+                  <td className="px-6 py-5 text-sm text-yellow-400 font-medium">
                     {
                       vendor.pendingPayments
                     }
                   </td>
 
-                  {/* Payment Status */}
+                  {/* Payment */}
                   <td className="px-6 py-5">
 
                     <span
-                      className={`px-4 py-2 rounded-full text-xs font-semibold ${
+                      className={`px-4 py-2 rounded-2xl text-xs font-semibold border ${
                         vendor.paymentStatus ===
                         "Paid"
-                          ? "bg-emerald-500/15 text-emerald-400"
+
+                          ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+
                           : vendor.paymentStatus ===
                             "Pending"
-                          ? "bg-yellow-500/15 text-yellow-400"
-                          : "bg-red-500/15 text-red-400"
+
+                          ? "bg-yellow-500/10 text-yellow-400 border-yellow-500/20"
+
+                          : "bg-red-500/10 text-red-400 border-red-500/20"
                       }`}
                     >
 
@@ -345,7 +400,7 @@ function VendorsTable({
                   <td className="px-6 py-5">
 
                     <span
-                      className={`px-4 py-2 rounded-full text-xs font-semibold ${vendor.color}`}
+                      className={`px-4 py-2 rounded-2xl text-xs font-semibold border ${vendor.color}`}
                     >
 
                       {
@@ -448,7 +503,7 @@ function VendorsTable({
 
       )}
 
-      {/* Edit Modal */}
+      {/* Edit */}
       {showEditModal && (
 
         <EditVendorModal

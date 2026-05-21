@@ -1,4 +1,5 @@
 const bookings = [
+
   {
     id: 2001,
 
@@ -30,16 +31,13 @@ const bookings = [
       "Delhi Fleet Services",
 
     fare:
-      "₹1,450",
+      1450,
 
     paymentStatus:
       "Paid",
 
     status:
       "Completed",
-
-    color:
-      "text-emerald-400 bg-emerald-500/20",
   },
 
   {
@@ -73,16 +71,13 @@ const bookings = [
       "Urban Cab Network",
 
     fare:
-      "₹980",
+      980,
 
     paymentStatus:
       "Pending",
 
     status:
       "Ongoing",
-
-    color:
-      "text-yellow-400 bg-yellow-500/20",
   },
 
   {
@@ -116,16 +111,13 @@ const bookings = [
       "CityLink Travels",
 
     fare:
-      "₹2,100",
+      2100,
 
     paymentStatus:
       "Partial",
 
     status:
       "Driver Assigned",
-
-    color:
-      "text-blue-400 bg-blue-500/20",
   },
 
   {
@@ -159,16 +151,13 @@ const bookings = [
       "North India Routes",
 
     fare:
-      "₹5,400",
+      5400,
 
     paymentStatus:
       "Pending",
 
     status:
       "Confirmed",
-
-    color:
-      "text-cyan-400 bg-cyan-500/20",
   },
 ];
 
