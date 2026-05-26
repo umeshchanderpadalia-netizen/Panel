@@ -1,114 +1,155 @@
 const trips = [
 
-  {
-    bookingId:
-      "BK-1001",
+{
+id:1,
 
-    invoiceId:
-      "INV-2026-001",
+orderId:"ORD-1001",
 
-    date:
-      "19 May 2026",
+invoiceNo:"INV-1001",
 
-    time:
-      "09:30 AM",
+date:"2026-05-19",
 
-    customer:
-      "Rohan Mehta",
+time:"09:30",
 
-    phone:
-      "+91 9876543210",
+customer:"Rohan Mehta",
 
-    email:
-      "rohan@gmail.com",
+phone:"+91 9876543210",
 
-    pickup:
-      "Rajouri Garden",
+pickup:"Rajouri Garden",
 
-    drop:
-      "IGI Airport",
+drop:"IGI Airport",
 
-    tripType:
-      "Airport Transfer",
+tripType:"Airport Pickup",
 
-    vehicle:
-      "Toyota Innova",
+vehicle:"Toyota Innova",
 
-    vendor:
-      "Delhi Taxi Service",
+driver:"Rahul Sharma",
 
-    driver:
-      "Rahul Sharma",
+vendor:"Delhi Taxi Service",
 
-    driverPhone:
-      "+91 9871112233",
+vendorRate:850,
 
-    days:
-      1,
+baseAmount:1250,
 
-    kms:
-      32,
+gst:0.18,
 
-    amount:
-      1250,
+tds:0.02,
 
-    gst:
-      225,
+total:1475,
 
-    tds:
-      50,
+afterTds:1445,
 
-    otherCharges:
-      0,
+totalExpenses:1200,
 
-    total:
-      1475,
+balance:245,
 
-    receivedAmount:
-      1475,
+tripStatus:"Completed",
 
-    vendorRate:
-      850,
+comments:
+"Trip completed successfully",
 
-    fuelExpense:
-      200,
+},
 
-    driverDA:
-      150,
+{
+id:2,
 
-    otherExpenses:
-      0,
+orderId:"ORD-1002",
 
-    totalExpenses:
-      1200,
+invoiceNo:"INV-1002",
 
-    profit:
-      275,
+date:"2026-05-20",
 
-    paymentGateway:
-      "Razorpay",
+time:"10:00",
 
-    paymentStatus:
-      "Paid",
+customer:"Priya Verma",
 
-    invoiceStatus:
-      "Generated",
+phone:"+91 9876543220",
 
-    vendorStatus:
-      "Paid",
+pickup:"Noida",
 
-    tripStatus:
-      "Completed",
+drop:"Gurgaon",
 
-    bookingStatus:
-      "Closed",
+tripType:"One Way",
 
-    shared:
-      false,
+vehicle:"Sedan",
 
-    comment:
-      "Trip completed successfully.",
-  },
+driver:"Mohit Singh",
+
+vendor:"Royal Cab",
+
+vendorRate:1000,
+
+baseAmount:1600,
+
+gst:0.18,
+
+tds:0.02,
+
+total:1888,
+
+afterTds:1850,
+
+totalExpenses:1500,
+
+balance:350,
+
+tripStatus:"Ongoing",
+
+comments:
+"Driver assigned",
+
+},
+
+{
+id:3,
+
+orderId:"ORD-1003",
+
+invoiceNo:"INV-1003",
+
+date:"2026-05-21",
+
+time:"12:30",
+
+customer:"Amit Kumar",
+
+phone:"+91 9998887770",
+
+pickup:"Delhi",
+
+drop:"Jaipur",
+
+tripType:"Round Trip",
+
+vehicle:"SUV",
+
+driver:"Rakesh",
+
+vendor:"City Taxi",
+
+vendorRate:2200,
+
+baseAmount:3500,
+
+gst:0.18,
+
+tds:0.02,
+
+total:4130,
+
+afterTds:4047,
+
+totalExpenses:3000,
+
+balance:1047,
+
+tripStatus:"Pending",
+
+comments:
+"Waiting confirmation",
+
+}
+
 ];
 
 export default trips;

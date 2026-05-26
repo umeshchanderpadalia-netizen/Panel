@@ -3,15 +3,40 @@ import {
 } from "react";
 
 export const AppContext =
-  createContext({
-    trips: [],
-    setTrips: () => {},
+createContext({
 
-    drivers: [],
-    setDrivers: () => {},
+  trips:[],
 
-    notifications: [],
-    addNotification: () => {},
+  setTrips:()=>{},
 
-    dashboardStats: {},
-  });
+  addTrip:()=>{},
+
+  updateTrip:()=>{},
+
+  deleteTrip:()=>{},
+
+  drivers:[],
+
+  setDrivers:()=>{},
+
+  notifications:[],
+
+  addNotification:()=>{},
+
+  dashboardStats:{
+
+    totalTrips:0,
+
+    completedTrips:0,
+
+    ongoingTrips:0,
+
+    cancelledTrips:0,
+
+    onlineDrivers:0,
+
+    totalRevenue:0,
+
+  },
+
+});

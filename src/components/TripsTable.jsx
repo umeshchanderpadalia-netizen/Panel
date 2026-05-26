@@ -1,616 +1,365 @@
 import {
-  useMemo,
-  useState,
+useMemo,
+useState,
 } from "react";
 
 import {
-  Eye,
-  Pencil,
-  Trash2,
-  Search,
-  IndianRupee,
-  Receipt,
-  Sparkles,
-  CalendarDays,
+Eye,
+Pencil,
+Trash2,
+Search,
 } from "lucide-react";
 
-import EditBookingModal from "./EditBookingModal";
+import useApp from "../hooks/useApp";
 
 import BookingDetailsDrawer from "./BookingDetailsDrawer";
+import EditTripModal from "./EditTripModal";
 
 function TripsTable({
-  trips,
-  setTrips,
-}) {
 
-  const [search, setSearch] =
-    useState("");
+trips
 
-  const [
-    selectedTrip,
-    setSelectedTrip,
-  ] = useState(null);
+}){
 
-  const [
-    showEditModal,
-    setShowEditModal,
-  ] = useState(false);
+const{
 
-  const [
-    showDrawer,
-    setShowDrawer,
-  ] = useState(false);
+deleteTrip,
+updateTrip,
 
-  const filteredTrips =
-    useMemo(() => {
+}=useApp();
 
-      return trips.filter(
-        (trip) => {
+const[
+search,
+setSearch
+]=useState("");
 
-          const query =
-            search.toLowerCase();
+const[
+selectedTrip,
+setSelectedTrip
+]=useState(null);
 
-          return (
+const[
+showDrawer,
+setShowDrawer
+]=useState(false);
 
-            trip.bookingId
-              ?.toLowerCase()
-              .includes(query) ||
+const[
+showEditModal,
+setShowEditModal
+]=useState(false);
 
-            trip.invoiceNo
-              ?.toLowerCase()
-              .includes(query) ||
+const filteredTrips=
+useMemo(()=>{
 
-            trip.customer
-              ?.toLowerCase()
-              .includes(query) ||
+return trips.filter(
 
-            trip.driver
-              ?.toLowerCase()
-              .includes(query) ||
+(trip)=>{
 
-            trip.vendor
-              ?.toLowerCase()
-              .includes(query) ||
+const query=
+search.toLowerCase();
 
-            trip.pickup
-              ?.toLowerCase()
-              .includes(query) ||
+return(
 
-            trip.drop
-              ?.toLowerCase()
-              .includes(query)
-          );
-        }
-      );
+trip.customer
+?.toLowerCase()
+.includes(query)
 
-    }, [search, trips]);
+||
 
-  const deleteTrip =
-    (bookingId) => {
+trip.pickup
+?.toLowerCase()
+.includes(query)
 
-      const updatedTrips =
-        trips.filter(
-          (trip) =>
-            trip.bookingId !==
-            bookingId
-        );
+||
 
-      setTrips(updatedTrips);
-    };
+trip.drop
+?.toLowerCase()
+.includes(query)
 
-  const updateTrip =
-    (updatedTrip) => {
+||
 
-      const updatedTrips =
-        trips.map((trip) =>
-          trip.bookingId ===
-          updatedTrip.bookingId
-            ? updatedTrip
-            : trip
-        );
+trip.id
+?.toLowerCase()
+.includes(query)
 
-      setTrips(updatedTrips);
-    };
+);
 
-  return (
+}
 
-    <div className="relative overflow-hidden bg-white/[0.03] border border-white/10 rounded-[38px] backdrop-blur-3xl">
+);
 
-      {/* Glow */}
-      <div className="absolute top-[-140px] right-[-140px] w-[280px] h-[280px] bg-yellow-500/10 blur-[140px] rounded-full"></div>
+},[search,trips]);
 
-      <div className="absolute bottom-[-140px] left-[-140px] w-[280px] h-[280px] bg-amber-500/5 blur-[140px] rounded-full"></div>
+return(
 
-      {/* Header */}
-      <div className="relative z-10 p-7 lg:p-8 border-b border-white/10">
+<>
 
-        <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-8">
+<div className="rounded-[35px] border border-white/10 overflow-hidden">
 
-          {/* Left */}
-          <div>
+<div className="p-6 border-b border-white/10">
 
-            <div className="flex items-center gap-3">
+<div className="relative">
 
-              <Sparkles
-                size={15}
-                className="text-yellow-400"
-              />
+<Search
+size={18}
+className="absolute left-5 top-1/2 -translate-y-1/2 text-zinc-500"
+/>
 
-              <p className="text-xs uppercase tracking-[0.35em] text-yellow-400 font-semibold">
+<input
+value={search}
+onChange={(e)=>
+setSearch(
+e.target.value
+)
+}
+placeholder="Search booking..."
+className="w-full rounded-2xl bg-black/30 border border-white/10 pl-14 py-4 text-white"
+/>
 
-                ERP Booking Operations
+</div>
 
-              </p>
+</div>
 
-            </div>
+<div className="overflow-x-auto">
 
-            <h2 className="text-4xl font-bold text-white mt-5 tracking-tight">
+<table className="w-full">
 
-              Booking Management
+<thead>
 
-            </h2>
+<tr className="border-b border-white/10">
 
-            <p className="text-zinc-500 mt-5 max-w-3xl leading-relaxed">
+{
 
-              Monitor business operations, trip assignments,
-              vendor workflow, invoices, financial performance
-              and live transport activities.
+[
+"ID",
+"Customer",
+"Route",
+"Car",
+"KM",
+"Amount",
+"Balance",
+"Status",
+"Actions",
 
-            </p>
+].map(
 
-          </div>
+(item)=>(
 
-          {/* Search */}
-          <div className="relative w-full xl:w-[430px]">
+<th
+key={item}
+className="px-6 py-5 text-left text-xs uppercase text-zinc-500"
+>
 
-            <Search
-              size={18}
-              className="absolute left-5 top-1/2 -translate-y-1/2 text-zinc-500"
-            />
+{item}
 
-            <input
-              type="text"
-              placeholder="Search bookings, vendors, drivers..."
-              value={search}
-              onChange={(e) =>
-                setSearch(
-                  e.target.value
-                )
-              }
-              className="w-full bg-black/30 border border-white/10 rounded-2xl pl-14 pr-5 py-4 text-white outline-none focus:border-yellow-500/40 transition-all duration-300"
-            />
+</th>
 
-          </div>
+)
 
-        </div>
+)
 
-      </div>
+}
 
-      {/* Table */}
-      <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-yellow-500/10">
+</tr>
 
-        <table className="w-full min-w-[2100px]">
+</thead>
 
-          <thead className="bg-white/[0.03] border-b border-white/10">
+<tbody>
 
-            <tr>
+{
 
-              {[
-                "Booking",
-                "Customer",
-                "Route",
-                "Vendor",
-                "Driver",
-                "Revenue",
-                "Expenses",
-                "Profit",
-                "Invoice",
-                "Payment",
-                "Trip Status",
-                "Actions",
-              ].map(
-                (
-                  heading,
-                  index
-                ) => (
+filteredTrips.map(
 
-                  <th
-                    key={index}
-                    className="text-left px-6 py-5 text-xs uppercase tracking-[0.2em] font-semibold text-zinc-500 whitespace-nowrap"
-                  >
+(trip)=>(
 
-                    {heading}
+<tr
+key={trip.id}
+className="border-b border-white/5"
+>
 
-                  </th>
-                )
-              )}
+<td className="px-6 py-5 text-white">
 
-            </tr>
+{trip.id}
 
-          </thead>
+</td>
 
-          <tbody>
+<td className="px-6 py-5 text-white">
 
-            {filteredTrips.map(
-              (
-                trip,
-                index
-              ) => (
+{trip.customer}
 
-                <tr
-                  key={index}
-                  className="group border-b border-white/5 hover:bg-white/[0.025] transition-all duration-300"
-                >
+</td>
 
-                  {/* Booking */}
-                  <td className="px-6 py-5">
+<td className="px-6 py-5 text-white">
 
-                    <div>
+{trip.pickup}
 
-                      <p className="text-white font-semibold">
+<p className="text-zinc-500 text-xs">
 
-                        {
-                          trip.bookingId
-                        }
+↓ {trip.drop}
 
-                      </p>
+</p>
 
-                      <div className="flex items-center gap-2 mt-2">
+</td>
 
-                        <CalendarDays
-                          size={12}
-                          className="text-zinc-500"
-                        />
+<td className="px-6 py-5 text-white">
 
-                        <p className="text-xs text-zinc-500">
+{trip.vehicle}
 
-                          {
-                            trip.date
-                          }
+</td>
 
-                        </p>
+<td className="px-6 py-5 text-cyan-400">
 
-                      </div>
+{trip.finalKms} KM
 
-                    </div>
+</td>
 
-                  </td>
+<td className="px-6 py-5 text-emerald-400">
 
-                  {/* Customer */}
-                  <td className="px-6 py-5">
+₹{trip.total}
 
-                    <div>
+</td>
 
-                      <p className="text-white font-medium">
+<td className="px-6 py-5 text-yellow-400">
 
-                        {
-                          trip.customer
-                        }
+₹{trip.balance}
 
-                      </p>
+</td>
 
-                      <p className="text-xs text-zinc-500 mt-2">
+<td className="px-6 py-5 text-white">
 
-                        {
-                          trip.phone
-                        }
+{trip.tripStatus}
 
-                      </p>
+</td>
 
-                    </div>
+<td className="px-6 py-5">
 
-                  </td>
+<div className="flex gap-2">
 
-                  {/* Route */}
-                  <td className="px-6 py-5">
+<button
+onClick={()=>{
 
-                    <div>
+setSelectedTrip(
+trip
+);
 
-                      <p className="text-sm text-zinc-200">
+setShowDrawer(
+true
+);
 
-                        {
-                          trip.pickup
-                        }
+}}
+>
 
-                      </p>
+<Eye
+size={18}
+/>
 
-                      <p className="text-xs text-zinc-500 mt-2">
+</button>
 
-                        ↓ {
-                          trip.drop
-                        }
+<button
+onClick={()=>{
 
-                      </p>
+setSelectedTrip(
+trip
+);
 
-                    </div>
+setShowEditModal(
+true
+);
 
-                  </td>
+}}
+>
 
-                  {/* Vendor */}
-                  <td className="px-6 py-5">
+<Pencil
+size={18}
+/>
 
-                    <div>
+</button>
 
-                      <p className="text-sm text-white">
+<button
+onClick={()=>
+deleteTrip(
+trip.id
+)
+}
+>
 
-                        {
-                          trip.vendor
-                        }
+<Trash2
+size={18}
+className="text-red-400"
+/>
 
-                      </p>
+</button>
 
-                      <p className="text-xs text-zinc-500 mt-2">
+</div>
 
-                        Vendor Rate:
-                        {" "}
-                        ₹{
-                          trip.vendorRate
-                        }
+</td>
 
-                      </p>
+</tr>
 
-                    </div>
+)
 
-                  </td>
+)
 
-                  {/* Driver */}
-                  <td className="px-6 py-5">
+}
 
-                    <div>
+</tbody>
 
-                      <p className="text-sm text-white">
+</table>
 
-                        {
-                          trip.driver
-                        }
+</div>
 
-                      </p>
+</div>
 
-                      <p className="text-xs text-zinc-500 mt-2">
+{
 
-                        {
-                          trip.vehicle
-                        }
+showDrawer&&(
 
-                      </p>
+<BookingDetailsDrawer
 
-                    </div>
+trip={selectedTrip}
 
-                  </td>
+closeDrawer={()=>
 
-                  {/* Revenue */}
-                  <td className="px-6 py-5">
+setShowDrawer(
+false
+)
 
-                    <div className="flex items-center gap-2 text-emerald-400 font-semibold">
+}
 
-                      <IndianRupee
-                        size={15}
-                      />
+/>
 
-                      ₹{
-                        trip.total
-                      }
+)
 
-                    </div>
+}
 
-                  </td>
+{
 
-                  {/* Expenses */}
-                  <td className="px-6 py-5">
+showEditModal&&(
 
-                    <p className="text-red-400 font-semibold">
+<EditTripModal
 
-                      ₹{
-                        trip.totalExpenses
-                      }
+selectedTrip={selectedTrip}
 
-                    </p>
+updateTrip={updateTrip}
 
-                  </td>
+closeModal={()=>
 
-                  {/* Profit */}
-                  <td className="px-6 py-5">
+setShowEditModal(
+false
+)
 
-                    <p className="text-emerald-400 font-semibold">
+}
 
-                      ₹{
-                        trip.profit
-                      }
+/>
 
-                    </p>
+)
 
-                  </td>
+}
 
-                  {/* Invoice */}
-                  <td className="px-6 py-5">
+</>
 
-                    <div className="flex items-center gap-3">
+);
 
-                      <div className="w-11 h-11 rounded-2xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center">
-
-                        <Receipt
-                          size={18}
-                        />
-
-                      </div>
-
-                      <div>
-
-                        <p className="text-sm text-white">
-
-                          {
-                            trip.invoiceStatus
-                          }
-
-                        </p>
-
-                        <p className="text-xs text-zinc-500 mt-1">
-
-                          {
-                            trip.invoiceNo
-                          }
-
-                        </p>
-
-                      </div>
-
-                    </div>
-
-                  </td>
-
-                  {/* Payment */}
-                  <td className="px-6 py-5">
-
-                    <span
-                      className={`px-4 py-2 rounded-2xl text-xs font-semibold border ${
-                        trip.paymentStatus ===
-                        "Paid"
-
-                          ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
-
-                          : trip.paymentStatus ===
-                            "Partial"
-
-                          ? "bg-blue-500/10 text-blue-400 border-blue-500/20"
-
-                          : "bg-yellow-500/10 text-yellow-400 border-yellow-500/20"
-                      }`}
-                    >
-
-                      {
-                        trip.paymentStatus
-                      }
-
-                    </span>
-
-                  </td>
-
-                  {/* Status */}
-                  <td className="px-6 py-5">
-
-                    <span
-                      className={`px-4 py-2 rounded-2xl text-xs font-semibold border ${trip.color}`}
-                    >
-
-                      {
-                        trip.tripStatus
-                      }
-
-                    </span>
-
-                  </td>
-
-                  {/* Actions */}
-                  <td className="px-6 py-5">
-
-                    <div className="flex items-center gap-3">
-
-                      {/* View */}
-                      <button
-                        onClick={() => {
-
-                          setSelectedTrip(
-                            trip
-                          );
-
-                          setShowDrawer(
-                            true
-                          );
-                        }}
-                        className="w-11 h-11 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-yellow-500/20 hover:bg-yellow-500/10 flex items-center justify-center transition-all duration-300"
-                      >
-
-                        <Eye
-                          size={18}
-                          className="text-zinc-300"
-                        />
-
-                      </button>
-
-                      {/* Edit */}
-                      <button
-                        onClick={() => {
-
-                          setSelectedTrip(
-                            trip
-                          );
-
-                          setShowEditModal(
-                            true
-                          );
-                        }}
-                        className="w-11 h-11 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-blue-500/20 hover:bg-blue-500/10 flex items-center justify-center transition-all duration-300"
-                      >
-
-                        <Pencil
-                          size={18}
-                          className="text-zinc-300"
-                        />
-
-                      </button>
-
-                      {/* Delete */}
-                      <button
-                        onClick={() =>
-                          deleteTrip(
-                            trip.bookingId
-                          )
-                        }
-                        className="w-11 h-11 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-red-500/20 hover:bg-red-500/10 flex items-center justify-center transition-all duration-300"
-                      >
-
-                        <Trash2
-                          size={18}
-                          className="text-zinc-300"
-                        />
-
-                      </button>
-
-                    </div>
-
-                  </td>
-
-                </tr>
-              )
-            )}
-
-          </tbody>
-
-        </table>
-
-      </div>
-
-      {/* Drawer */}
-      {showDrawer && (
-
-        <BookingDetailsDrawer
-          trip={selectedTrip}
-          closeDrawer={() =>
-            setShowDrawer(false)
-          }
-        />
-
-      )}
-
-      {/* Edit */}
-      {showEditModal && (
-
-        <EditBookingModal
-          selectedTrip={
-            selectedTrip
-          }
-          closeModal={() =>
-            setShowEditModal(false)
-          }
-          updateTrip={
-            updateTrip
-          }
-        />
-
-      )}
-
-    </div>
-  );
 }
 
 export default TripsTable;

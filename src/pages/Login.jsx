@@ -1,6 +1,11 @@
-import { useState } from "react";
+import {
+  useContext,
+  useState,
+} from "react";
 
-import { useNavigate } from "react-router-dom";
+import {
+  useNavigate,
+} from "react-router-dom";
 
 import {
   ShieldCheck,
@@ -9,15 +14,24 @@ import {
   EyeOff,
 } from "lucide-react";
 
-import { loginUser } from "../services/authService";
+import {
+  AuthContext,
+} from "../context/authContext";
 
 import Loader from "../components/Loader";
+
 import Toast from "../components/Toast";
 
 function Login() {
 
   const navigate =
     useNavigate();
+
+  const {
+    login,
+  } = useContext(
+    AuthContext
+  );
 
   // Form State
   const [email, setEmail] =
@@ -65,12 +79,19 @@ function Login() {
       setLoading(true);
 
       const response =
-        await loginUser(
+        await login(
           email,
           password
         );
 
-      if (response.success) {
+      if (
+        response.success
+      ) {
+
+        // REMOVE OLD FAKE AUTH
+        localStorage.removeItem(
+          "admin-auth"
+        );
 
         setToast(
           "Login Successful"
@@ -81,6 +102,13 @@ function Login() {
           navigate("/");
 
         }, 1000);
+
+      } else {
+
+        setToast(
+          response.message ||
+            "Login Failed"
+        );
       }
 
     } catch (error) {
@@ -407,7 +435,6 @@ function Login() {
                     className="group relative overflow-hidden w-full bg-gradient-to-r from-yellow-400 to-amber-500 hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 rounded-2xl py-4 font-semibold text-black mt-4 shadow-[0_0_35px_rgba(250,204,21,0.15)]"
                   >
 
-                    {/* Shine */}
                     <div className="absolute top-0 left-[-120%] w-[120%] h-full bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-12 group-hover:left-[120%] transition-all duration-1000"></div>
 
                     <span className="relative z-10">

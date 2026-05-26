@@ -1,159 +1,215 @@
 import tripsData from "../data/trips";
 
 const delay = (ms) =>
-  new Promise((resolve) =>
-    setTimeout(resolve, ms)
+  new Promise(
+    (resolve) =>
+      setTimeout(
+        resolve,
+        ms
+      )
   );
 
 const getStatusColor = (
   status
 ) => {
-  switch (status) {
+
+  switch(status){
+
     case "Completed":
+
       return "text-emerald-400 bg-emerald-500/20";
 
     case "Cancelled":
+
       return "text-red-400 bg-red-500/20";
 
     case "Confirmed":
+
       return "text-cyan-400 bg-cyan-500/20";
 
     case "Driver Assigned":
+
       return "text-blue-400 bg-blue-500/20";
 
     case "Pending":
+
       return "text-orange-400 bg-orange-500/20";
 
     default:
+
       return "text-yellow-400 bg-yellow-500/20";
+
   }
+
 };
 
-const formatTrip = (
-  trip
-) => ({
-  id:
-    trip.id ||
-    Date.now(),
+const formatTrip=(trip)=>({
 
-  bookingId:
-    trip.bookingId || "",
+id:
+trip.id ||
+trip._id ||
+Date.now(),
 
-  customer:
-    trip.customer || "",
+orderId:
+trip.orderId || "",
 
-  phone:
-    trip.phone || "",
+invoiceNo:
+trip.invoiceNo || "",
 
-  pickup:
-    trip.pickup || "",
+customer:
+trip.customer || "",
 
-  drop:
-    trip.drop || "",
+phone:
+trip.phone || "",
 
-  rideDate:
-    trip.rideDate || "",
+pickup:
+trip.pickup || "",
 
-  bookingType:
-    trip.bookingType ||
-    "One Way",
+drop:
+trip.drop || "",
 
-  driver:
-    trip.driver || "",
+date:
+trip.date || "",
 
-  vehicle:
-    trip.vehicle || "",
+tripType:
+trip.tripType ||
+"One Way",
 
-  vendor:
-    trip.vendor || "",
+driver:
+trip.driver || "",
 
-  fare:
-    trip.fare || "",
+vehicle:
+trip.vehicle || "",
 
-  paymentStatus:
-    trip.paymentStatus ||
-    "Pending",
+vendor:
+trip.vendor || "",
 
-  status:
-    trip.status ||
-    "Pending",
+baseAmount:
+trip.baseAmount || 0,
 
-  color:
-    trip.color ||
-    getStatusColor(
-      trip.status
-    ),
+total:
+trip.total || 0,
 
-  createdAt:
-    trip.createdAt ||
-    new Date().toISOString(),
+afterTds:
+trip.afterTds || 0,
+
+totalExpenses:
+trip.totalExpenses || 0,
+
+balance:
+trip.balance || 0,
+
+tripStatus:
+trip.tripStatus ||
+"Pending",
+
+color:
+trip.color ||
+getStatusColor(
+trip.tripStatus
+),
+
+createdAt:
+trip.createdAt ||
+new Date().toISOString(),
+
 });
 
-/* =========================
-   Get Trips
-========================= */
 
-export async function getTrips() {
-  await delay(900);
+// =====================
+// GET TRIPS
+// =====================
 
-  return tripsData.map(
-    formatTrip
-  );
+export async function getTrips(){
+
+await delay(500);
+
+return tripsData.map(
+formatTrip
+);
+
 }
 
-/* =========================
-   Create Trip
-========================= */
+
+// =====================
+// CREATE TRIP
+// =====================
 
 export async function createTrip(
-  trip
-) {
-  await delay(700);
+trip
+){
 
-  return {
-    success: true,
-    message:
-      "Booking created successfully.",
-    data: formatTrip({
-      ...trip,
-      id: Date.now(),
-    }),
-  };
+await delay(500);
+
+return{
+
+success:true,
+
+message:
+"Booking created successfully",
+
+data:
+formatTrip({
+
+...trip,
+
+id:
+Date.now(),
+
+}),
+
+};
+
 }
 
-/* =========================
-   Update Trip
-========================= */
+
+// =====================
+// UPDATE TRIP
+// =====================
 
 export async function updateTrip(
-  updatedTrip
-) {
-  await delay(600);
+trip
+){
 
-  return {
-    success: true,
-    message:
-      "Booking updated successfully.",
-    data:
-      formatTrip(
-        updatedTrip
-      ),
-  };
+await delay(500);
+
+return{
+
+success:true,
+
+message:
+"Booking updated successfully",
+
+data:
+formatTrip(
+trip
+),
+
+};
+
 }
 
-/* =========================
-   Delete Trip
-========================= */
+
+// =====================
+// DELETE TRIP
+// =====================
 
 export async function deleteTrip(
-  tripId
-) {
-  await delay(500);
+tripId
+){
 
-  return {
-    success: true,
-    message:
-      "Booking deleted successfully.",
-    deletedId: tripId,
-  };
+await delay(500);
+
+return{
+
+success:true,
+
+message:
+"Booking deleted successfully",
+
+deletedId:
+tripId,
+
+};
+
 }

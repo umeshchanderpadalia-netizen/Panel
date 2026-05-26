@@ -2,374 +2,229 @@ import { useMemo, useState } from "react";
 
 import MainLayout from "../layout/MainLayout";
 
-import RevenueChart from "../components/RevenueChart";
-import PerformancePanel from "../components/PerformancePanel";
+import AddBookingModal from "../components/AddBookingModal";
 import TripsTable from "../components/TripsTable";
-import Loader from "../components/Loader";
-import BookingModal from "../components/BookingModal";
-import RecentActivity from "../components/RecentActivity";
-import FloatingActionButton from "../components/FloatingActionButton";
+import RevenueChart from "../components/RevenueChart";
 import NotificationToast from "../components/NotificationToast";
-import LiveStats from "../components/LiveStats";
-import InsightPanel from "../components/InsightPanel";
-import DriverActivity from "../components/DriverActivity";
+import FloatingActionButton from "../components/FloatingActionButton";
 
 import useApp from "../hooks/useApp";
 
-function Dashboard() {
-
-  const [showModal, setShowModal] =
-    useState(false);
-
-  const [loading] =
-    useState(false);
-
-  const {
-    trips,
-    setTrips,
-    notifications,
-  } = useApp();
-
-  // Dashboard Metrics
-  const dashboardMetrics =
-    useMemo(() => {
-
-      const revenue =
-        trips.reduce(
-          (
-            total,
-            trip
-          ) =>
-            total +
-            Number(
-              trip.total || 0
-            ),
-          0
-        );
-
-      const expenses =
-        trips.reduce(
-          (
-            total,
-            trip
-          ) =>
-            total +
-            Number(
-              trip.totalExpenses ||
-                0
-            ),
-          0
-        );
-
-      const profit =
-        trips.reduce(
-          (
-            total,
-            trip
-          ) =>
-            total +
-            Number(
-              trip.profit || 0
-            ),
-          0
-        );
-
-      const pendingPayments =
-        trips.filter(
-          (trip) =>
-            trip.paymentStatus !==
-            "Paid"
-        ).length;
-
-      return {
-        revenue,
-        expenses,
-        profit,
-        pendingPayments,
-        totalBookings:
-          trips.length,
-      };
-
-    }, [trips]);
-
-  // Add Booking
-  const handleAddTrip = (
-    newTrip
-  ) => {
-
-    const tripWithId = {
-      ...newTrip,
-      id: Date.now(),
-    };
+function Dashboard(){
 
-    setTrips([
-      tripWithId,
-      ...trips,
-    ]);
-  };
+const[
+showModal,
+setShowModal
+]=useState(false);
 
-  return (
+const{
 
-    <MainLayout>
+trips,
+addTrip,
+notifications,
 
-      {/* Notifications */}
-      <NotificationToast
-        notifications={
-          notifications
-        }
-      />
+}=useApp();
 
-      {/* Floating Action */}
-      <FloatingActionButton
-        onClick={() =>
-          setShowModal(true)
-        }
-      />
+const stats=
+useMemo(()=>{
 
-      {/* Booking Modal */}
-      {showModal && (
+const totalRevenue=
 
-        <BookingModal
-          closeModal={() =>
-            setShowModal(false)
-          }
-          addTrip={
-            handleAddTrip
-          }
-        />
+trips.reduce(
 
-      )}
+(total,trip)=>
 
-      {/* Loading */}
-      {loading ? (
+total+
 
-        <Loader />
+Number(
+trip.total
+||0
+),
 
-      ) : (
+0
 
-        <div className="space-y-8 lg:space-y-10 animate-[fadeIn_0.5s_ease]">
+);
 
-          {/* HERO */}
-          <section className="relative overflow-hidden rounded-[38px] border border-white/10 bg-white/[0.03] backdrop-blur-2xl px-6 py-8 lg:px-10 lg:py-10">
+const totalExpense=
 
-            {/* Glow */}
-            <div className="absolute top-[-120px] right-[-120px] w-[260px] h-[260px] bg-yellow-400/10 blur-[120px] rounded-full"></div>
+trips.reduce(
 
-            <div className="absolute bottom-[-120px] left-[-120px] w-[240px] h-[240px] bg-amber-500/5 blur-[120px] rounded-full"></div>
+(total,trip)=>
 
-            <div className="relative z-10 flex flex-col 2xl:flex-row 2xl:items-center 2xl:justify-between gap-10">
+total+
 
-              {/* Left */}
-              <div className="max-w-4xl">
+Number(
+trip.totalExpenses
+||0
+),
 
-                <p className="text-xs uppercase tracking-[0.35em] text-yellow-400 font-semibold">
+0
 
-                  ERP Operations Dashboard
+);
 
-                </p>
+const totalBalance=
 
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.05] tracking-tight text-white mt-5">
+trips.reduce(
 
-                  Business
-                  {" "}
+(total,trip)=>
 
-                  <span className="bg-gradient-to-r from-yellow-300 to-amber-500 bg-clip-text text-transparent">
+total+
 
-                    Command Center
+Number(
+trip.balance
+||0
+),
 
-                  </span>
+0
 
-                </h1>
+);
 
-                <p className="text-zinc-400 text-base lg:text-lg leading-relaxed max-w-3xl mt-6">
+return{
 
-                  Monitor transport bookings, operational activity,
-                  vendor workflow, financial performance, trip analytics,
-                  driver operations and payment systems from one centralized ERP platform.
+bookings:
+trips.length,
 
-                </p>
+revenue:
+totalRevenue,
 
-              </div>
+expense:
+totalExpense,
 
-              {/* Right */}
-              <div className="grid grid-cols-2 gap-4 w-full 2xl:w-auto">
+balance:
+totalBalance,
 
-                {/* Revenue */}
-                <div className="relative overflow-hidden bg-white/[0.03] border border-white/10 rounded-3xl p-5 min-w-[180px]">
+};
 
-                  <div className="absolute top-[-50px] right-[-50px] w-[120px] h-[120px] bg-emerald-500/10 blur-[80px] rounded-full"></div>
+},[trips]);
 
-                  <div className="relative z-10">
+return(
 
-                    <p className="text-sm text-zinc-500">
+<MainLayout>
 
-                      Revenue
+<NotificationToast
+notifications={notifications}
+/>
 
-                    </p>
+<FloatingActionButton
 
-                    <h3 className="text-3xl font-bold text-emerald-400 mt-4">
+label="Add Booking"
 
-                      ₹{
-                        dashboardMetrics.revenue.toLocaleString()
-                      }
+onClick={()=>
+setShowModal(
+true
+)
+}
 
-                    </h3>
+/>
 
-                  </div>
+{
 
-                </div>
+showModal&&(
 
-                {/* Profit */}
-                <div className="relative overflow-hidden bg-white/[0.03] border border-white/10 rounded-3xl p-5 min-w-[180px]">
+<AddBookingModal
 
-                  <div className="absolute top-[-50px] right-[-50px] w-[120px] h-[120px] bg-yellow-500/10 blur-[80px] rounded-full"></div>
+closeModal={()=>
 
-                  <div className="relative z-10">
+setShowModal(
+false
+)
 
-                    <p className="text-sm text-zinc-500">
+}
 
-                      Profit
+addTrip={
+addTrip
+}
 
-                    </p>
+/>
 
-                    <h3 className="text-3xl font-bold text-yellow-400 mt-4">
+)
 
-                      ₹{
-                        dashboardMetrics.profit.toLocaleString()
-                      }
+}
 
-                    </h3>
+<div className="space-y-8">
 
-                  </div>
+<section className="grid grid-cols-2 lg:grid-cols-4 gap-6">
 
-                </div>
+<div className="rounded-3xl border border-white/10 p-6">
 
-                {/* Expenses */}
-                <div className="relative overflow-hidden bg-white/[0.03] border border-white/10 rounded-3xl p-5 min-w-[180px]">
+<p className="text-zinc-500">
 
-                  <div className="absolute top-[-50px] right-[-50px] w-[120px] h-[120px] bg-red-500/10 blur-[80px] rounded-full"></div>
+Total Bookings
 
-                  <div className="relative z-10">
+</p>
 
-                    <p className="text-sm text-zinc-500">
+<h2 className="text-3xl font-bold text-white mt-4">
 
-                      Expenses
+{stats.bookings}
 
-                    </p>
+</h2>
 
-                    <h3 className="text-3xl font-bold text-red-400 mt-4">
+</div>
 
-                      ₹{
-                        dashboardMetrics.expenses.toLocaleString()
-                      }
+<div className="rounded-3xl border border-white/10 p-6">
 
-                    </h3>
+<p className="text-zinc-500">
 
-                  </div>
+Revenue
 
-                </div>
+</p>
 
-                {/* Pending */}
-                <div className="relative overflow-hidden bg-white/[0.03] border border-white/10 rounded-3xl p-5 min-w-[180px]">
+<h2 className="text-3xl font-bold text-emerald-400 mt-4">
 
-                  <div className="absolute top-[-50px] right-[-50px] w-[120px] h-[120px] bg-cyan-500/10 blur-[80px] rounded-full"></div>
+₹{stats.revenue}
 
-                  <div className="relative z-10">
+</h2>
 
-                    <p className="text-sm text-zinc-500">
+</div>
 
-                      Pending
+<div className="rounded-3xl border border-white/10 p-6">
 
-                    </p>
+<p className="text-zinc-500">
 
-                    <h3 className="text-3xl font-bold text-cyan-400 mt-4">
+Expenses
 
-                      {
-                        dashboardMetrics.pendingPayments
-                      }
+</p>
 
-                    </h3>
+<h2 className="text-3xl font-bold text-red-400 mt-4">
 
-                  </div>
+₹{stats.expense}
 
-                </div>
+</h2>
 
-              </div>
+</div>
 
-            </div>
+<div className="rounded-3xl border border-white/10 p-6">
 
-          </section>
+<p className="text-zinc-500">
 
-          {/* LIVE STATS */}
-          <LiveStats />
+Balance
 
-          {/* CHART + INSIGHTS */}
-          <section className="grid grid-cols-1 xl:grid-cols-12 gap-6">
+</p>
 
-            {/* Chart */}
-            <div className="xl:col-span-8">
+<h2 className="text-3xl font-bold text-cyan-400 mt-4">
 
-              <RevenueChart
-                trips={trips}
-              />
+₹{stats.balance}
 
-            </div>
+</h2>
 
-            {/* Insights */}
-            <div className="xl:col-span-4">
+</div>
 
-              <InsightPanel />
+</section>
 
-            </div>
+<RevenueChart
+trips={trips}
+/>
 
-          </section>
+<TripsTable
+trips={trips}
+/>
 
-          {/* PERFORMANCE + ACTIVITY */}
-          <section className="grid grid-cols-1 xl:grid-cols-12 gap-6">
+</div>
 
-            {/* Performance */}
-            <div className="xl:col-span-4">
+</MainLayout>
 
-              <PerformancePanel
-                trips={trips}
-              />
+);
 
-            </div>
-
-            {/* Activity */}
-            <div className="xl:col-span-8">
-
-              <RecentActivity
-                trips={trips}
-              />
-
-            </div>
-
-          </section>
-
-          {/* BOOKINGS TABLE */}
-          <section>
-
-            <TripsTable
-              trips={trips}
-              setTrips={setTrips}
-            />
-
-          </section>
-
-          {/* DRIVER ACTIVITY */}
-          <section>
-
-            <DriverActivity />
-
-          </section>
-
-        </div>
-
-      )}
-
-    </MainLayout>
-  );
 }
 
 export default Dashboard;

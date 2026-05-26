@@ -8,123 +8,118 @@ function TripFilters({
   setActiveFilter,
 }) {
 
-  const filters = [
+const filters=[
 
-    "All",
+"All",
 
-    "Pending",
+"Pending",
 
-    "Confirmed",
+"Confirmed",
 
-    "Driver Assigned",
+"Vendor Pending",
 
-    "Ongoing",
+"Assigned",
 
-    "Completed",
+"Ongoing",
 
-    "Cancelled",
-  ];
+"Completed",
 
-  return (
+"Cancelled",
 
-    <div className="relative overflow-hidden bg-white/[0.03] border border-white/10 rounded-[32px] p-5 backdrop-blur-2xl">
+];
 
-      {/* Glow */}
-      <div className="absolute top-[-80px] right-[-80px] w-[180px] h-[180px] bg-yellow-400/10 blur-[100px] rounded-full"></div>
+return(
 
-      <div className="relative z-10">
+<div className="relative overflow-hidden rounded-[32px] border border-white/10 bg-white/[0.03] p-5">
 
-        {/* Header */}
-        <div className="flex items-center gap-3 mb-5">
+<div className="absolute top-[-80px] right-[-80px] h-[180px] w-[180px] rounded-full bg-yellow-400/10 blur-[100px]"></div>
 
-          <div className="w-11 h-11 rounded-2xl bg-yellow-500/10 border border-yellow-500/10 text-yellow-400 flex items-center justify-center">
+<div className="relative z-10">
 
-            <Filter
-              size={18}
-            />
+<div className="mb-5 flex items-center gap-3">
 
-          </div>
+<div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-yellow-500/10 bg-yellow-500/10 text-yellow-400">
 
-          <div>
+<Filter size={18}/>
 
-            <p className="text-xs uppercase tracking-[0.25em] text-yellow-400 font-semibold">
+</div>
 
-              Booking Filters
+<div>
 
-            </p>
+<p className="text-xs font-semibold uppercase tracking-[0.25em] text-yellow-400">
 
-            <h3 className="text-lg font-semibold text-white mt-1">
+Booking Filters
 
-              Filter Operations
+</p>
 
-            </h3>
+<h3 className="mt-1 text-lg font-semibold text-white">
 
-          </div>
+Filter Operations
 
-        </div>
+</h3>
 
-        {/* Filters */}
-        <div className="flex flex-wrap gap-3">
+</div>
 
-          {filters.map(
-            (
-              filter,
-              index
-            ) => {
+</div>
 
-              const active =
-                activeFilter ===
-                filter;
+<div className="flex flex-wrap gap-3">
 
-              return (
+{filters.map(
+(filter,index)=>{
 
-                <button
-                  key={index}
-                  onClick={() =>
-                    setActiveFilter(
-                      filter
-                    )
-                  }
-                  className={`group relative overflow-hidden px-5 py-3 rounded-2xl transition-all duration-300 text-sm font-medium border whitespace-nowrap ${
-                    active
+const active=
+activeFilter===
+filter;
 
-                      ? "bg-gradient-to-r from-yellow-400 to-amber-500 text-black border-yellow-400 shadow-[0_0_25px_rgba(250,204,21,0.18)]"
+return(
 
-                      : "bg-white/[0.03] border-white/10 text-zinc-300 hover:bg-white/[0.06] hover:border-yellow-500/20 hover:text-white"
-                  }`}
-                >
+<button
+key={index}
+onClick={()=>
+setActiveFilter(
+filter
+)
+}
+className={`group relative overflow-hidden rounded-2xl border px-5 py-3 text-sm font-medium transition-all duration-300
 
-                  {!active && (
+${active
 
-                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500 bg-gradient-to-r from-yellow-500/[0.03] to-transparent"></div>
+? "border-yellow-400 bg-gradient-to-r from-yellow-400 to-amber-500 text-black shadow-[0_0_25px_rgba(250,204,21,0.18)]"
 
-                  )}
+: "border-white/10 bg-white/[0.03] text-zinc-300 hover:border-yellow-500/20 hover:text-white"
 
-                  <span className="relative z-10 flex items-center gap-2">
+}`}
 
-                    {active && (
+>
 
-                      <Sparkles
-                        size={14}
-                      />
+<span className="relative z-10 flex items-center gap-2">
 
-                    )}
+{active && (
 
-                    {filter}
+<Sparkles
+size={14}
+/>
 
-                  </span>
+)}
 
-                </button>
-              );
-            }
-          )}
+{filter}
 
-        </div>
+</span>
 
-      </div>
+</button>
 
-    </div>
-  );
+);
+
+})}
+
+</div>
+
+</div>
+
+</div>
+
+);
+
 }
 
 export default TripFilters;

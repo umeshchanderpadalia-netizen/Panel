@@ -1,617 +1,501 @@
 import { useMemo, useState } from "react";
-
 import { motion } from "framer-motion";
 
 import CityAutocomplete from "./CityAutocomplete";
+import tripTypes from "../data/tripTypes";
 
-const statusColors = {
-  Pending:
-    "text-orange-400 bg-orange-500/20",
+import {
+gstOptions,
+tdsOptions,
+} from "../data/gstOptions";
 
-  Confirmed:
-    "text-cyan-400 bg-cyan-500/20",
-
-  "Driver Assigned":
-    "text-blue-400 bg-blue-500/20",
-
-  Ongoing:
-    "text-yellow-400 bg-yellow-500/20",
-
-  Completed:
-    "text-emerald-400 bg-emerald-500/20",
-
-  Cancelled:
-    "text-red-400 bg-red-500/20",
-};
+import calculateBookingTotals from "../utils/calculateBookingTotals";
 
 const inputClass =
-  "w-full rounded-2xl border border-white/10 bg-white/[0.04] px-5 py-4 text-white outline-none transition-all duration-300 placeholder:text-zinc-500 focus:border-yellow-400/30 focus:bg-white/[0.06]";
+"w-full rounded-2xl border border-white/10 bg-white/[0.04] px-5 py-4 text-white";
+
+const selectClass =
+`${inputClass} [&>option]:bg-[#0a0a0a]`;
 
 const sectionClass =
-  "rounded-3xl border border-white/10 bg-white/[0.03] p-7";
+"rounded-3xl border border-white/10 bg-white/[0.03] p-7";
 
 function AddBookingModal({
-  closeModal,
-  addTrip,
-}) {
 
-  const [formData, setFormData] =
-    useState({
+closeModal,
+addTrip,
 
-      customer: "",
+}){
 
-      phone: "",
+const [formData,setFormData]=
+useState({
 
-      pickup: "",
+id:`TRIP-${Date.now()}`,
 
-      drop: "",
+customer:"",
+phone:"",
 
-      date: "",
+tripType:"One Way",
 
-      tripType:
-        "One Way",
+days:"1",
 
-      vehicle:
-        "Sedan",
+vehicle:"Sedan",
 
-      driver: "",
+pickup:"",
+drop:"",
 
-      vendor: "",
+baseAmount:"",
+vendorRate:"",
+paidAmount:"",
 
-      total: "",
+gst:0.05,
+tds:0.02,
 
-      paymentStatus:
-        "Pending",
+tripStatus:"Pending",
 
-      tripStatus:
-        "Pending",
+});
 
-      comments: "",
-    });
+const handleChange=(e)=>{
 
-  const handleChange = (
-    e
-  ) => {
+const{
+name,
+value
+}=e.target;
 
-    const {
-      name,
-      value,
-    } = e.target;
+setFormData(
 
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+prev=>({
 
-  const handleLocationChange = (
-    field,
-    value
-  ) => {
+...prev,
+[name]:value
 
-    setFormData((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-  };
+})
 
-  const totalAmount =
-    useMemo(() => {
+);
 
-      if (!formData.total) {
+};
 
-        return "₹0";
-      }
+const handleLocationChange=
+(field,value)=>{
 
-      return `₹${Number(
-        formData.total
-      ).toLocaleString(
-        "en-IN"
-      )}`;
+setFormData(
 
-    }, [formData.total]);
+prev=>({
 
-  const handleSubmit = (
-    e
-  ) => {
+...prev,
+[field]:value
 
-    e.preventDefault();
+})
 
-    const newTrip = {
+);
 
-      id:
-        Date.now(),
+};
 
-      customer:
-        formData.customer,
+const distance=
+useMemo(()=>{
 
-      phone:
-        formData.phone,
+if(
+!formData.pickup||
+!formData.drop
+)
+return 0;
 
-      pickup:
-        formData.pickup,
+return Math.floor(
+Math.random()*300
+)+50;
 
-      drop:
-        formData.drop,
+},[
+formData.pickup,
+formData.drop
+]);
 
-      rideDate:
-        formData.date,
 
-      bookingType:
-        formData.tripType,
+const totals=
+useMemo(
 
-      driver:
-        formData.driver,
+()=>calculateBookingTotals(
+formData
+),
 
-      vehicle:
-        formData.vehicle,
+[
+formData
+]
 
-      vendor:
-        formData.vendor,
+);
 
-      fare:
-        totalAmount,
 
-      paymentStatus:
-        formData.paymentStatus,
+const handleSubmit=(e)=>{
 
-      status:
-        formData.tripStatus,
+e.preventDefault();
 
-      comments:
-        formData.comments,
+addTrip({
 
-      color:
-        statusColors[
-          formData.tripStatus
-        ] ||
-        statusColors.Pending,
-    };
+...formData,
 
-    addTrip(newTrip);
+finalKms:
+distance,
 
-    closeModal();
-  };
+...totals,
 
-  return (
+date:
+new Date()
+.toLocaleDateString(),
 
-    <div className="fixed inset-0 z-[200] overflow-y-auto bg-black/85 px-6 py-10 backdrop-blur-2xl">
+});
 
-      <div className="flex min-h-full items-center justify-center">
+closeModal();
 
-        <motion.div
-          initial={{
-            opacity: 0,
-            scale: 0.96,
-            y: 30,
-          }}
-          animate={{
-            opacity: 1,
-            scale: 1,
-            y: 0,
-          }}
-          transition={{
-            duration: 0.28,
-          }}
-          className="relative w-full max-w-5xl overflow-hidden rounded-[34px] border border-white/10 bg-[#0a0a0a]/95 p-8 lg:p-10"
-        >
+};
 
-          {/* Glow Effects */}
-          <div className="absolute right-[-120px] top-[-120px] h-[260px] w-[260px] rounded-full bg-yellow-400/10 blur-[120px]"></div>
+return(
 
-          <div className="absolute bottom-[-120px] left-[-120px] h-[260px] w-[260px] rounded-full bg-amber-500/10 blur-[120px]"></div>
+<div className="fixed inset-0 z-[200] overflow-y-auto bg-black/90 p-8">
 
-          <div className="relative z-10">
+<div className="flex justify-center">
 
-            {/* Header */}
-            <div className="mb-10 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+<motion.div
 
-              <div>
+initial={{
+opacity:0,
+scale:.95
+}}
 
-                <p className="text-xs font-semibold uppercase tracking-[0.35em] text-yellow-400">
-                  ERP Booking Operations
-                </p>
+animate={{
+opacity:1,
+scale:1
+}}
 
-                <h2 className="mt-4 text-4xl font-bold tracking-tight text-white lg:text-5xl">
-                  Add Booking
-                </h2>
+className="w-full max-w-6xl rounded-[35px] border border-white/10 bg-[#0a0a0a] p-8"
+>
 
-                <p className="mt-4 max-w-2xl leading-relaxed text-zinc-500">
-                  Create customer rides, manage trip operations and assign transport workflow instantly.
-                </p>
+<h1 className="text-4xl font-bold text-white mb-8">
 
-              </div>
+Create Booking
 
-              {/* Live Status */}
-              <div className="rounded-2xl border border-yellow-500/15 bg-yellow-500/10 px-5 py-4">
+</h1>
 
-                <p className="text-xs uppercase tracking-[0.25em] text-yellow-400">
-                  Current Status
-                </p>
+<form
+onSubmit={handleSubmit}
+className="space-y-8"
+>
 
-                <div
-                  className={`mt-3 inline-flex rounded-full px-4 py-2 text-sm font-medium ${statusColors[formData.tripStatus]}`}
-                >
 
-                  {formData.tripStatus}
+<div className={sectionClass}>
 
-                </div>
+<h3 className="mb-5 text-white text-xl">
 
-              </div>
+Customer Details
 
-            </div>
+</h3>
 
-            {/* Form */}
-            <form
-              onSubmit={handleSubmit}
-              className="space-y-8"
-            >
+<div className="grid md:grid-cols-2 gap-5">
 
-              {/* Customer Section */}
-              <div className={sectionClass}>
+<input
+name="customer"
+placeholder="Customer Name"
+value={formData.customer}
+onChange={handleChange}
+className={inputClass}
+/>
 
-                <div className="mb-7 flex items-center justify-between">
+<input
+name="phone"
+placeholder="Phone Number"
+value={formData.phone}
+onChange={handleChange}
+className={inputClass}
+/>
 
-                  <div>
+</div>
 
-                    <h3 className="text-2xl font-bold text-white">
-                      Customer Information
-                    </h3>
+</div>
 
-                    <p className="mt-2 text-sm text-zinc-500">
-                      Passenger identity and contact details.
-                    </p>
 
-                  </div>
+<div className={sectionClass}>
 
-                </div>
+<h3 className="mb-5 text-white text-xl">
 
-                <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+Booking Details
 
-                  <input
-                    type="text"
-                    name="customer"
-                    placeholder="Customer Name"
-                    value={formData.customer}
-                    onChange={handleChange}
-                    required
-                    className={inputClass}
-                  />
+</h3>
 
-                  <input
-                    type="text"
-                    name="phone"
-                    placeholder="Phone Number"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    required
-                    className={inputClass}
-                  />
+<div className="grid md:grid-cols-4 gap-5">
 
-                </div>
+<input
+value={formData.id}
+readOnly
+className={inputClass}
+/>
 
-              </div>
+<select
+name="tripType"
+value={formData.tripType}
+onChange={handleChange}
+className={selectClass}
+>
 
-              {/* Trip Section */}
-              <div className={sectionClass}>
+{
+tripTypes.map(
+trip=>(
 
-                <h3 className="text-2xl font-bold text-white">
-                  Trip Information
-                </h3>
+<option
+key={trip}
+value={trip}
+>
 
-                <p className="mt-2 mb-7 text-sm text-zinc-500">
-                  Configure route, schedule and ride category.
-                </p>
+{trip}
 
-                <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+</option>
 
-                  <CityAutocomplete
-                    label="Pickup Location"
-                    placeholder="Search pickup city..."
-                    value={formData.pickup}
-                    onChange={(value) =>
-                      handleLocationChange(
-                        "pickup",
-                        value
-                      )
-                    }
-                  />
+)
+)
+}
 
-                  <CityAutocomplete
-                    label="Destination"
-                    placeholder="Search destination city..."
-                    value={formData.drop}
-                    onChange={(value) =>
-                      handleLocationChange(
-                        "drop",
-                        value
-                      )
-                    }
-                  />
+</select>
 
-                  <div>
+<input
+name="days"
+placeholder="Days"
+value={formData.days}
+onChange={handleChange}
+className={inputClass}
+/>
 
-                    <label className="mb-3 block text-sm text-zinc-400">
-                      Trip Date
-                    </label>
+<select
+name="vehicle"
+value={formData.vehicle}
+onChange={handleChange}
+className={selectClass}
+>
 
-                    <input
-                      type="date"
-                      name="date"
-                      value={formData.date}
-                      onChange={handleChange}
-                      required
-                      className={inputClass}
-                    />
+<option>Sedan</option>
+<option>SUV</option>
+<option>Innova</option>
+<option>Crysta</option>
 
-                  </div>
+</select>
 
-                  <div>
+</div>
 
-                    <label className="mb-3 block text-sm text-zinc-400">
-                      Trip Type
-                    </label>
+</div>
 
-                    <select
-                      name="tripType"
-                      value={formData.tripType}
-                      onChange={handleChange}
-                      className={inputClass}
-                    >
 
-                      <option>
-                        One Way
-                      </option>
 
-                      <option>
-                        Round Trip
-                      </option>
+<div className={sectionClass}>
 
-                      <option>
-                        Airport Transfer
-                      </option>
+<h3 className="mb-5 text-white text-xl">
 
-                      <option>
-                        Outstation
-                      </option>
+Route
 
-                    </select>
+</h3>
 
-                  </div>
+<div className="grid md:grid-cols-2 gap-5">
 
-                </div>
+<CityAutocomplete
+label="Pickup"
+value={formData.pickup}
+onChange={(value)=>
+handleLocationChange(
+"pickup",
+value
+)}
+/>
 
-              </div>
+<CityAutocomplete
+label="Destination"
+value={formData.drop}
+onChange={(value)=>
+handleLocationChange(
+"drop",
+value
+)}
+/>
 
-              {/* Assignment */}
-              <div className={sectionClass}>
+</div>
 
-                <h3 className="text-2xl font-bold text-white">
-                  Assignment
-                </h3>
+<div className="mt-5">
 
-                <p className="mt-2 mb-7 text-sm text-zinc-500">
-                  Assign driver, vendor and vehicle category.
-                </p>
+<input
+readOnly
+value={`${distance} KM`}
+className={inputClass}
+/>
 
-                <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+</div>
 
-                  <input
-                    type="text"
-                    name="driver"
-                    placeholder="Driver Name"
-                    value={formData.driver}
-                    onChange={handleChange}
-                    className={inputClass}
-                  />
+</div>
 
-                  <select
-                    name="vehicle"
-                    value={formData.vehicle}
-                    onChange={handleChange}
-                    className={inputClass}
-                  >
 
-                    <option>
-                      Sedan
-                    </option>
 
-                    <option>
-                      SUV
-                    </option>
+<div className={sectionClass}>
 
-                    <option>
-                      Innova
-                    </option>
+<h3 className="mb-5 text-white text-xl">
 
-                    <option>
-                      Crysta
-                    </option>
+Financial
 
-                    <option>
-                      Hatchback
-                    </option>
+</h3>
 
-                    <option>
-                      Tempo Traveller
-                    </option>
+<div className="grid md:grid-cols-5 gap-5">
 
-                  </select>
+<input
+name="baseAmount"
+placeholder="Amount"
+value={formData.baseAmount}
+onChange={handleChange}
+className={inputClass}
+/>
 
-                  <input
-                    type="text"
-                    name="vendor"
-                    placeholder="Vendor Name"
-                    value={formData.vendor}
-                    onChange={handleChange}
-                    className={inputClass}
-                  />
+<input
+name="vendorRate"
+placeholder="Other Expense"
+value={formData.vendorRate}
+onChange={handleChange}
+className={inputClass}
+/>
 
-                </div>
+<input
+name="paidAmount"
+placeholder="Paid Amount"
+value={formData.paidAmount}
+onChange={handleChange}
+className={inputClass}
+/>
 
-              </div>
+<select
+name="gst"
+value={formData.gst}
+onChange={handleChange}
+className={selectClass}
+>
 
-              {/* Payment */}
-              <div className={sectionClass}>
+{
+gstOptions.map(
+(item)=>(
 
-                <div className="mb-7 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+<option
+key={item.label}
+value={item.value}
+>
 
-                  <div>
+GST {item.label}
 
-                    <h3 className="text-2xl font-bold text-white">
-                      Payment Information
-                    </h3>
+</option>
 
-                    <p className="mt-2 text-sm text-zinc-500">
-                      Fare amount and payment tracking.
-                    </p>
+)
+)
+}
 
-                  </div>
+</select>
 
-                  <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-4">
 
-                    <p className="text-xs uppercase tracking-[0.25em] text-zinc-500">
-                      Estimated Fare
-                    </p>
+<select
+name="tds"
+value={formData.tds}
+onChange={handleChange}
+className={selectClass}
+>
 
-                    <h4 className="mt-2 text-2xl font-bold text-yellow-400">
-                      {totalAmount}
-                    </h4>
+{
+tdsOptions.map(
+(item)=>(
 
-                  </div>
+<option
+key={item.label}
+value={item.value}
+>
 
-                </div>
+TDS {item.label}
 
-                <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+</option>
 
-                  <input
-                    type="number"
-                    name="total"
-                    placeholder="Trip Amount"
-                    value={formData.total}
-                    onChange={handleChange}
-                    required
-                    className={inputClass}
-                  />
+)
+)
+}
 
-                  <select
-                    name="paymentStatus"
-                    value={formData.paymentStatus}
-                    onChange={handleChange}
-                    className={inputClass}
-                  >
+</select>
 
-                    <option>
-                      Pending
-                    </option>
+</div>
 
-                    <option>
-                      Partial
-                    </option>
+</div>
 
-                    <option>
-                      Paid
-                    </option>
 
-                  </select>
 
-                </div>
+<div className={sectionClass}>
 
-              </div>
+<h3 className="mb-5 text-white text-xl">
 
-              {/* Status */}
-              <div className={sectionClass}>
+Financial Summary
 
-                <h3 className="text-2xl font-bold text-white">
-                  Booking Status
-                </h3>
+</h3>
 
-                <p className="mt-2 mb-7 text-sm text-zinc-500">
-                  Manage ride progress and operation notes.
-                </p>
+<div className="grid md:grid-cols-7 gap-4">
 
-                <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+<div className={inputClass}>
+Amount ₹{formData.baseAmount||0}
+</div>
 
-                  <select
-                    name="tripStatus"
-                    value={formData.tripStatus}
-                    onChange={handleChange}
-                    className={inputClass}
-                  >
+<div className={inputClass}>
+After GST ₹{totals.afterGst}
+</div>
 
-                    <option>
-                      Pending
-                    </option>
+<div className={inputClass}>
+After TDS ₹{totals.afterTds}
+</div>
 
-                    <option>
-                      Confirmed
-                    </option>
+<div className={inputClass}>
+Other Expense ₹{totals.totalExpenses}
+</div>
 
-                    <option>
-                      Driver Assigned
-                    </option>
+<div className={inputClass}>
+Total ₹{totals.total}
+</div>
 
-                    <option>
-                      Ongoing
-                    </option>
+<div className={inputClass}>
+Paid ₹{formData.paidAmount||0}
+</div>
 
-                    <option>
-                      Completed
-                    </option>
+<div className={inputClass}>
+Left Amount ₹{totals.balance}
+</div>
 
-                    <option>
-                      Cancelled
-                    </option>
+</div>
 
-                  </select>
+</div>
 
-                  <textarea
-                    name="comments"
-                    placeholder="Operational comments..."
-                    value={formData.comments}
-                    onChange={handleChange}
-                    rows={1}
-                    className={`${inputClass} resize-none`}
-                  />
 
-                </div>
+<div className="flex gap-4">
 
-              </div>
+<button
+type="button"
+onClick={closeModal}
+className="flex-1 rounded-2xl border border-white/10 py-4 text-white"
+>
 
-              {/* Actions */}
-              <div className="flex flex-col gap-4 pt-2 sm:flex-row">
+Cancel
 
-                <button
-                  type="button"
-                  onClick={closeModal}
-                  className="flex-1 rounded-2xl border border-white/10 py-4 text-white transition-all duration-300 hover:bg-white/[0.04]"
-                >
+</button>
 
-                  Cancel
+<button
+type="submit"
+className="flex-1 rounded-2xl bg-yellow-400 py-4 font-bold text-black"
+>
 
-                </button>
+Create Booking
 
-                <button
-                  type="submit"
-                  className="flex-1 rounded-2xl bg-gradient-to-r from-yellow-400 to-amber-500 py-4 font-semibold text-black transition-all duration-300 hover:scale-[1.01] hover:shadow-[0_0_30px_rgba(250,204,21,0.2)]"
-                >
+</button>
 
-                  Create Booking
+</div>
 
-                </button>
+</form>
 
-              </div>
+</motion.div>
 
-            </form>
+</div>
 
-          </div>
+</div>
 
-        </motion.div>
+);
 
-      </div>
-
-    </div>
-  );
 }
 
 export default AddBookingModal;

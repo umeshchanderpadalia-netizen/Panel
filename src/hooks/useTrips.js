@@ -2,118 +2,91 @@ import {
   useEffect,
 } from "react";
 
-import {
-  getTrips,
-} from "../api/tripApi";
-
-import useAsync from "./useAsync";
+import useApp from "./useApp";
 
 function useTrips() {
 
   const {
-    data,
-    setData,
-    loading,
-    error,
-    execute,
-  } = useAsync(
-    getTrips,
-    false
-  );
 
-  // Fetch Trips
-  const fetchTrips =
-    async () => {
+    trips,
 
-      const response =
-        await execute();
+    setTrips,
 
-      if (!response)
-        return;
-
-      const formattedTrips =
-        response.map(
-          (trip) => ({
-
-            id:
-              trip.id,
-
-            customer:
-              trip.customer ||
-              "",
-
-            phone:
-              trip.phone || "",
-
-            pickup:
-              trip.pickup || "",
-
-            drop:
-              trip.drop || "",
-
-            rideDate:
-              trip.rideDate ||
-              "",
-
-            bookingType:
-              trip.bookingType ||
-              "One Way",
-
-            driver:
-              trip.driver ||
-              "",
-
-            vehicle:
-              trip.vehicle ||
-              "",
-
-            vendor:
-              trip.vendor ||
-              "",
-
-            fare:
-              trip.fare || "",
-
-            paymentStatus:
-              trip.paymentStatus ||
-              "Pending",
-
-            status:
-              trip.status ||
-              "Pending",
-
-            color:
-              trip.color ||
-              "text-yellow-400 bg-yellow-500/20",
-          })
-        );
-
-      setData(
-        formattedTrips
-      );
-    };
+  } = useApp();
 
   useEffect(() => {
 
-    fetchTrips();
+    const fetchTrips =
+      async () => {
+
+        try {
+
+          const response =
+            await fetch(
+              "http://localhost:5000/api/bookings"
+            );
+
+          const data =
+            await response.json();
+
+          const formattedTrips =
+            data.map(
+              (
+                trip
+              ) => ({
+
+                ...trip,
+
+                id:
+                  trip.id ||
+                  trip._id ||
+                  Date.now() +
+                  Math.random(),
+
+              })
+            );
+
+          setTrips(
+            formattedTrips
+          );
+
+        } catch (
+          error
+        ) {
+
+          console.log(
+            "Failed loading trips",
+            error
+          );
+
+        }
+
+      };
+
+    if (
+      trips.length === 0
+    ) {
+
+      fetchTrips();
+
+    }
 
   }, []);
 
   return {
 
-    trips:
-      data || [],
+    trips,
 
-    setTrips:
-      setData,
+    setTrips,
 
-    loading,
+    loading:false,
 
-    error,
+    error:null,
 
-    retry:
-      fetchTrips,
+    retry:()=>{},
+
   };
+
 }
 
 export default useTrips;

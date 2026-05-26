@@ -1,12 +1,17 @@
 import {
+  createContext,
   useEffect,
   useMemo,
   useState,
 } from "react";
 
-import {
-  AuthContext,
-} from "./authContext";
+export const AuthContext =
+  createContext({
+    user: null,
+    login: () => {},
+    logout: () => {},   
+    loading: false,
+  });
 
 export function AuthProvider({
   children,
@@ -18,7 +23,7 @@ export function AuthProvider({
   const [loading, setLoading] =
     useState(true);
 
-  // Load Session
+  // LOAD SESSION
   useEffect(() => {
 
     const savedUser =
@@ -26,76 +31,98 @@ export function AuthProvider({
         "cab-user"
       );
 
-    if (savedUser) {
+    const savedToken =
+      localStorage.getItem(
+        "cab-token"
+      );
+
+    if (
+      savedUser &&
+      savedToken
+    ) {
 
       setUser(
         JSON.parse(savedUser)
       );
     }
 
-    const timer =
-      setTimeout(() => {
-
-        setLoading(false);
-
-      }, 500);
-
-    return () =>
-      clearTimeout(timer);
+    setLoading(false);
 
   }, []);
 
-  // Login
-  const login = (
+  // REAL LOGIN
+  const login = async (
     email,
     password
   ) => {
 
-    if (
-      email ===
-        "admin@getmecab.com" &&
-      password ===
-        "admin123"
-    ) {
+    try {
 
-      const userData = {
+      const response =
+        await fetch(
+          "http://localhost:5000/api/auth/login",
+          {
+            method: "POST",
 
-        name:
-          "Deepanshu",
+            headers: {
+              "Content-Type":
+                "application/json",
+            },
 
-        role:
-          "System Administrator",
+            body: JSON.stringify({
+              email,
+              password,
+            }),
+          }
+        );
 
-        email,
-      };
+      const data =
+        await response.json();
 
+      if (!response.ok) {
+
+        return {
+          success: false,
+          message:
+            data.message,
+        };
+      }
+
+      // SAVE USER
       localStorage.setItem(
         "cab-user",
-        JSON.stringify(userData)
+        JSON.stringify(
+          data.user
+        )
       );
 
+      // SAVE TOKEN
       localStorage.setItem(
-        "admin-auth",
-        "true"
+        "cab-token",
+        data.token
       );
 
-      setUser(userData);
+      setUser(
+        data.user
+      );
 
       return {
         success: true,
       };
+
+    } catch (error) {
+
+      console.log(error);
+
+      return {
+        success: false,
+        message:
+          "Server error",
+      };
     }
-
-    return {
-
-      success: false,
-
-      message:
-        "Invalid email or password",
-    };
   };
 
-  // Logout
+  // LOGOUT
   const logout = () => {
 
     localStorage.removeItem(
@@ -103,7 +130,7 @@ export function AuthProvider({
     );
 
     localStorage.removeItem(
-      "admin-auth"
+      "cab-token"
     );
 
     setUser(null);
@@ -125,10 +152,6 @@ export function AuthProvider({
     return (
 
       <div className="relative min-h-screen bg-[#050505] overflow-hidden flex items-center justify-center">
-
-        <div className="absolute top-[-180px] right-[-180px] w-[420px] h-[420px] bg-yellow-400/10 blur-[160px] rounded-full"></div>
-
-        <div className="absolute bottom-[-180px] left-[-180px] w-[420px] h-[420px] bg-amber-500/10 blur-[160px] rounded-full"></div>
 
         <div className="relative z-10 flex flex-col items-center">
 
