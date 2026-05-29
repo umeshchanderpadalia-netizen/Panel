@@ -3,16 +3,16 @@ require("express");
 
 const {
 
-getBookings,
+getDrivers,
 
-createBooking,
+createDriver,
 
-updateBooking,
+updateDriver,
 
-deleteBooking,
+deleteDriver,
 
 } = require(
-"../controllers/bookingController"
+"../controllers/driverController"
 );
 
 const {
@@ -27,39 +27,39 @@ const router =
 express.Router();
 
 
-// GET BOOKINGS
+// GET DRIVERS
 
 router.get(
 "/",
 protect,
-getBookings
+getDrivers
 );
 
 
-// CREATE BOOKING
+// CREATE DRIVER
 
 router.post(
 "/",
 protect,
-createBooking
+createDriver
 );
 
 
-// UPDATE BOOKING
+// UPDATE DRIVER
 
 router.put(
 "/:id",
 protect,
-updateBooking
+updateDriver
 );
 
 
-// DELETE BOOKING
+// DELETE DRIVER
 
 router.delete(
 "/:id",
 protect,
-deleteBooking
+deleteDriver
 );
 
 

@@ -1,172 +1,147 @@
-import vendorsData from "../data/vendors";
+import API_BASE_URL
+from "../config/api";
 
-const delay = (ms) =>
-  new Promise((resolve) =>
-    setTimeout(resolve, ms)
-  );
+import getAuthHeaders
+from "../utils/getAuthHeaders";
 
-const getStatusColor = (
-  status
-) => {
-  switch (status) {
-    case "Active":
-      return "text-emerald-400 bg-emerald-500/20";
+const API_URL =
+`${API_BASE_URL}/vendors`;
 
-    case "Busy":
-      return "text-yellow-400 bg-yellow-500/20";
 
-    case "Inactive":
-      return "text-zinc-400 bg-zinc-500/20";
+// GET VENDORS
 
-    case "Blacklisted":
-      return "text-red-400 bg-red-500/20";
+export async function getVendors(){
 
-    default:
-      return "text-cyan-400 bg-cyan-500/20";
-  }
-};
+try{
 
-const formatVendor = (
-  vendor
-) => ({
-  id:
-    vendor.id ||
-    Date.now(),
+const response=
+await fetch(API_URL,{
 
-  company:
-    vendor.company || "",
+headers:
+getAuthHeaders(),
 
-  owner:
-    vendor.owner || "",
-
-  phone:
-    vendor.phone || "",
-
-  email:
-    vendor.email || "",
-
-  location:
-    vendor.location || "",
-
-  totalDrivers:
-    vendor.totalDrivers || 0,
-
-  activeDrivers:
-    vendor.activeDrivers || 0,
-
-  assignedTrips:
-    vendor.assignedTrips || 0,
-
-  completedTrips:
-    vendor.completedTrips ||
-    0,
-
-  cancelledTrips:
-    vendor.cancelledTrips ||
-    0,
-
-  monthlyRevenue:
-    vendor.monthlyRevenue ||
-    "₹0",
-
-  pendingPayments:
-    vendor.pendingPayments ||
-    "₹0",
-
-  paymentStatus:
-    vendor.paymentStatus ||
-    "Pending",
-
-  status:
-    vendor.status ||
-    "Inactive",
-
-  partnershipDate:
-    vendor.partnershipDate ||
-    "",
-
-  gstNumber:
-    vendor.gstNumber || "",
-
-  avatar:
-    vendor.avatar || "",
-
-  color:
-    vendor.color ||
-    getStatusColor(
-      vendor.status
-    ),
-
-  createdAt:
-    vendor.createdAt ||
-    new Date().toISOString(),
 });
 
-/* =========================
-   Get Vendors
-========================= */
+return await response.json();
 
-export async function getVendors() {
-  await delay(900);
+}catch(error){
 
-  return vendorsData.map(
-    formatVendor
-  );
+console.log(error);
+
+return [];
+
 }
 
-/* =========================
-   Create Vendor
-========================= */
+}
+
+
+// CREATE VENDOR
 
 export async function createVendor(
-  vendor
-) {
-  await delay(700);
+vendor
+){
 
-  return {
-    success: true,
-    message:
-      "Vendor created successfully.",
-    data: formatVendor({
-      ...vendor,
-      id: Date.now(),
-    }),
-  };
+try{
+
+const response=
+await fetch(API_URL,{
+
+method:"POST",
+
+headers:
+getAuthHeaders(),
+
+body:
+JSON.stringify(vendor),
+
+});
+
+return await response.json();
+
+}catch(error){
+
+console.log(error);
+
+return null;
+
 }
 
-/* =========================
-   Update Vendor
-========================= */
+}
+
+
+// UPDATE VENDOR
 
 export async function updateVendor(
-  updatedVendor
-) {
-  await delay(600);
+id,
+vendor
+){
 
-  return {
-    success: true,
-    message:
-      "Vendor updated successfully.",
-    data:
-      formatVendor(
-        updatedVendor
-      ),
-  };
+try{
+
+const response=
+await fetch(
+
+`${API_URL}/${id}`,
+
+{
+
+method:"PUT",
+
+headers:
+getAuthHeaders(),
+
+body:
+JSON.stringify(vendor),
+
 }
 
-/* =========================
-   Delete Vendor
-========================= */
+);
+
+return await response.json();
+
+}catch(error){
+
+console.log(error);
+
+return null;
+
+}
+
+}
+
+
+// DELETE VENDOR
 
 export async function deleteVendor(
-  vendorId
-) {
-  await delay(500);
+id
+){
 
-  return {
-    success: true,
-    message:
-      "Vendor deleted successfully.",
-    deletedId: vendorId,
-  };
+try{
+
+const response=
+await fetch(
+
+`${API_URL}/${id}`,
+
+{
+
+method:"DELETE",
+
+headers:
+getAuthHeaders(),
+
+}
+
+);
+
+return await response.json();
+
+}catch(error){
+
+console.log(error);
+
+return null;
+
+}
+
 }

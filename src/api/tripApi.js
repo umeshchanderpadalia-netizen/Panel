@@ -1,215 +1,147 @@
-import tripsData from "../data/trips";
+import API_BASE_URL
+from "../config/api";
 
-const delay = (ms) =>
-  new Promise(
-    (resolve) =>
-      setTimeout(
-        resolve,
-        ms
-      )
-  );
+import getAuthHeaders
+from "../utils/getAuthHeaders";
 
-const getStatusColor = (
-  status
-) => {
-
-  switch(status){
-
-    case "Completed":
-
-      return "text-emerald-400 bg-emerald-500/20";
-
-    case "Cancelled":
-
-      return "text-red-400 bg-red-500/20";
-
-    case "Confirmed":
-
-      return "text-cyan-400 bg-cyan-500/20";
-
-    case "Driver Assigned":
-
-      return "text-blue-400 bg-blue-500/20";
-
-    case "Pending":
-
-      return "text-orange-400 bg-orange-500/20";
-
-    default:
-
-      return "text-yellow-400 bg-yellow-500/20";
-
-  }
-
-};
-
-const formatTrip=(trip)=>({
-
-id:
-trip.id ||
-trip._id ||
-Date.now(),
-
-orderId:
-trip.orderId || "",
-
-invoiceNo:
-trip.invoiceNo || "",
-
-customer:
-trip.customer || "",
-
-phone:
-trip.phone || "",
-
-pickup:
-trip.pickup || "",
-
-drop:
-trip.drop || "",
-
-date:
-trip.date || "",
-
-tripType:
-trip.tripType ||
-"One Way",
-
-driver:
-trip.driver || "",
-
-vehicle:
-trip.vehicle || "",
-
-vendor:
-trip.vendor || "",
-
-baseAmount:
-trip.baseAmount || 0,
-
-total:
-trip.total || 0,
-
-afterTds:
-trip.afterTds || 0,
-
-totalExpenses:
-trip.totalExpenses || 0,
-
-balance:
-trip.balance || 0,
-
-tripStatus:
-trip.tripStatus ||
-"Pending",
-
-color:
-trip.color ||
-getStatusColor(
-trip.tripStatus
-),
-
-createdAt:
-trip.createdAt ||
-new Date().toISOString(),
-
-});
+const API_URL =
+`${API_BASE_URL}/bookings`;
 
 
-// =====================
-// GET TRIPS
-// =====================
+// GET BOOKINGS
 
 export async function getTrips(){
 
-await delay(500);
+try{
 
-return tripsData.map(
-formatTrip
-);
+const response=
+await fetch(API_URL,{
+
+headers:
+getAuthHeaders(),
+
+});
+
+return await response.json();
+
+}catch(error){
+
+console.log(error);
+
+return [];
+
+}
 
 }
 
 
-// =====================
-// CREATE TRIP
-// =====================
+// CREATE BOOKING
 
 export async function createTrip(
 trip
 ){
 
-await delay(500);
+try{
 
-return{
+const response=
+await fetch(API_URL,{
 
-success:true,
+method:"POST",
 
-message:
-"Booking created successfully",
+headers:
+getAuthHeaders(),
 
-data:
-formatTrip({
+body:
+JSON.stringify(trip),
 
-...trip,
+});
 
-id:
-Date.now(),
+return await response.json();
 
-}),
+}catch(error){
 
-};
+console.log(error);
+
+return null;
+
+}
 
 }
 
 
-// =====================
-// UPDATE TRIP
-// =====================
+// UPDATE BOOKING
 
 export async function updateTrip(
+id,
 trip
 ){
 
-await delay(500);
+try{
 
-return{
+const response=
+await fetch(
 
-success:true,
+`${API_URL}/${id}`,
 
-message:
-"Booking updated successfully",
+{
 
-data:
-formatTrip(
-trip
-),
+method:"PUT",
 
-};
+headers:
+getAuthHeaders(),
+
+body:
+JSON.stringify(trip),
+
+}
+
+);
+
+return await response.json();
+
+}catch(error){
+
+console.log(error);
+
+return null;
+
+}
 
 }
 
 
-// =====================
-// DELETE TRIP
-// =====================
+// DELETE BOOKING
 
 export async function deleteTrip(
-tripId
+id
 ){
 
-await delay(500);
+try{
 
-return{
+const response=
+await fetch(
 
-success:true,
+`${API_URL}/${id}`,
 
-message:
-"Booking deleted successfully",
+{
 
-deletedId:
-tripId,
+method:"DELETE",
 
-};
+headers:
+getAuthHeaders(),
+
+}
+
+);
+
+return await response.json();
+
+}catch(error){
+
+console.log(error);
+
+return null;
+
+}
 
 }

@@ -1,77 +1,133 @@
-const delay = (ms) =>
-  new Promise((resolve) =>
-    setTimeout(resolve, ms)
-  );
+import API_BASE_URL
+from "../config/api";
 
-const ADMIN_CREDENTIALS = {
-  email: "admin@getmecab.com",
-  password: "admin123",
-};
+const API_URL =
+`${API_BASE_URL}/auth`;
+
+
+// LOGIN
 
 export async function loginApi({
-  email,
-  password,
-}) {
-  await delay(1000);
 
-  const normalizedEmail =
-    email.trim().toLowerCase();
+email,
 
-  const normalizedPassword =
-    password.trim();
+password,
 
-  const isValidUser =
-    normalizedEmail ===
-      ADMIN_CREDENTIALS.email &&
-    normalizedPassword ===
-      ADMIN_CREDENTIALS.password;
+}){
 
-  if (!isValidUser) {
-    return {
-      success: false,
-      message:
-        "Invalid email or password",
-    };
-  }
+try{
 
-  const user = {
-    id: 1,
-    name: "Deepanshu",
-    role:
-      "System Administrator",
-    email: normalizedEmail,
-  };
+const response=
+await fetch(
 
-  localStorage.setItem(
-    "admin-auth",
-    "true"
-  );
+`${API_URL}/login`,
 
-  localStorage.setItem(
-    "cab-user",
-    JSON.stringify(user)
-  );
+{
 
-  return {
-    success: true,
-    user,
-    token:
-      "mock-jwt-token-getmecab",
-  };
+method:"POST",
+
+headers:{
+"Content-Type":
+"application/json",
+},
+
+body:
+JSON.stringify({
+
+email,
+
+password,
+
+}),
+
 }
 
-export async function logoutApi() {
-  await delay(400);
+);
 
-  localStorage.removeItem(
-    "admin-auth"
-  );
+const data=
+await response.json();
 
-  localStorage.removeItem(
-    "cab-user"
-  );
+if(!response.ok){
 
-  return {
-    success: true,
-  };
+return{
+
+success:false,
+
+message:
+data.message ||
+"Login failed",
+
+};
+
+}
+
+
+// SAVE TOKEN
+
+localStorage.setItem(
+
+"cab-token",
+
+data.token
+
+);
+
+
+// SAVE USER
+
+localStorage.setItem(
+
+"cab-user",
+
+JSON.stringify(
+data.user
+)
+
+);
+
+
+return{
+
+success:true,
+
+user:data.user,
+
+token:data.token,
+
+};
+
+}catch(error){
+
+console.log(error);
+
+return{
+
+success:false,
+
+message:
+"Server connection failed",
+
+};
+
+}
+
+}
+
+
+// LOGOUT
+
+export async function logoutApi(){
+
+localStorage.removeItem(
+"cab-token"
+);
+
+localStorage.removeItem(
+"cab-user"
+);
+
+return{
+success:true,
+};
+
 }

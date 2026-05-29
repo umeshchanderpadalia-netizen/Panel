@@ -1,11 +1,18 @@
-import { useMemo, useState } from "react";
+import {
+useEffect,
+useState,
+} from "react";
 
 import MainLayout from "../layout/MainLayout";
 
 import AddBookingModal from "../components/AddBookingModal";
+
 import TripsTable from "../components/TripsTable";
+
 import RevenueChart from "../components/RevenueChart";
+
 import NotificationToast from "../components/NotificationToast";
+
 import FloatingActionButton from "../components/FloatingActionButton";
 
 import useApp from "../hooks/useApp";
@@ -17,85 +24,71 @@ showModal,
 setShowModal
 ]=useState(false);
 
+const[
+
+dashboardStats,
+
+setDashboardStats
+
+]=useState({
+
+totalBookings:0,
+
+totalRevenue:0,
+
+pendingAmount:0,
+
+totalProfit:0,
+
+});
+
 const{
 
 trips,
+
 addTrip,
+
 notifications,
 
 }=useApp();
 
-const stats=
-useMemo(()=>{
 
-const totalRevenue=
+// FETCH DASHBOARD STATS
 
-trips.reduce(
+useEffect(()=>{
 
-(total,trip)=>
+fetchDashboardStats();
 
-total+
+},[]);
 
-Number(
-trip.total
-||0
-),
 
-0
+const fetchDashboardStats=
+async()=>{
 
-);
+try{
 
-const totalExpense=
+const response=
+await fetch(
 
-trips.reduce(
-
-(total,trip)=>
-
-total+
-
-Number(
-trip.totalExpenses
-||0
-),
-
-0
+"http://localhost:5000/api/dashboard/stats"
 
 );
 
-const totalBalance=
+const data=
+await response.json();
 
-trips.reduce(
-
-(total,trip)=>
-
-total+
-
-Number(
-trip.balance
-||0
-),
-
-0
-
+setDashboardStats(
+data
 );
 
-return{
+}catch(error){
 
-bookings:
-trips.length,
+console.log(error);
 
-revenue:
-totalRevenue,
-
-expense:
-totalExpense,
-
-balance:
-totalBalance,
+}
 
 };
 
-},[trips]);
 
 return(
 
@@ -143,6 +136,8 @@ addTrip
 
 <div className="space-y-8">
 
+{/* STATS */}
+
 <section className="grid grid-cols-2 lg:grid-cols-4 gap-6">
 
 <div className="rounded-3xl border border-white/10 p-6">
@@ -155,11 +150,14 @@ Total Bookings
 
 <h2 className="text-3xl font-bold text-white mt-4">
 
-{stats.bookings}
+{
+dashboardStats.totalBookings
+}
 
 </h2>
 
 </div>
+
 
 <div className="rounded-3xl border border-white/10 p-6">
 
@@ -171,39 +169,47 @@ Revenue
 
 <h2 className="text-3xl font-bold text-emerald-400 mt-4">
 
-₹{stats.revenue}
+₹{
+dashboardStats.totalRevenue
+}
 
 </h2>
 
 </div>
 
+
 <div className="rounded-3xl border border-white/10 p-6">
 
 <p className="text-zinc-500">
 
-Expenses
+Pending Amount
 
 </p>
 
 <h2 className="text-3xl font-bold text-red-400 mt-4">
 
-₹{stats.expense}
+₹{
+dashboardStats.pendingAmount
+}
 
 </h2>
 
 </div>
 
+
 <div className="rounded-3xl border border-white/10 p-6">
 
 <p className="text-zinc-500">
 
-Balance
+Profit
 
 </p>
 
 <h2 className="text-3xl font-bold text-cyan-400 mt-4">
 
-₹{stats.balance}
+₹{
+dashboardStats.totalProfit
+}
 
 </h2>
 
@@ -211,9 +217,15 @@ Balance
 
 </section>
 
+
+{/* CHART */}
+
 <RevenueChart
 trips={trips}
 />
+
+
+{/* BOOKINGS */}
 
 <TripsTable
 trips={trips}

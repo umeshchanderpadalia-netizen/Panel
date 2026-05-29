@@ -5,114 +5,93 @@ useMemo,
 useState,
 } from "react";
 
-import {
-drivers as driversData,
-} from "../data";
-
 export const AppContext =
 createContext();
 
 export function AppProvider({
-
 children
-
 }){
 
-const[
-trips,
-setTrips
-]=useState([]);
+const [trips,setTrips]=
+useState([]);
 
-const[
-drivers,
-setDrivers
-]=useState(
+const [notifications,setNotifications]=
+useState([]);
 
-()=>{
+const [loading,setLoading]=
+useState(false);
 
-const savedDrivers=
 
+// FETCH BOOKINGS
+
+const fetchBookings =
+async()=>{
+
+try{
+
+setLoading(true);
+
+const token =
 localStorage.getItem(
-"cab-drivers"
+"cab-token"
 );
 
-return savedDrivers
+const response =
+await fetch(
 
-?JSON.parse(
-savedDrivers
-)
+"http://localhost:5000/api/bookings",
 
-:driversData;
+{
+
+headers:{
+
+Authorization:
+token,
+
+},
 
 }
 
 );
 
-const[
-notifications,
-setNotifications
-]=useState([]);
+const data =
+await response.json();
 
 
-// Load Bookings
+// IMPORTANT FIX
+
+setTrips(
+data.bookings || []
+);
+
+}catch(error){
+
+console.log(
+"Fetch Error:",
+error
+);
+
+}
+
+finally{
+
+setLoading(false);
+
+}
+
+};
+
+
+// INITIAL LOAD
 
 useEffect(()=>{
 
-const savedTrips=
-
-localStorage.getItem(
-"cab-bookings"
-);
-
-if(savedTrips){
-
-setTrips(
-
-JSON.parse(
-savedTrips
-)
-
-);
-
-}
+fetchBookings();
 
 },[]);
 
 
-// Save Bookings
-
-useEffect(()=>{
-
-localStorage.setItem(
-
-"cab-bookings",
-
-JSON.stringify(
-trips
-)
-
-);
-
-},[trips]);
-
-
-// Save Drivers
-
-useEffect(()=>{
-
-localStorage.setItem(
-
-"cab-drivers",
-
-JSON.stringify(
-drivers
-)
-
-);
-
-},[drivers]);
-
-
+// NOTIFICATION
 
 const addNotification=(
 
@@ -121,10 +100,9 @@ type="success"
 
 )=>{
 
-const notification={
+const item={
 
 id:Date.now(),
-
 message,
 type,
 
@@ -132,11 +110,9 @@ type,
 
 setNotifications(
 
-(prev)=>[
-
-notification,
+prev=>[
+item,
 ...prev
-
 ]
 
 );
@@ -145,13 +121,13 @@ setTimeout(()=>{
 
 setNotifications(
 
-(prev)=>
+prev=>
 
 prev.filter(
 
-(item)=>
+n=>
 
-item.id!==notification.id
+n.id!==item.id
 
 )
 
@@ -162,14 +138,56 @@ item.id!==notification.id
 };
 
 
+// CREATE
 
-const addTrip=(newTrip)=>{
+const addTrip =
+async(newTrip)=>{
+
+try{
+
+const token =
+localStorage.getItem(
+"cab-token"
+);
+
+const response =
+await fetch(
+
+"http://localhost:5000/api/bookings",
+
+{
+
+method:"POST",
+
+headers:{
+
+"Content-Type":
+"application/json",
+
+Authorization:
+token,
+
+},
+
+body:
+JSON.stringify(
+newTrip
+)
+
+}
+
+);
+
+const data =
+await response.json();
 
 setTrips(
 
-(prev)=>[
+prev=>
 
-newTrip,
+[
+
+data.booking,
 ...prev
 
 ]
@@ -177,98 +195,183 @@ newTrip,
 );
 
 addNotification(
-
-"Booking added successfully"
-
+"Booking created"
 );
+
+}catch(error){
+
+console.log(error);
+
+}
 
 };
 
 
+// UPDATE
 
-const updateTrip=(updatedTrip)=>{
+const updateTrip =
+async(updatedTrip)=>{
+
+try{
+
+const token =
+localStorage.getItem(
+"cab-token"
+);
+
+const response =
+await fetch(
+
+`http://localhost:5000/api/bookings/${updatedTrip._id}`,
+
+{
+
+method:"PUT",
+
+headers:{
+
+"Content-Type":
+"application/json",
+
+Authorization:
+token,
+
+},
+
+body:
+JSON.stringify(
+updatedTrip
+)
+
+}
+
+);
+
+const data =
+await response.json();
 
 setTrips(
 
-(prev)=>
+prev=>
 
 prev.map(
 
-(trip)=>
+trip=>
 
-trip.id===updatedTrip.id
+trip._id===
+data.booking._id
 
-?updatedTrip
+?
 
-:trip
+data.booking
+
+:
+
+trip
 
 )
 
 );
 
 addNotification(
-
 "Booking updated"
-
 );
+
+}catch(error){
+
+console.log(error);
+
+}
 
 };
 
 
+// DELETE
 
-const deleteTrip=(tripId)=>{
+const deleteTrip =
+async(id)=>{
+
+try{
+
+const token =
+localStorage.getItem(
+"cab-token"
+);
+
+await fetch(
+
+`http://localhost:5000/api/bookings/${id}`,
+
+{
+
+method:
+"DELETE",
+
+headers:{
+
+Authorization:
+token,
+
+},
+
+}
+
+);
 
 setTrips(
 
-(prev)=>
+prev=>
 
 prev.filter(
 
-(trip)=>
+trip=>
 
-trip.id!==tripId
+trip._id!==id
 
 )
 
 );
 
 addNotification(
-
 "Booking deleted",
 "warning"
-
 );
+
+}catch(error){
+
+console.log(error);
+
+}
 
 };
 
 
-
-const value=
+const value =
 useMemo(
 
 ()=>({
 
 trips,
-setTrips,
 
-drivers,
-setDrivers,
+loading,
 
 notifications,
 
-addNotification,
-
 addTrip,
+
 updateTrip,
+
 deleteTrip,
 
-}),
+})
+
+,
 
 [
 
 trips,
-drivers,
-notifications,
+loading,
+notifications
 
 ]
 
@@ -280,11 +383,7 @@ return(
 value={value}
 >
 
-<div className="relative z-10">
-
 {children}
-
-</div>
 
 </AppContext.Provider>
 

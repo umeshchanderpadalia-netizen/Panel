@@ -1,78 +1,188 @@
 const mongoose = require("mongoose");
 
 const bookingSchema = new mongoose.Schema(
-  {
-    bookingId: {
-      type: String,
-      required: true,
-    },
+{
 
-    customer: {
-      type: String,
-      required: true,
-    },
+bookingId:{
+type:String,
+required:true,
+unique:true,
+trim:true,
+index:true,
+},
 
-    phone: {
-      type: String,
-      required: true,
-    },
+invoiceNo:{
+type:String,
+default:"",
+},
 
-    pickup: {
-      type: String,
-      required: true,
-    },
+customer:{
+type:String,
+required:true,
+trim:true,
+index:true,
+},
 
-    drop: {
-      type: String,
-      required: true,
-    },
+phone:{
+type:String,
+required:true,
+trim:true,
+index:true,
+},
 
-    driver: {
-      type: String,
-      default: "",
-    },
+email:{
+type:String,
+default:"",
+},
 
-    vendor: {
-      type: String,
-      default: "",
-    },
+pickup:{
+type:String,
+required:true,
+trim:true,
+index:true,
+},
 
-    vehicle: {
-      type: String,
-      default: "",
-    },
+drop:{
+type:String,
+required:true,
+trim:true,
+index:true,
+},
 
-    total: {
-      type: Number,
-      required: true,
-    },
+date:{
+type:String,
+default:"",
+},
 
-    totalExpenses: {
-      type: Number,
-      default: 0,
-    },
+tripType:{
+type:String,
+enum:[
+"One Way",
+"Round Trip",
+"Airport",
+],
+default:"One Way",
+},
 
-    profit: {
-      type: Number,
-      default: 0,
-    },
+driver:{
+type:
+mongoose.Schema.Types.ObjectId,
+ref:"Driver",
+default:null,
+},
 
-    paymentStatus: {
-      type: String,
-      default: "Pending",
-    },
+vendor:{
+type:
+mongoose.Schema.Types.ObjectId,
+ref:"Vendor",
+default:null,
+},
 
-    tripStatus: {
-      type: String,
-      default: "Pending",
-    },
-  },
-  {
-    timestamps: true,
-  }
+vehicle:{
+type:String,
+default:"",
+},
+
+total:{
+type:Number,
+required:true,
+default:0,
+},
+
+totalExpenses:{
+type:Number,
+default:0,
+},
+
+profit:{
+type:Number,
+default:0,
+},
+
+paymentStatus:{
+type:String,
+enum:[
+"Pending",
+"Paid",
+"Partial",
+],
+default:"Pending",
+},
+
+tripStatus:{
+type:String,
+enum:[
+"Pending",
+"Driver Assigned",
+"Confirmed",
+"Completed",
+"Cancelled",
+],
+default:"Pending",
+index:true,
+},
+
+
+// =====================
+// SOFT DELETE
+// =====================
+
+isDeleted:{
+type:Boolean,
+default:false,
+index:true,
+},
+
+
+// =====================
+// ACTIVITY LOGS
+// =====================
+
+activityLogs:[
+
+{
+
+action:{
+type:String,
+default:"",
+},
+
+message:{
+type:String,
+default:"",
+},
+
+createdAt:{
+type:Date,
+default:Date.now,
+},
+
+},
+
+],
+
+},
+
+{
+timestamps:true,
+}
+
 );
 
+
+// INDEXES
+
+bookingSchema.index({
+customer:1,
+phone:1,
+});
+
+bookingSchema.index({
+tripStatus:1,
+createdAt:-1,
+});
+
 module.exports = mongoose.model(
-  "Booking",
-  bookingSchema
+"Booking",
+bookingSchema
 );

@@ -21,7 +21,7 @@ function useDrivers() {
     false
   );
 
-  // Fetch Drivers
+  // FETCH DRIVERS
   const fetchDrivers =
     async () => {
 
@@ -36,7 +36,10 @@ function useDrivers() {
           (driver) => ({
 
             id:
-              driver.id,
+              driver._id,
+
+            driverId:
+              driver.driverId || "",
 
             name:
               driver.name || "",
@@ -47,22 +50,25 @@ function useDrivers() {
             email:
               driver.email || "",
 
-            vehicle:
-              driver.vehicle || "",
-
-            vehicleNumber:
-              driver.vehicleNumber ||
+            licenseNumber:
+              driver.licenseNumber ||
               "",
 
             vehicleType:
               driver.vehicleType ||
               "",
 
+            vehicleNumber:
+              driver.vehicleNumber ||
+              "",
+
             vendor:
-              driver.vendor || "",
+              driver.vendorName ||
+              "",
 
             location:
-              driver.location || "",
+              driver.currentLocation ||
+              "",
 
             status:
               driver.status ||
@@ -90,23 +96,19 @@ function useDrivers() {
 
             earnings:
               driver.earnings ||
-              "₹0",
+              0,
 
             joiningDate:
               driver.joiningDate ||
               "",
 
-            licenseNumber:
-              driver.licenseNumber ||
-              "",
-
-            avatar:
-              driver.avatar ||
+            comments:
+              driver.comments ||
               "",
 
             color:
-              driver.color ||
               "text-emerald-400 bg-emerald-500/20",
+
           })
         );
 

@@ -1,173 +1,147 @@
-import driversData from "../data/drivers";
+import API_BASE_URL
+from "../config/api";
 
-const delay = (ms) =>
-  new Promise((resolve) =>
-    setTimeout(resolve, ms)
-  );
+import getAuthHeaders
+from "../utils/getAuthHeaders";
 
-const getStatusColor = (
-  status
-) => {
-  switch (status) {
-    case "Available":
-      return "text-emerald-400 bg-emerald-500/20";
+const API_URL =
+`${API_BASE_URL}/drivers`;
 
-    case "On Trip":
-      return "text-yellow-400 bg-yellow-500/20";
 
-    case "Offline":
-      return "text-red-400 bg-red-500/20";
+// GET DRIVERS
 
-    case "Inactive":
-      return "text-zinc-400 bg-zinc-500/20";
+export async function getDrivers(){
 
-    default:
-      return "text-cyan-400 bg-cyan-500/20";
-  }
-};
+try{
 
-const formatDriver = (
-  driver
-) => ({
-  id:
-    driver.id ||
-    Date.now(),
+const response=
+await fetch(API_URL,{
 
-  name:
-    driver.name || "",
+headers:
+getAuthHeaders(),
 
-  phone:
-    driver.phone || "",
-
-  email:
-    driver.email || "",
-
-  vehicle:
-    driver.vehicle || "",
-
-  vehicleNumber:
-    driver.vehicleNumber || "",
-
-  vehicleType:
-    driver.vehicleType || "",
-
-  vendor:
-    driver.vendor || "",
-
-  location:
-    driver.location || "",
-
-  status:
-    driver.status ||
-    "Offline",
-
-  availability:
-    driver.availability ||
-    "Offline",
-
-  assignedTrips:
-    driver.assignedTrips || 0,
-
-  completedTrips:
-    driver.completedTrips ||
-    0,
-
-  cancelledTrips:
-    driver.cancelledTrips ||
-    0,
-
-  rating:
-    driver.rating || 0,
-
-  earnings:
-    driver.earnings || "₹0",
-
-  joiningDate:
-    driver.joiningDate || "",
-
-  licenseNumber:
-    driver.licenseNumber ||
-    "",
-
-  avatar:
-    driver.avatar || "",
-
-  color:
-    driver.color ||
-    getStatusColor(
-      driver.status
-    ),
-
-  createdAt:
-    driver.createdAt ||
-    new Date().toISOString(),
 });
 
-/* =========================
-   Get Drivers
-========================= */
+return await response.json();
 
-export async function getDrivers() {
-  await delay(900);
+}catch(error){
 
-  return driversData.map(
-    formatDriver
-  );
+console.log(error);
+
+return [];
+
 }
 
-/* =========================
-   Create Driver
-========================= */
+}
+
+
+// CREATE DRIVER
 
 export async function createDriver(
-  driver
-) {
-  await delay(700);
+driver
+){
 
-  return {
-    success: true,
-    message:
-      "Driver created successfully.",
-    data: formatDriver({
-      ...driver,
-      id: Date.now(),
-    }),
-  };
+try{
+
+const response=
+await fetch(API_URL,{
+
+method:"POST",
+
+headers:
+getAuthHeaders(),
+
+body:
+JSON.stringify(driver),
+
+});
+
+return await response.json();
+
+}catch(error){
+
+console.log(error);
+
+return null;
+
 }
 
-/* =========================
-   Update Driver
-========================= */
+}
+
+
+// UPDATE DRIVER
 
 export async function updateDriver(
-  updatedDriver
-) {
-  await delay(600);
+id,
+driver
+){
 
-  return {
-    success: true,
-    message:
-      "Driver updated successfully.",
-    data:
-      formatDriver(
-        updatedDriver
-      ),
-  };
+try{
+
+const response=
+await fetch(
+
+`${API_URL}/${id}`,
+
+{
+
+method:"PUT",
+
+headers:
+getAuthHeaders(),
+
+body:
+JSON.stringify(driver),
+
 }
 
-/* =========================
-   Delete Driver
-========================= */
+);
+
+return await response.json();
+
+}catch(error){
+
+console.log(error);
+
+return null;
+
+}
+
+}
+
+
+// DELETE DRIVER
 
 export async function deleteDriver(
-  driverId
-) {
-  await delay(500);
+id
+){
 
-  return {
-    success: true,
-    message:
-      "Driver deleted successfully.",
-    deletedId: driverId,
-  };
+try{
+
+const response=
+await fetch(
+
+`${API_URL}/${id}`,
+
+{
+
+method:"DELETE",
+
+headers:
+getAuthHeaders(),
+
+}
+
+);
+
+return await response.json();
+
+}catch(error){
+
+console.log(error);
+
+return null;
+
+}
+
 }

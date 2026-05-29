@@ -3,16 +3,16 @@ require("express");
 
 const {
 
-getBookings,
+getVendors,
 
-createBooking,
+createVendor,
 
-updateBooking,
+updateVendor,
 
-deleteBooking,
+deleteVendor,
 
 } = require(
-"../controllers/bookingController"
+"../controllers/vendorController"
 );
 
 const {
@@ -27,39 +27,39 @@ const router =
 express.Router();
 
 
-// GET BOOKINGS
+// GET VENDORS
 
 router.get(
 "/",
 protect,
-getBookings
+getVendors
 );
 
 
-// CREATE BOOKING
+// CREATE VENDOR
 
 router.post(
 "/",
 protect,
-createBooking
+createVendor
 );
 
 
-// UPDATE BOOKING
+// UPDATE VENDOR
 
 router.put(
 "/:id",
 protect,
-updateBooking
+updateVendor
 );
 
 
-// DELETE BOOKING
+// DELETE VENDOR
 
 router.delete(
 "/:id",
 protect,
-deleteBooking
+deleteVendor
 );
 
 

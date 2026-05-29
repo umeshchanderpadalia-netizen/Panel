@@ -21,7 +21,7 @@ function useVendors() {
     false
   );
 
-  // Fetch Vendors
+  // FETCH VENDORS
   const fetchVendors =
     async () => {
 
@@ -36,14 +36,17 @@ function useVendors() {
           (vendor) => ({
 
             id:
-              vendor.id,
+              vendor._id,
+
+            vendorId:
+              vendor.vendorId || "",
 
             company:
-              vendor.company ||
+              vendor.companyName ||
               "",
 
             owner:
-              vendor.owner ||
+              vendor.vendorName ||
               "",
 
             phone:
@@ -55,8 +58,7 @@ function useVendors() {
               "",
 
             location:
-              vendor.location ||
-              "",
+              `${vendor.city || ""} ${vendor.state || ""}`,
 
             totalDrivers:
               vendor.totalDrivers ||
@@ -67,7 +69,7 @@ function useVendors() {
               0,
 
             assignedTrips:
-              vendor.assignedTrips ||
+              vendor.totalTrips ||
               0,
 
             completedTrips:
@@ -79,12 +81,12 @@ function useVendors() {
               0,
 
             monthlyRevenue:
-              vendor.monthlyRevenue ||
-              "₹0",
+              vendor.totalEarnings ||
+              0,
 
             pendingPayments:
-              vendor.pendingPayments ||
-              "₹0",
+              vendor.pendingAmount ||
+              0,
 
             paymentStatus:
               vendor.paymentStatus ||
@@ -95,20 +97,20 @@ function useVendors() {
               "Inactive",
 
             partnershipDate:
-              vendor.partnershipDate ||
+              vendor.createdAt ||
               "",
 
             gstNumber:
               vendor.gstNumber ||
               "",
 
-            avatar:
-              vendor.avatar ||
+            comments:
+              vendor.comments ||
               "",
 
             color:
-              vendor.color ||
               "text-emerald-400 bg-emerald-500/20",
+
           })
         );
 
